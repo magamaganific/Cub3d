@@ -1,31 +1,30 @@
-NAME = Hello
-CC=	 cc -Wall -Werror -Wextra -g3
+NAME	:= Game
+CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
+LIBMLX	:= ./lib/MLX42
 
-MLX_PATH = minilibx-linux
-SRC = main.c
-OBJ = $(SRC:.c=.o)
+HEADERS	:= -I ./include -I $(LIBMLX)/include
+LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
+SRCS	:= $(shell find ./src -iname "*.c")
+OBJS	:= ${SRCS:.c=.o}
 
-MLX = $(MLX_PATH)/libmlx.a
+all: libmlx $(NAME)
 
-all: $(NAME)
-
-$(NAME): $(MLX) $(OBJ)
-	$(CC) -lm -o $@ $^ -L$(MLX_PATH) -lmlx -lXext -lX11
+libmlx:
+	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
 %.o: %.c
-	$(CC) -I$(MLX_PATH) -c -o $@ $<
+	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)"
 
-$(MLX):
-	@make -C $(MLX_PATH)
+$(NAME): $(OBJS)
+	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
 
 clean:
-	@make -C $(MLX_PATH) clean
-	rm -r $(OBJ)
+	@rm -rf $(OBJS)
+	@rm -rf $(LIBMLX)/build
 
 fclean: clean
-	@make -C $(MLX_PATH) clean
-	rm $(NAME)
+	@rm -rf $(NAME)
 
-re: fclean all
+re: clean all
 
-.PHONY: all clean fclean re
+.PHONY: all, clean, fclean, re, libmlx
