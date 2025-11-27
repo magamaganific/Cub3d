@@ -31,8 +31,11 @@ int32_t	main(void)
         error();
 
 	// Display the image
-	if (mlx_image_to_window(mlx, img, 0, 0) < 0)
-        error();
+	for (int i = 0; i < 900 - 99; i += 99)
+	{
+		if (mlx_image_to_window(mlx, img, i, 0) < 0)
+    		error();
+	}
 
 	mlx_loop(mlx);
 

@@ -1,0 +1,15 @@
+NO ./textures/duck.png
+SO ./textures/duck.png
+WE ./textures/duck.png
+EA ./textures/duck.png
+
+F 220,100,0
+C 255,255,255
+
+1111111
+1000001
+1001001
+1W00001
+1001001
+1000001
+1111111
