@@ -1,31 +1,30 @@
-NAME = Hello
-CC=	 cc -Wall -Werror -Wextra -g3
+NAME = cub3d
+SOURCE = $(shell find ./src -iname "*.c")
 
-MLX_PATH = minilibx-linux
-SRC = main.c
-OBJ = $(SRC:.c=.o)
+LIBMLX	= ./include/lib/MLX42
+OBJS = $(SOURCE: .c=.o)
+CC = cc
+FLAGS = -Wall -Wextra -Werror
+INCLUDE = -I ./include -I $(LIBMLX)/include
 
-MLX = $(MLX_PATH)/libmlx.a
+all: libmlx $(NAME)
 
-all: $(NAME)
+$(NAME): $(OBJS)
+	$(CC) $(INCLUDE) $(FLAGS) -o $(NAME) $(OBJS)
 
-$(NAME): $(MLX) $(OBJ)
-	$(CC) -lm -o $@ $^ -L$(MLX_PATH) -lmlx -lXext -lX11
+libmlx:
+	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
 %.o: %.c
-	$(CC) -I$(MLX_PATH) -c -o $@ $<
-
-$(MLX):
-	@make -C $(MLX_PATH)
+	$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@ && printf "Compiling: $(notdir $<)\n"
 
 clean:
-	@make -C $(MLX_PATH) clean
-	rm -r $(OBJ)
+	$(RM) $(OBJS)
+	@rm -rf $(LIBMLX)/build
 
 fclean: clean
-	@make -C $(MLX_PATH) clean
-	rm $(NAME)
+	$(RM) $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libmlx
