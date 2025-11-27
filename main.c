@@ -32,7 +32,6 @@ int main(void)
 {
 	void	*mlx;
 	void	*mlx_win;
-	// void	*img;
 	t_data	img;
 	// t_vars	vars;
 	char	*relative_path = "Duck.xpm";
