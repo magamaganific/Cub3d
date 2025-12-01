@@ -21,7 +21,7 @@ int32_t	main(void)
         error();
 
 	// Try to load the file
-	mlx_texture_t* texture = mlx_load_png("src/duck.png");
+	mlx_texture_t* texture = mlx_load_png("textures/duck.png");
 	if (!texture)
         error();
 	
@@ -31,12 +31,11 @@ int32_t	main(void)
         error();
 
 	// Display the image
-	for (int i = 0; i < 900 - 99; i += 99)
+	for (int i = 0; i < 900 - 45; i += 45)
 	{
 		if (mlx_image_to_window(mlx, img, i, 0) < 0)
     		error();
 	}
-
 	mlx_loop(mlx);
 
 	// Optional, terminate will clean up any leftovers, this is just to demonstrate.
