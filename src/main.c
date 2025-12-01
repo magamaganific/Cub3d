@@ -1,46 +1,27 @@
 #include "../lib/MLX42/include/MLX42/MLX42.h"
 #include "../include/cube3d.h"
-// Written by Bruh
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #define WIDTH 900
 #define HEIGHT 900
 
-static void error(void)
+void print_accepted_input(void)
 {
-	puts(mlx_strerror(mlx_errno));
-	exit(EXIT_FAILURE);
+	printf("Accepted input: \n	./Game [MAP PATH]\n");
+	printf("		(maps available in the \"maps\" directory2)\n");
 }
 
-int32_t	main(void)
+int main(int ac, char **av)
 {
-	// Start mlx
-	mlx_t* mlx = mlx_init(WIDTH, HEIGHT, "Test", true);
-	if (!mlx)
-        error();
+	int fd;
 
-	// Try to load the file
-	mlx_texture_t* texture = mlx_load_png("textures/duck.png");
-	if (!texture)
-        error();
-	
-	// Convert texture to a displayable image
-	mlx_image_t* img = mlx_texture_to_image(mlx, texture);
-	if (!img)
-        error();
-
-	// Display the image
-	for (int i = 0; i < 900 - 45; i += 45)
+	fd = open(av[1], O_RDONLY);
+	if (ac != 2 || fd == -1)
 	{
-		if (mlx_image_to_window(mlx, img, i, 0) < 0)
-    		error();
+		print_accepted_input();
+		return (-1);
 	}
-	mlx_loop(mlx);
 
-	// Optional, terminate will clean up any leftovers, this is just to demonstrate.
-	mlx_delete_image(mlx, img);
-	mlx_delete_texture(texture);
-	mlx_terminate(mlx);
-	return (EXIT_SUCCESS);
+	close(fd);
 }
