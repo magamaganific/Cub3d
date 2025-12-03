@@ -12,7 +12,7 @@ INCLUDE = -I ./include -I $(LIBMLX)/include
 all: libmlx $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(LIBS) $(INCLUDE) $(FLAGS) -o $(NAME) $(OBJS)
+	@$(CC) $(FLAGS) $(OBJS) $(LIBS) $(INCLUDE) -o $(NAME) 
 
 libmlx: $(LIBMLX)
 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -s -C $(LIBMLX)/build -j4
