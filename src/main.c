@@ -42,10 +42,24 @@ bool	valid_file(char *file_name)
 	return (true);
 }
 
-// bool	parse_input(int fd, t_compass *comp)
-// {
 
-// }
+static void error(void)
+{
+	puts(mlx_strerror(mlx_errno));
+	exit(EXIT_FAILURE);
+}
+
+bool	parse_input(/*int fd,*/ t_compass *comp)
+{
+	comp->no_text = mlx_load_png("./textures/duck.png");
+	if(!comp->no_text)
+		error();
+	comp->no = mlx_texture_to_image(comp->mlx, comp->no_text);
+	if (!comp->no)
+		error();
+	mlx_image_to_window(comp->mlx, comp->no, 0, 0);
+	return(true);
+}
 
 int	main(int ac, char **av)
 {
@@ -61,8 +75,8 @@ int	main(int ac, char **av)
 			return (-1);
 		return (close(fd), -1);
 	}
-	// if (!parse_input(fd, &comp))
-	// 	return (wrong_format(), close(fd), -1);
+	if (!parse_input(/*fd,*/ &comp))
+		return (wrong_format(), close(fd), -1);
 	mlx_loop(comp.mlx);
 	mlx_terminate(comp.mlx);
 	close(fd);

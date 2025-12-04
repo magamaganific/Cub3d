@@ -26,10 +26,18 @@
 typedef struct s_compass
 {
 	mlx_t			*mlx;
-	mlx_texture_t	*no;
-	mlx_texture_t	*so;
-	mlx_texture_t	*we;
-	mlx_texture_t	*ea;
+	mlx_texture_t	*no_text;
+	mlx_texture_t	*so_text;
+	mlx_texture_t	*we_text;
+	mlx_texture_t	*ea_text;
+	mlx_image_t		*no;
+	mlx_image_t		*so;
+	mlx_image_t		*we;
+	mlx_image_t		*ea;
+	char			*no_path;
+	char			*so_path;
+	char			*we_path;
+	char			*ea_path;
 	int				f;
 	int				c;
 }	t_compass;
