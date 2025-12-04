@@ -21,15 +21,16 @@
 # include <fcntl.h>
 # include <string.h>
 # include <math.h>
+# include "../lib/MLX42/include/MLX42/MLX42.h"
 
 typedef struct s_compass
 {
-	mlx_image_t	*no;
-	mlx_image_t *so;
-	mlx_image_t *we;
-	mlx_image_t *ea;
-	int		f;
-	int		c;
+	mlx_texture_t	*no;
+	mlx_texture_t	*so;
+	mlx_texture_t	*we;
+	mlx_texture_t	*ea;
+	int				f;
+	int				c;
 }	t_compass;
 
 #endif
