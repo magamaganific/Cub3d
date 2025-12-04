@@ -42,92 +42,17 @@ bool	valid_file(char *file_name)
 	return (true);
 }
 
-char *get_path(char *buf)
-{
-	int	n;
-	int i;
-	char *res;
+// bool	parse_input(int fd, t_compass *comp)
+// {
 
-	n = -1;
-	i = -1;
-	while (buf[++n] != '\n' && buf[n]);
-	res = malloc(n * sizeof(char));
-	while(++i < n - 1)
-		res[i] = buf[i];
-	res[i] = 0;
-	return(res);
-}
-
-bool	set_path_to_struct(mlx_texture_t *tex, char *buf )
-{
-	int	i;
-	char *path;
-
-	i = -1;
-	while (buf[++i] == ' ' || buf[i] == '	');
-	buf = buf + (i - 1);
-	path = get_path(buf);
-	if (!tex)
-	{
-		tex = mlx_load_png(path);
-		if (!tex)
-			return(false);
-		// img = mlx_texture_to_image()
-	}
-	else
-		return (false);
-	return (true);
-}
-
-bool	fill_structure_bit(char *buf, t_compass *comp)
-{
-	if (buf[0] == 'N' && buf[1] == 'O' && (buf[2] == ' ' || buf[2] == '	'))
-		if (!set_path_to_struct(comp->no, buf + 2))
-			return(false);
-	if (buf[0] == 'S' && buf[1] == 'O' && (buf[2] == ' ' || buf[2] == '	'))
-		if (!set_path_to_struct(comp->so, buf + 2))
-			return(false);
-	if (buf[0] == 'W' && buf[1] == 'E' && (buf[2] == ' ' || buf[2] == '	'))
-		if (!set_path_to_struct(comp->we, buf + 2))
-			return(false);
-	// if (buf[0] == 'E' && buf[1] == 'A' && (buf[2] == ' ' || buf[2] == '	'))
-	// 	if (!set_path_to_struct(comp->ea, buf + 2))
-	// 		return(false);
-	// if (buf[0] == 'F' && (buf[2] == ' ' || buf[2] == '	'))
-	// 	if (!set_rgb_to_struct(comp->f, buf + 2))
-	// 		return(false);
-	return (true);
-}
-
-bool	parse_input(int fd, t_compass *comp)
-{
-	char	buf[INT_MAX];
-	int		i;
-	ssize_t	r;
-
-	i = -1;
-	r = read(fd, buf, INT_MAX);
-	if (!r || r == -1)
-		return (false);
-	while (++i < r)
-	{
-		if (buf[i] != ' ' && buf[i] != '	')
-		{
-			printf("buf + i = %s", buf + i);
-			if (!fill_structure_bit(buf + i, comp))
-				return(false);
-			//setup into structure
-			//if structure bit already in use -> return(false)
-		}
-	}
-	return(true);
-}
+// }
 
 int	main(int ac, char **av)
 {
 	int	fd;
 	t_compass comp;
 
+	comp.mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", true);
 	fd = open(av[1], O_RDONLY);
 	if (ac != 2 || !valid_file(av[1]) || fd == -1)
 	{
@@ -136,7 +61,9 @@ int	main(int ac, char **av)
 			return (-1);
 		return (close(fd), -1);
 	}
-	if (!parse_input(fd, &comp))
-		return (wrong_format(), close(fd), -1);
+	// if (!parse_input(fd, &comp))
+	// 	return (wrong_format(), close(fd), -1);
+	mlx_loop(comp.mlx);
+	mlx_terminate(comp.mlx);
 	close(fd);
 }

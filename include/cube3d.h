@@ -25,6 +25,7 @@
 
 typedef struct s_compass
 {
+	mlx_t			*mlx;
 	mlx_texture_t	*no;
 	mlx_texture_t	*so;
 	mlx_texture_t	*we;
