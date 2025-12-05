@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:36:00 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/12/03 10:01:29 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/12/05 12:41:37 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,16 @@ typedef struct s_map
 
 }	t_map;
 
-#define WIDTH 256
-#define HEIGHT 256
+typedef struct s_game
+{
+	mlx_t* mlx;
+	mlx_image_t	*back;
+	mlx_image_t	*front;
+
+}	t_game;
+
+#define WIDTH 1080
+#define HEIGHT 1080
 
 //map
 int		ft_strlen_gnl(const char *s);

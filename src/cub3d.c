@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 17:09:44 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/12/03 09:56:32 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/12/05 12:50:29 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,53 @@ static void ft_error(void)
 
 static void ft_hook(void* param)
 {
-	const mlx_t* mlx = param;
+	const t_game* game = param;
+	int x;
+	int y;
 
-	printf("WIDTH: %d | HEIGHT: %d\n", mlx->width, mlx->height);
+	mlx_resize_image(game->back, game->mlx->width, game->mlx->height);
+	x = 0;
+	while (x < game->mlx->width)
+	{
+		y = 0;
+		while (y < (game->mlx->height / 2))
+		{
+			mlx_put_pixel(game->back, x, y, 0x33CCFFFF);
+			y++;
+		}
+		while (y < game->mlx->height)
+		{
+			mlx_put_pixel(game->back, x, y, 0x006600FF);
+			y++;
+		}
+		x++;
+	}
 }
 
 int	main(int argc, char **argv)
 {
-	t_map *map;
+	(void) argv;
+	t_game	*game;
+
+	
 	if(argc == 2)
 	{
-		map = ft_read_map(argv[1]);
-		mlx_set_setting(MLX_MAXIMIZED, true);
-		mlx_t* mlx = mlx_init(WIDTH, HEIGHT, "42Balls", true);
-		if (!mlx)
+		game = (t_game*) malloc (sizeof(t_game *));
+		if (!game)
+			return(0);
+		
+		game->mlx = mlx_init(WIDTH, HEIGHT, "CUB3D", true);
+		if (!game->mlx)
 			ft_error();
-		mlx_image_t* img = mlx_new_image(mlx, 256, 256);
-		if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
+		game->back = mlx_new_image(game->mlx, WIDTH, HEIGHT);
+		if (!game->back || (mlx_image_to_window(game->mlx, game->back, 0, 0) < 0))
 			ft_error();
-		mlx_put_pixel(img, 0, 0, 0xFF0000FF);
-		mlx_loop_hook(mlx, ft_hook, mlx);
-		mlx_loop(mlx);
-		mlx_terminate(mlx);
+		game->front = mlx_texture_to_image(game->mlx, mlx_load_png("/home/frlorenz/42_cursus/vault/cub3d/textures/Box.png"));
+		if (!game->front || (mlx_image_to_window(game->mlx, game->front, 0, 0) < 0))
+			ft_error();
+		mlx_loop_hook(game->mlx, ft_hook, game);
+		mlx_loop(game->mlx);
+		mlx_terminate(game->mlx);
 	}
 	else
 		printf("Error\n Numero de arguentos incorrecto");
