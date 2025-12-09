@@ -79,10 +79,10 @@ static void error(void)
 
 bool	invalid_content(char *buff, int i)
 {
-	if ((buff[i] == 'N' && buff[i] == 'O')
-		|| (buff[i] == 'S' && buff[i] == 'O')
-		|| (buff[i] == 'W' && buff[i] == 'E')
-		|| (buff[i] == 'E' && buff[i] == 'A')
+	if ((buff[i] == 'N' && buff[i + 1] == 'O')
+		|| (buff[i] == 'S' && buff[i + 1] == 'O')
+		|| (buff[i] == 'W' && buff[i + 1] == 'E')
+		|| (buff[i] == 'E' && buff[i + 1] == 'A')
 		|| buff[i] == 'F' || buff[i] == 'C')
 		return (false);
 	return (true);
@@ -93,26 +93,28 @@ bool	fill_north(char *buff, int *i, t_compass *comp)
 	int		start;
 	int		n;
 
-	if (!(!comp->no_path))
+	if (comp->no_path != NULL)
 		return (false);
 	*i = *i + 2;
 	n = -1;
 	while (buff[*i] == '	' || buff[*i] == ' ')
-		*i++;
+		*i = *i + 1;
 	start = *i;
 	while (buff[*i] != '\n')
-		*i++;
+		*i = *i + 1;
 	comp->no_path = malloc((*i - start) * sizeof(char));
-	if (!comp->ea_path)
-		return(false);
-	while (start < *i)
+	if (!comp->no_path)
+		return (false);
+	while (start <= *i)
 		comp->no_path[++n] = buff[start++];
+	comp->no_path[n] = 0;
 	comp->no_text = mlx_load_png(comp->no_path);
 	if (!comp->no_text)
-		return(error(), false);
+		return (error(), false);
 	comp->no = mlx_texture_to_image(comp->mlx, comp->no_text);
 	if (!comp->no)
-		return(error(), false);
+		return (error(), false);
+	return (true);
 }
 
 bool	fill_south(char *buff, int *i, t_compass *comp)
@@ -120,26 +122,28 @@ bool	fill_south(char *buff, int *i, t_compass *comp)
 	int		start;
 	int		n;
 
-	if (!(!comp->so_path))
+	if (comp->so_path != NULL)
 		return (false);
 	*i = *i + 2;
 	n = -1;
 	while (buff[*i] == '	' || buff[*i] == ' ')
-		*i++;
+		*i = *i + 1;
 	start = *i;
 	while (buff[*i] != '\n')
-		*i++;
+		*i = *i + 1;
 	comp->so_path = malloc((*i - start) * sizeof(char));
 	if (!comp->so_path)
-		return(false);
-	while (start < *i)
+		return (false);
+	while (start <= *i)
 		comp->so_path[++n] = buff[start++];
+	comp->so_path[n] = 0;
 	comp->so_text = mlx_load_png(comp->so_path);
 	if (!comp->so_text)
-		return(error(), false);
+		return (error(), false);
 	comp->so = mlx_texture_to_image(comp->mlx, comp->so_text);
 	if (!comp->so)
-		return(error(), false);
+		return (error(), false);
+	return (true);
 }
 
 
@@ -148,26 +152,28 @@ bool	fill_west(char *buff, int *i, t_compass *comp)
 	int		start;
 	int		n;
 
-	if (!(!comp->we_path))
+	if (comp->we_path != NULL)
 		return (false);
 	*i = *i + 2;
 	n = -1;
 	while (buff[*i] == '	' || buff[*i] == ' ')
-		*i++;
+		*i = *i + 1;
 	start = *i;
 	while (buff[*i] != '\n')
-		*i++;
+		*i = *i + 1;
 	comp->we_path = malloc((*i - start) * sizeof(char));
 	if (!comp->we_path)
-		return(false);
-	while (start < *i)
+		return (false);
+	while (start <= *i)
 		comp->we_path[++n] = buff[start++];
+	comp->we_path[n] = 0;
 	comp->we_text = mlx_load_png(comp->we_path);
 	if (!comp->we_text)
-		return(error(), false);
+		return (error(), false);
 	comp->we = mlx_texture_to_image(comp->mlx, comp->we_text);
 	if (!comp->we)
-		return(error(), false);
+		return (error(), false);
+	return (true);
 }
 
 bool	fill_east(char *buff, int *i, t_compass *comp)
@@ -175,26 +181,28 @@ bool	fill_east(char *buff, int *i, t_compass *comp)
 	int		start;
 	int		n;
 
-	if (!(!comp->ea_path))
+	if (comp->ea_path != NULL)
 		return (false);
 	*i = *i + 2;
 	n = -1;
 	while (buff[*i] == '	' || buff[*i] == ' ')
-		*i++;
+		*i = *i + 1;
 	start = *i;
 	while (buff[*i] != '\n')
-		*i++;
+		*i = *i + 1;
 	comp->ea_path = malloc((*i - start) * sizeof(char));
 	if (!comp->ea_path)
-		return(false);
-	while (start < *i)
+		return (false);
+	while (start <= *i)
 		comp->ea_path[++n] = buff[start++];
+	comp->ea_path[n] = 0;
 	comp->ea_text = mlx_load_png(comp->ea_path);
 	if (!comp->ea_text)
-		return(error(), false);
+		return (error(), false);
 	comp->ea = mlx_texture_to_image(comp->mlx, comp->ea_text);
 	if (!comp->ea)
-		return(error(), false);
+		return (error(), false);
+	return (true);
 }
 
 int	save_color(char *buff, int *i)
@@ -207,16 +215,17 @@ int	save_color(char *buff, int *i)
 	start = *i;
 	n = -1;
 	while (buff[*i] >= '0' && buff[*i] <= '9')
-		*i++;
+		*i = *i + 1;
 	if (*i - start > 4 || *i == start)
 		return (-1);
 	num = malloc((*i - start) * sizeof(char));
 	if (!num)
-		return(-1);
+		return (-1);
 	while (start < *i)
 		num[++n] = buff[start++];
 	num[n] = 0;
 	color = ft_atoi(num);
+	*i = *i + 1;
 	free(num);
 	return (color);
 }
@@ -229,7 +238,7 @@ bool	fill_F(char *buff, int *i, t_compass *comp)
 
 	*i = *i + 1;
 	while (buff[*i] == '	' || buff[*i] == ' ')
-		*i++;
+		*i = *i + 1;
 	red = save_color(buff, i);
 	if (red == -1)
 		return (false);
@@ -240,6 +249,7 @@ bool	fill_F(char *buff, int *i, t_compass *comp)
 	if (green == -1)
 		return (false);
 	comp->f = (red << 16) | (green << 8) | blue;
+	return (true);
 }
 
 
@@ -251,7 +261,7 @@ bool	fill_C(char *buff, int *i, t_compass *comp)
 
 	*i = *i + 1;
 	while (buff[*i] == '	' || buff[*i] == ' ')
-		*i++;
+		*i = *i + 1;
 	red = save_color(buff, i);
 	if (red == -1)
 		return (false);
@@ -262,6 +272,7 @@ bool	fill_C(char *buff, int *i, t_compass *comp)
 	if (green == -1)
 		return (false);
 	comp->c = (red << 16) | (green << 8) | blue;
+	return (true);
 }
 
 bool	fill_selected(char *buff, int *i, t_compass *comp)
@@ -281,6 +292,15 @@ bool	fill_selected(char *buff, int *i, t_compass *comp)
 	return (false);
 }
 
+bool	compass_full(t_compass *comp)
+{
+	if (!comp->no_path || !comp->so_path
+		|| !comp->we_path || !comp->ea_path
+		|| comp->f == -1 || comp->c == -1)
+		return (false);
+	return (true);
+}
+
 bool	fill_compass(char *buff, t_compass *comp)
 {
 	int	i;
@@ -293,11 +313,11 @@ bool	fill_compass(char *buff, t_compass *comp)
 		if (invalid_content(buff, i))
 			return (false);
 		if (!fill_selected(buff, &i, comp))
-			return(false);
+			return (false);
 		if (compass_full(comp))
 			break ;
 	}
-	return(true);
+	return (true);
 }
 
 bool	parse_input(int fd, t_compass *comp)
@@ -310,7 +330,7 @@ bool	parse_input(int fd, t_compass *comp)
 	// if (!comp->no)
 	// 	error();
 	// mlx_image_to_window(comp->mlx, comp->no, 0, 0);
-	// return(true);
+	// return (true);
 	// --------------------------las texturas---------------------------
 	char	*buff;
 	ssize_t	red;
@@ -319,12 +339,21 @@ bool	parse_input(int fd, t_compass *comp)
 	red = read(fd, buff, BUFFER);
 	if (!red)
 		return (false);
-	printf("fd:\n%s\n", buff);
-	printf("red = %zu\n", red);
 	if (!fill_compass(buff, comp))
 		return (false);
 	free (buff);
+	mlx_image_to_window(comp->mlx, comp->no, 0, 0);
+	mlx_image_to_window(comp->mlx, comp->so, 900, 900);
 	return (true);
+}
+void	init_compass(t_compass *comp)
+{
+	comp->f = -1;
+	comp->c = -1;
+	comp->no_path = NULL;
+	comp->so_path = NULL;
+	comp->we_path = NULL;
+	comp->ea_path = NULL;
 }
 
 int	main(int ac, char **av)
@@ -333,6 +362,7 @@ int	main(int ac, char **av)
 	t_compass	comp;
 
 	comp.mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", true);
+	init_compass(&comp);
 	fd = open(av[1], O_RDONLY);
 	if (ac != 2 || !valid_file(av[1]) || fd == -1)
 	{

@@ -1,7 +1,7 @@
-NO ./textures/duck.png
-SO ./textures/duck.png
-WE ./textures/duck.png
-EA ./textures/duck.png
+NO ./textures/north.png
+SO ./textures/south.png
+WE ./textures/west.png
+EA ./textures/east.png
 
 F 220,100,0
 C 255,255,255
