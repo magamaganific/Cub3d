@@ -175,11 +175,19 @@ bool	fill_F(char *buff, int *i, t_compass *comp)
 	int		red;
 	int		blue;
 	int		green;
-	char	num[3];
 
 	*i = *i + 1;
 	while (buff[*i] == '	' || buff[*i] == ' ')
 		*i++;
+	red = save_color(buff, i);
+	if (red == -1)
+		return (false);
+	blue = save_color(buff, i);
+	if (blue == -1)
+		return (false);
+	green = save_color(buff, i);
+	if (green == -1)
+		return (false);
 }
 
 bool	fill_selected(char *buff, int *i, t_compass *comp)
