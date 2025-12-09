@@ -20,6 +20,33 @@
 #define HEIGHT 900
 #define BUFFER 715827882
 
+int	ft_atoi(const char *nptr)
+{
+	int	sgn;
+	int	dig;
+	int	num;
+
+	sgn = 1;
+	dig = 0;
+	num = 0;
+	while (*nptr == ' ' || (*nptr >= 9 && *nptr <= 13))
+		nptr++;
+	if (*nptr == '-' || *nptr == '+')
+	{
+		if (*nptr == '-')
+			sgn = -sgn;
+		nptr++;
+	}
+	while (*nptr >= '0' && *nptr <= '9')
+	{
+		dig = *nptr - '0';
+		num = num * 10 + dig;
+		nptr++;
+	}
+	num = num * sgn;
+	return (num);
+}
+
 void	print_accepted_input(void)
 {
 	printf("Accepted input: \n	./Game [MAP PATH]\n");
@@ -170,6 +197,30 @@ bool	fill_east(char *buff, int *i, t_compass *comp)
 		return(error(), false);
 }
 
+int	save_color(char *buff, int *i)
+{
+	int		color;
+	int		start;
+	int		n;
+	char	*num;
+
+	start = *i;
+	n = -1;
+	while (buff[*i] >= '0' && buff[*i] <= '9')
+		*i++;
+	if (*i - start > 4 || *i == start)
+		return (-1);
+	num = malloc((*i - start) * sizeof(char));
+	if (!num)
+		return(-1);
+	while (start < *i)
+		num[++n] = buff[start++];
+	num[n] = 0;
+	color = ft_atoi(num);
+	free(num);
+	return (color);
+}
+
 bool	fill_F(char *buff, int *i, t_compass *comp)
 {
 	int		red;
@@ -188,6 +239,29 @@ bool	fill_F(char *buff, int *i, t_compass *comp)
 	green = save_color(buff, i);
 	if (green == -1)
 		return (false);
+	comp->f = (red << 16) | (green << 8) | blue;
+}
+
+
+bool	fill_C(char *buff, int *i, t_compass *comp)
+{
+	int		red;
+	int		blue;
+	int		green;
+
+	*i = *i + 1;
+	while (buff[*i] == '	' || buff[*i] == ' ')
+		*i++;
+	red = save_color(buff, i);
+	if (red == -1)
+		return (false);
+	blue = save_color(buff, i);
+	if (blue == -1)
+		return (false);
+	green = save_color(buff, i);
+	if (green == -1)
+		return (false);
+	comp->c = (red << 16) | (green << 8) | blue;
 }
 
 bool	fill_selected(char *buff, int *i, t_compass *comp)
