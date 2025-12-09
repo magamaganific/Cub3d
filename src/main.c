@@ -70,18 +70,16 @@ bool	fill_north(char *buff, int *i, t_compass *comp)
 		return (false);
 	*i = *i + 2;
 	n = -1;
-	while (buff[*i] == '	' || buff[*i] == ' '
-		|| buff[*i] == '\n')
+	while (buff[*i] == '	' || buff[*i] == ' ')
 		*i++;
 	start = *i;
 	while (buff[*i] != '\n')
 		*i++;
 	comp->no_path = malloc((*i - start) * sizeof(char));
+	if (!comp->ea_path)
+		return(false);
 	while (start < *i)
-	{
-		comp->no_path[++n] = buff[start];
-		start++;
-	}
+		comp->no_path[++n] = buff[start++];
 	comp->no_text = mlx_load_png(comp->no_path);
 	if (!comp->no_text)
 		return(error(), false);
@@ -99,18 +97,16 @@ bool	fill_south(char *buff, int *i, t_compass *comp)
 		return (false);
 	*i = *i + 2;
 	n = -1;
-	while (buff[*i] == '	' || buff[*i] == ' '
-		|| buff[*i] == '\n')
+	while (buff[*i] == '	' || buff[*i] == ' ')
 		*i++;
 	start = *i;
 	while (buff[*i] != '\n')
 		*i++;
 	comp->so_path = malloc((*i - start) * sizeof(char));
+	if (!comp->so_path)
+		return(false);
 	while (start < *i)
-	{
-		comp->so_path[++n] = buff[start];
-		start++;
-	}
+		comp->so_path[++n] = buff[start++];
 	comp->so_text = mlx_load_png(comp->so_path);
 	if (!comp->so_text)
 		return(error(), false);
@@ -129,18 +125,16 @@ bool	fill_west(char *buff, int *i, t_compass *comp)
 		return (false);
 	*i = *i + 2;
 	n = -1;
-	while (buff[*i] == '	' || buff[*i] == ' '
-		|| buff[*i] == '\n')
+	while (buff[*i] == '	' || buff[*i] == ' ')
 		*i++;
 	start = *i;
 	while (buff[*i] != '\n')
 		*i++;
 	comp->we_path = malloc((*i - start) * sizeof(char));
+	if (!comp->we_path)
+		return(false);
 	while (start < *i)
-	{
-		comp->we_path[++n] = buff[start];
-		start++;
-	}
+		comp->we_path[++n] = buff[start++];
 	comp->we_text = mlx_load_png(comp->we_path);
 	if (!comp->we_text)
 		return(error(), false);
@@ -158,18 +152,16 @@ bool	fill_east(char *buff, int *i, t_compass *comp)
 		return (false);
 	*i = *i + 2;
 	n = -1;
-	while (buff[*i] == '	' || buff[*i] == ' '
-		|| buff[*i] == '\n')
+	while (buff[*i] == '	' || buff[*i] == ' ')
 		*i++;
 	start = *i;
 	while (buff[*i] != '\n')
 		*i++;
 	comp->ea_path = malloc((*i - start) * sizeof(char));
+	if (!comp->ea_path)
+		return(false);
 	while (start < *i)
-	{
-		comp->ea_path[++n] = buff[start];
-		start++;
-	}
+		comp->ea_path[++n] = buff[start++];
 	comp->ea_text = mlx_load_png(comp->ea_path);
 	if (!comp->ea_text)
 		return(error(), false);
@@ -184,6 +176,10 @@ bool	fill_F(char *buff, int *i, t_compass *comp)
 	int		blue;
 	int		green;
 	char	num[3];
+
+	*i = *i + 1;
+	while (buff[*i] == '	' || buff[*i] == ' ')
+		*i++;
 }
 
 bool	fill_selected(char *buff, int *i, t_compass *comp)
