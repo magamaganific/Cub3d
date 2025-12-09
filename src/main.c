@@ -20,6 +20,21 @@
 #define HEIGHT 900
 #define BUFFER 715827882
 
+void	*ft_memset(void *s, int c, size_t n)
+{
+	unsigned char	*dst;
+	size_t			p;
+
+	p = 0;
+	dst = (unsigned char *) s;
+	while (p < n)
+	{
+		dst[p] = (unsigned char)c;
+		p++;
+	}
+	return ((void *)dst);
+}
+
 int	ft_atoi(const char *nptr)
 {
 	int	sgn;
@@ -249,6 +264,9 @@ bool	fill_F(char *buff, int *i, t_compass *comp)
 	if (green == -1)
 		return (false);
 	comp->f = (red << 16) | (green << 8) | blue;
+	comp->f_img = mlx_new_image(comp->mlx, WIDTH, HEIGHT / 2);
+	ft_memset(comp->f_img->pixels, comp->f
+		, comp->f_img->width * comp->f_img->height * BPP);
 	return (true);
 }
 
@@ -272,6 +290,9 @@ bool	fill_C(char *buff, int *i, t_compass *comp)
 	if (green == -1)
 		return (false);
 	comp->c = (red << 16) | (green << 8) | blue;
+	comp->c_img = mlx_new_image(comp->mlx, WIDTH, HEIGHT / 2);
+	ft_memset(comp->c_img->pixels, comp->c
+		, comp->c_img->width * comp->c_img->height * BPP);
 	return (true);
 }
 
@@ -342,10 +363,11 @@ bool	parse_input(int fd, t_compass *comp)
 	if (!fill_compass(buff, comp))
 		return (false);
 	free (buff);
-	mlx_image_to_window(comp->mlx, comp->no, 0, 0);
-	mlx_image_to_window(comp->mlx, comp->so, 100, 0);
-	mlx_image_to_window(comp->mlx, comp->we, 0, 100);
-	mlx_image_to_window(comp->mlx, comp->ea, 100, 100);
+	mlx_image_to_window(comp->mlx, comp->f_img, 0, 0);
+	mlx_image_to_window(comp->mlx, comp->c_img, 0, HEIGHT / 2);
+	// mlx_image_to_window(comp->mlx, comp->so, 100, 0);
+	// mlx_image_to_window(comp->mlx, comp->we, 0, 100);
+	// mlx_image_to_window(comp->mlx, comp->ea, 100, 100);
 	return (true);
 }
 void	init_compass(t_compass *comp)
