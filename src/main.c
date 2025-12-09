@@ -343,7 +343,9 @@ bool	parse_input(int fd, t_compass *comp)
 		return (false);
 	free (buff);
 	mlx_image_to_window(comp->mlx, comp->no, 0, 0);
-	mlx_image_to_window(comp->mlx, comp->so, 900, 900);
+	mlx_image_to_window(comp->mlx, comp->so, 100, 0);
+	mlx_image_to_window(comp->mlx, comp->we, 0, 100);
+	mlx_image_to_window(comp->mlx, comp->ea, 100, 100);
 	return (true);
 }
 void	init_compass(t_compass *comp)
