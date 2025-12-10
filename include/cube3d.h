@@ -22,7 +22,6 @@
 # include <string.h>
 # include <math.h>
 # include "../lib/MLX42/include/MLX42/MLX42.h"
-# define BPP sizeof(int32_t)
 
 typedef struct s_compass
 {
@@ -41,8 +40,6 @@ typedef struct s_compass
 	char			*ea_path;
 	int				f;
 	int				c;
-	mlx_image_t		*f_img;
-	mlx_image_t		*c_img;
 }	t_compass;
 
 #endif

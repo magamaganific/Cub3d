@@ -3,7 +3,7 @@ SO ./textures/south.png
 WE ./textures/west.png
 EA ./textures/east.png
 
-F 0,255,255
+F 220,100,0
 C 255,255,255
 
 1111111
