@@ -34,10 +34,13 @@ typedef struct s_compass
 	mlx_image_t		*so;
 	mlx_image_t		*we;
 	mlx_image_t		*ea;
+	mlx_image_t		*bg;
 	char			*no_path;
 	char			*so_path;
 	char			*we_path;
 	char			*ea_path;
+	char			**map;
+	int				map_size;
 	int				f;
 	int				c;
 }	t_compass;
