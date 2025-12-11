@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:36:00 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/12/05 12:41:37 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/12/11 18:05:06 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <limits.h>
 # include <stdbool.h>
+# include <math.h>
 # include <stdio.h>
 # include <string.h>
 # include <stdlib.h>
@@ -44,16 +45,32 @@ typedef struct s_map
 
 }	t_map;
 
+typedef struct s_player
+{
+	float	x;
+	float	y;
+
+}	t_player;
+
 typedef struct s_game
 {
-	mlx_t* mlx;
+	mlx_t *mlx;
 	mlx_image_t	*back;
 	mlx_image_t	*front;
+	t_player	player;
+	char **map;
 
 }	t_game;
 
 #define WIDTH 1080
 #define HEIGHT 1080
+
+#define W 119
+#define A 97
+#define S 115
+#define D 100
+
+#define PI 3.14159265359
 
 //map
 int		ft_strlen_gnl(const char *s);
@@ -64,6 +81,9 @@ char	*ft_strjoin_gnl(char *s1, char *s2);
 void	clean_memo(char **stash);
 char	*get_next_line(int fd);
 t_map	*ft_read_map(char *path);
+char 	**ft_get_map(void);
+void ft_draw_square(int x, int y, int size, int color, mlx_image_t *front);
+void ft_draw_map(t_game *game);
 
 
 #endif

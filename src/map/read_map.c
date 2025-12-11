@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 19:32:46 by frlorenz          #+#    #+#             */
-/*   Updated: 2025/12/03 12:52:50 by frlorenz         ###   ########.fr       */
+/*   Updated: 2025/12/11 18:05:17 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,20 @@ t_map *ft_read_map(char *path)
 	}
 	map->land = land;
 	return (map);
+}
+
+char **ft_get_map(void)
+{
+	char **map;
+	
+	map = malloc(sizeof(char *) * 8);
+	map[0] = "11111111111";
+	map[1] = "10001000001";
+	map[2] = "10101011101";
+	map[3] = "10101010001";
+	map[4] = "10101010101";
+	map[5] = "1N100010001";
+	map[6] = "11111111111";
+	map[7] = NULL;
+	return(map);
 }
