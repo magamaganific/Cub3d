@@ -20,6 +20,31 @@
 #define HEIGHT 900
 #define BUFFER 715827882
 
+void	ft_bzero(void *s, size_t n)
+{
+	unsigned char	*dst;
+	size_t			p;
+
+	p = 0;
+	dst = (unsigned char *) s;
+	while (p < n)
+	{
+		dst[p] = '\0';
+		p++;
+	}
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*memory;
+
+	memory = malloc (size * nmemb);
+	if (!memory)
+		return (NULL);
+	ft_bzero(memory, size * nmemb);
+	return (memory);
+}
+
 int get_rgba(int r, int g, int b, int a)
 {
     return (r << 24 | g << 16 | b << 8 | a);
@@ -107,7 +132,7 @@ bool	fill_north(char *buff, int *i, t_compass *comp)
 	start = *i;
 	while (buff[*i] != '\n')
 		*i = *i + 1;
-	comp->no_path = malloc((*i - start) * sizeof(char));
+	comp->no_path = ft_calloc(sizeof(char),*i - start + 1);
 	if (!comp->no_path)
 		return (false);
 	while (start <= *i)
@@ -136,7 +161,7 @@ bool	fill_south(char *buff, int *i, t_compass *comp)
 	start = *i;
 	while (buff[*i] != '\n')
 		*i = *i + 1;
-	comp->so_path = malloc((*i - start) * sizeof(char));
+	comp->so_path = ft_calloc(sizeof(char),*i - start + 1);
 	if (!comp->so_path)
 		return (false);
 	while (start <= *i)
@@ -166,7 +191,7 @@ bool	fill_west(char *buff, int *i, t_compass *comp)
 	start = *i;
 	while (buff[*i] != '\n')
 		*i = *i + 1;
-	comp->we_path = malloc((*i - start) * sizeof(char));
+	comp->we_path = ft_calloc(sizeof(char),*i - start + 1);
 	if (!comp->we_path)
 		return (false);
 	while (start <= *i)
@@ -195,7 +220,7 @@ bool	fill_east(char *buff, int *i, t_compass *comp)
 	start = *i;
 	while (buff[*i] != '\n')
 		*i = *i + 1;
-	comp->ea_path = malloc((*i - start) * sizeof(char));
+	comp->ea_path = ft_calloc(sizeof(char),*i - start + 1);
 	if (!comp->ea_path)
 		return (false);
 	while (start <= *i)
@@ -223,7 +248,7 @@ int	save_color(char *buff, int *i)
 		*i = *i + 1;
 	if (*i - start > 4 || *i == start)
 		return (-1);
-	num = malloc((*i - start) * sizeof(char));
+	num = ft_calloc(sizeof(char),*i - start + 1);
 	if (!num)
 		return (-1);
 	while (start <= *i)
@@ -399,17 +424,17 @@ char	*save_line(char *buff, int *i)
 
 	n = *i;
 	j = 0;
-	while (buff[n] != '\n')
+	while (buff[n] && buff[n] != '\n')
 		n++;
 	size = n - *i;
-	line = malloc(size * sizeof(char));
+	line = ft_calloc(sizeof(char), size + 1);
 	while (j < size)
 	{
 		line[j] = buff[*i];
 		*i = *i + 1;
 		j++;
 	}
-	line[j + 1] = 0;
+	line[j] = 0;
 	*i = *i + 1;
 	return (line);
 }
@@ -478,7 +503,7 @@ bool	parse_input(int fd, t_compass *comp)
 	int		i;
 
 	i = 0;
-	buff = malloc(BUFFER * sizeof(char));
+	buff = ft_calloc(sizeof(char), BUFFER);
 	if (!buff)
 		return(false);
 	red = read(fd, buff, BUFFER);
@@ -527,8 +552,8 @@ int	main(int ac, char **av)
 	int			fd;
 	t_compass	comp;
 
-	comp.mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", true);
 	init_compass(&comp);
+	comp.mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", true);
 	fd = open(av[1], O_RDONLY);
 	if (ac != 2 || !valid_file(av[1]) || fd == -1)
 	{
