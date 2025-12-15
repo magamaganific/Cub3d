@@ -462,7 +462,7 @@ char	**split_by_nl(char *buff, int *i)
 	n = 0;
 	size = count_nls(buff, *i);
 	printf("size-> %d\n", size);
-	split = malloc((size + 1) * sizeof(char));
+	split = (char **)ft_calloc(sizeof(char *), size + 1);
 	while (n < size)
 	{
 		split[n] = save_line(buff, i);
