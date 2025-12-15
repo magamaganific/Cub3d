@@ -18,7 +18,31 @@
 #include <limits.h>
 #define WIDTH 900
 #define HEIGHT 900
-#define BUFFER 715827882
+#define BUFFER 100000
+#define MINI 30
+
+void	free_split(t_compass *comp)
+{
+	int	i;
+
+	i = 0;
+	while(i < comp->map_size)
+	{
+		free(comp->map_arr[i]);
+		i++;
+	}
+	free(comp->map_arr);
+}
+
+size_t	ft_strlen(const char *c)
+{
+	size_t	n;
+
+	n = 0;
+	while (c[n])
+		n++;
+	return (n);
+}
 
 void	ft_bzero(void *s, size_t n)
 {
@@ -453,24 +477,74 @@ int	count_nls(char *buff, int n)
 	return(nls);
 }
 
-char	**split_by_nl(char *buff, int *i)
+char	**split_by_nl(char *buff, int *i, t_compass *comp)
 {
 	char	**split;
 	int		size;
 	int		n;
+	int		longest;
 
 	n = 0;
+	longest = 0;
 	size = count_nls(buff, *i);
-	printf("size-> %d\n", size);
 	split = (char **)ft_calloc(sizeof(char *), size + 1);
 	while (n < size)
 	{
 		split[n] = save_line(buff, i);
+		if (longest < (int)ft_strlen(split[n]))
+			longest = ft_strlen(split[n]);
 		n++;
 	}
 	split[n] = NULL;
-	printf("split complete\n");
+	comp->map_width = longest;
+	comp->map_height = size;
 	return(split);
+}
+
+void	find_player(t_compass *comp)
+{
+	int	x;
+	int	y;
+
+	x = 0;
+	y = 0;
+	while (y < comp->map_height)
+	{
+		while (x < comp->map_width)
+		{
+			if (comp->map_arr[y][x] == 'N' || comp->map_arr[y][x] == 'S'
+				|| comp->map_arr[y][x] == 'W' || comp->map_arr[y][x] == 'E')
+			{
+				comp->player_x = x;
+				comp->player_y = y;
+			}
+			x++;
+		}
+		x = 0;
+		y++;
+	}
+}
+
+bool	player_may_fall(char **map, int x, int y)
+{
+	if (map[y][x] != '-' && map[y][x] != '1')
+	{
+		map[y][x] = '-';
+		if ((map[y][x + 1] && map[y][x + 1] == ' ' )
+			|| ( x > 0 && map[y][x - 1] && map[y][x - 1] == ' ' )
+			|| ( map[y + 1] && map[y + 1][x] && map[y + 1][x] == ' ' )
+			|| ( y > 0 && map[y - 1][x] && map[y][x - 1] == ' ' ))
+			return (true);
+		else if (player_may_fall(map, x + 1, y))
+			return(true);
+		else if (player_may_fall(map, x - 1, y))
+			return(true);
+		else if (player_may_fall(map, x, y + 1))
+			return(true);
+		else if (player_may_fall(map, x, y - 1))
+			return(true);
+	}
+	return (false);
 }
 
 bool	setup_map(char *buff, int *i, t_compass *comp)
@@ -480,7 +554,11 @@ bool	setup_map(char *buff, int *i, t_compass *comp)
 	if (!check_map(buff, *i))
 		return (false);
 	comp->map_size = count_nls(buff, *i);
-	comp->map = split_by_nl(buff, i);
+	comp->map_arr = split_by_nl(buff, i, comp);
+	find_player(comp);
+	printf("Player coordinates: x%d, y%d\n", comp->player_x, comp->player_y);
+	if (player_may_fall(comp->map_arr, comp->player_x, comp->player_y))
+		return(free_split(comp), false);
 	return((true));
 }
 
@@ -513,7 +591,7 @@ bool	parse_input(int fd, t_compass *comp)
 		return (free(buff), false);
 	if(!setup_map(buff, &i, comp))
 		return (free(buff), false);
-	print_map(comp->map);
+	print_map(comp->map_arr);
 	comp->bg = mlx_new_image(comp->mlx, WIDTH, HEIGHT);
 	mlx_loop_hook(comp->mlx, set_bg, comp);
 	free(buff);
@@ -528,23 +606,32 @@ void	init_compass(t_compass *comp)
 {
 	comp->f = 0;
 	comp->c = 0;
+	comp->map_height = 0;
+	comp->map_width = 0;
+	comp->player_x = 0;
+	comp->player_y = 0;
 	comp->no_path = NULL;
 	comp->so_path = NULL;
 	comp->we_path = NULL;
 	comp->ea_path = NULL;
 }
 
-void	free_split(t_compass *comp)
+void free_comp(t_compass *comp)
 {
-	int	i;
-
-	i = 0;
-	while(i < comp->map_size)
-	{
-		printf("free\n");
-		free(comp->map[i]);
-		i++;
-	}
+	mlx_delete_image(comp->mlx, comp->bg);
+	mlx_delete_image(comp->mlx, comp->no);
+	mlx_delete_image(comp->mlx, comp->so);
+	mlx_delete_image(comp->mlx, comp->we);
+	mlx_delete_image(comp->mlx, comp->ea);
+	mlx_delete_texture(comp->no_text);
+	mlx_delete_texture(comp->so_text);
+	mlx_delete_texture(comp->we_text);
+	mlx_delete_texture(comp->ea_text);
+	free(comp->no_path);
+	free(comp->so_path);
+	free(comp->we_path);
+	free(comp->ea_path);
+	free_split(comp);
 }
 
 int	main(int ac, char **av)
@@ -565,7 +652,8 @@ int	main(int ac, char **av)
 	if (!parse_input(fd, &comp))
 		return (error(), wrong_format(), close(fd), -1);
 	mlx_loop(comp.mlx);
-	free_split(&comp);
-	mlx_terminate(comp.mlx);
+	free_comp(&comp);
 	close(fd);
+	mlx_terminate(comp.mlx);
+	return (EXIT_SUCCESS);
 }

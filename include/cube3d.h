@@ -35,14 +35,19 @@ typedef struct s_compass
 	mlx_image_t		*we;
 	mlx_image_t		*ea;
 	mlx_image_t		*bg;
+	mlx_image_t		*map;
 	char			*no_path;
 	char			*so_path;
 	char			*we_path;
 	char			*ea_path;
-	char			**map;
+	char			**map_arr;
 	int				map_size;
 	int				f;
 	int				c;
+	int				map_width;
+	int				map_height;
+	int				player_x;
+	int				player_y;
 }	t_compass;
 
 #endif
