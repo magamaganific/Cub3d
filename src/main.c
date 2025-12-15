@@ -556,9 +556,11 @@ bool	setup_map(char *buff, int *i, t_compass *comp)
 	comp->map_size = count_nls(buff, *i);
 	comp->map_arr = split_by_nl(buff, i, comp);
 	find_player(comp);
-	printf("Player coordinates: x%d, y%d\n", comp->player_x, comp->player_y);
 	if (player_may_fall(comp->map_arr, comp->player_x, comp->player_y))
-		return(free_split(comp), false);
+	{
+		printf("Player fell into the void\n");
+		return (free_split(comp), false);
+	}
 	return((true));
 }
 
@@ -569,7 +571,7 @@ void	print_map(char **map)
 	i = 0;
 	while(map[i])
 	{
-		printf("line[%d]-> %s\n", i, map[i]);
+		printf("%s\n", map[i]);
 		i++;
 	}
 }
@@ -650,7 +652,7 @@ int	main(int ac, char **av)
 		return (close(fd), -1);
 	}
 	if (!parse_input(fd, &comp))
-		return (error(), wrong_format(), close(fd), -1);
+		return (wrong_format(), close(fd), -1);
 	mlx_loop(comp.mlx);
 	free_comp(&comp);
 	close(fd);
