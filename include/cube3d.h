@@ -102,7 +102,13 @@ void	error(void);
 bool	valid_file(char *file_name);
 void	free_split(t_compass *comp);
 void	init_compass(t_compass *comp);
-void	free_comp(t_compass *comp);
 void	print_map(char **map);
+
+// 	FREE COMPASS
+void	free_north(t_compass *comp);
+void	free_south(t_compass *comp);
+void	free_west(t_compass *comp);
+void	free_east(t_compass *comp);
+void	free_comp(t_compass *comp);
 
 #endif

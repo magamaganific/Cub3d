@@ -51,25 +51,6 @@ void	init_compass(t_compass *comp)
 	comp->we_path = NULL;
 	comp->ea_path = NULL;
 }
-
-void	free_comp(t_compass *comp)
-{
-	mlx_delete_image(comp->mlx, comp->bg);
-	mlx_delete_image(comp->mlx, comp->no);
-	mlx_delete_image(comp->mlx, comp->so);
-	mlx_delete_image(comp->mlx, comp->we);
-	mlx_delete_image(comp->mlx, comp->ea);
-	mlx_delete_texture(comp->no_text);
-	mlx_delete_texture(comp->so_text);
-	mlx_delete_texture(comp->we_text);
-	mlx_delete_texture(comp->ea_text);
-	free(comp->no_path);
-	free(comp->so_path);
-	free(comp->we_path);
-	free(comp->ea_path);
-	free_split(comp);
-}
-
 void	print_map(char **map)
 {
 	int	i;

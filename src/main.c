@@ -62,6 +62,7 @@ bool	parse_input(int fd, t_compass *comp)
 
 	i = 0;
 	buff = ft_calloc(sizeof(char), BUFFER);
+	comp->bg = mlx_new_image(comp->mlx, WIDTH, HEIGHT);
 	if (!buff)
 		return (false);
 	red = read(fd, buff, BUFFER);
@@ -72,7 +73,6 @@ bool	parse_input(int fd, t_compass *comp)
 	if (!setup_map(buff, &i, comp))
 		return (free(buff), false);
 	print_map(comp->map_arr);
-	comp->bg = mlx_new_image(comp->mlx, WIDTH, HEIGHT);
 	mlx_loop_hook(comp->mlx, set_bg, comp);
 	free(buff);
 	mlx_image_to_window(comp->mlx, comp->bg, 0, 0);
@@ -90,6 +90,8 @@ int	main(int ac, char **av)
 
 	init_compass(&comp);
 	comp.mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", true);
+	if (!comp.mlx)
+		return (0);
 	fd = open(av[1], O_RDONLY);
 	if (ac != 2 || !valid_file(av[1]) || fd == -1)
 	{
@@ -99,10 +101,10 @@ int	main(int ac, char **av)
 		return (close(fd), -1);
 	}
 	if (!parse_input(fd, &comp))
-		return (wrong_format(), close(fd), EXIT_FAILURE);
+		return (free_comp(&comp), wrong_format(), close(fd), EXIT_FAILURE);
+	close(fd);
 	mlx_loop(comp.mlx);
 	free_comp(&comp);
-	close(fd);
 	mlx_terminate(comp.mlx);
 	return (EXIT_SUCCESS);
 }
