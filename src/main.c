@@ -525,23 +525,60 @@ void	find_player(t_compass *comp)
 	}
 }
 
-bool	player_may_fall(char **map, int x, int y)
+bool	north_fall(char **map, int x, int y)
 {
+	if (y - 1 < 0)
+		return (true);
+	if (map[y - 1][x] == ' ')
+		return (true);
+	return(false);
+}
+
+bool	south_fall(char **map, int x, int y, t_compass *comp)
+{
+	if (y + 1 > comp->map_height)
+		return (true);
+	if (map[y + 1][x] == ' ')
+		return (true);
+	return(false);
+}
+
+
+bool	west_fall(char **map, int x, int y)
+{
+	if (x - 1 < 0)
+		return (true);
+	if (map[y][x - 1] == ' ')
+		return (true);
+	return(false);
+}
+
+bool	east_fall(char **map, int x, int y, t_compass *comp)
+{
+	if (x + 1 > comp->map_width)
+		return (true);
+	if (map[y][x + 1] == ' ')
+		return (true);
+	return(false);
+}
+
+bool	player_may_fall(char **map, int x, int y, t_compass *comp)
+{
+	if (x > comp->map_width || y > comp->map_height || x < 0 || y < 0)
+		return(false);
 	if (map[y][x] != '-' && map[y][x] != '1')
 	{
 		map[y][x] = '-';
-		if ((map[y][x + 1] && map[y][x + 1] == ' ' )
-			|| ( x > 0 && map[y][x - 1] && map[y][x - 1] == ' ' )
-			|| ( map[y + 1] && map[y + 1][x] && map[y + 1][x] == ' ' )
-			|| ( y > 0 && map[y - 1][x] && map[y][x - 1] == ' ' ))
+		if (north_fall(map, x, y) || south_fall(map, x, y, comp)
+			|| west_fall(map, x, y) || east_fall(map, x, y, comp))
 			return (true);
-		else if (player_may_fall(map, x + 1, y))
+		else if (player_may_fall(map, x + 1, y, comp))
 			return(true);
-		else if (player_may_fall(map, x - 1, y))
+		else if (player_may_fall(map, x - 1, y, comp))
 			return(true);
-		else if (player_may_fall(map, x, y + 1))
+		else if (player_may_fall(map, x, y + 1, comp))
 			return(true);
-		else if (player_may_fall(map, x, y - 1))
+		else if (player_may_fall(map, x, y - 1, comp))
 			return(true);
 	}
 	return (false);
@@ -556,7 +593,7 @@ bool	setup_map(char *buff, int *i, t_compass *comp)
 	comp->map_size = count_nls(buff, *i);
 	comp->map_arr = split_by_nl(buff, i, comp);
 	find_player(comp);
-	if (player_may_fall(comp->map_arr, comp->player_x, comp->player_y))
+	if (player_may_fall(comp->map_arr, comp->player_x, comp->player_y, comp))
 	{
 		printf("Player fell into the void\n");
 		return (free_split(comp), false);
@@ -652,7 +689,7 @@ int	main(int ac, char **av)
 		return (close(fd), -1);
 	}
 	if (!parse_input(fd, &comp))
-		return (wrong_format(), close(fd), -1);
+		return (wrong_format(), close(fd), EXIT_FAILURE);
 	mlx_loop(comp.mlx);
 	free_comp(&comp);
 	close(fd);
