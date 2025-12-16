@@ -1,30 +1,37 @@
-NAME	:= Game
-CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast -g3
-LIBMLX	:= ./lib/MLX42
+NAME = cub3d
+SOURCE = $(shell find ./src -iname "*.c")
 
-HEADERS	:= -I ./include -I $(LIBMLX)/include
-LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
-SRCS	:= $(shell find ./src -iname "*.c")
-OBJS	:= ${SRCS:.c=.o}
+LIBMLX	= ./include/lib/MLX42
+OBJS = $(SOURCE:.c=.o)
+CC = cc
+FLAGS = -Wall -Wextra -Werror
+LIBS	= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
+INCLUDE = -I ./include -I $(LIBMLX)/include
+
 
 all: libmlx $(NAME)
 
-libmlx:
-	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
+$(NAME): $(OBJS)
+	@$(CC) $(FLAGS) $(OBJS) $(LIBS) $(INCLUDE) -o $(NAME) 
+
+libmlx: $(LIBMLX)
+	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -s -C $(LIBMLX)/build -j4
+
+$(LIBMLX):
+	@git clone https://github.com/codam-coding-college/MLX42.git $(LIBMLX)
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)"
-
-$(NAME): $(OBJS)
-	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
+	@$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@ && printf "Compiling: $(notdir $<)\n"
 
 clean:
-	@rm -rf $(OBJS)
+	@$(RM) $(OBJS)
 	@rm -rf $(LIBMLX)/build
 
 fclean: clean
-	@rm -rf $(NAME)
+	@rm -rf ./include/lib/.git
+	@rm -rf $(LIBMLX)
+	@$(RM) $(NAME)
 
-re: clean all
+re: fclean all
 
-.PHONY: all, clean, fclean, re, libmlx
+.PHONY: all clean fclean re libmlx
