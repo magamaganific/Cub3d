@@ -99,6 +99,7 @@ bool	check_map(char *buff, int n);
 void	error(void);
 
 //	MAIN UTILS
+void	delete_compass(t_compass *comp);
 bool	valid_file(char *file_name);
 void	free_split(t_compass *comp);
 void	init_compass(t_compass *comp);

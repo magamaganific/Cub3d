@@ -38,10 +38,25 @@ void	free_split(t_compass *comp)
 	free(comp->map_arr);
 }
 
+void	delete_compass(t_compass *comp)
+{
+	if (comp->no)
+		mlx_delete_image(comp->mlx, comp->no);
+	if (comp->so)
+		mlx_delete_image(comp->mlx, comp->so);
+	if (comp->we)
+		mlx_delete_image(comp->mlx, comp->we);
+	if (comp->ea)
+		mlx_delete_image(comp->mlx, comp->ea);
+	if (comp->bg)
+		mlx_delete_image(comp->mlx, comp->bg);
+}
+
 void	init_compass(t_compass *comp)
 {
 	comp->f = 0;
 	comp->c = 0;
+	comp->map_size = 0;
 	comp->map_height = 0;
 	comp->map_width = 0;
 	comp->player_x = 0;
@@ -50,7 +65,9 @@ void	init_compass(t_compass *comp)
 	comp->so_path = NULL;
 	comp->we_path = NULL;
 	comp->ea_path = NULL;
+	comp->map_arr = NULL;
 }
+
 void	print_map(char **map)
 {
 	int	i;

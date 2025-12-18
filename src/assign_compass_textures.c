@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   assign_compass_textures.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mfornovi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/18 12:43:28 by mfornovi          #+#    #+#             */
+/*   Updated: 2025/12/18 12:43:30 by mfornovi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cube3d.h"
 
 bool	fill_north(char *buff, int *i, t_compass *comp)
@@ -22,9 +34,6 @@ bool	fill_north(char *buff, int *i, t_compass *comp)
 	comp->no_path[n] = 0;
 	comp->no_text = mlx_load_png(comp->no_path);
 	if (!comp->no_text)
-		return (error(), false);
-	comp->no = mlx_texture_to_image(comp->mlx, comp->no_text);
-	if (!comp->no)
 		return (error(), false);
 	return (true);
 }
@@ -52,9 +61,6 @@ bool	fill_south(char *buff, int *i, t_compass *comp)
 	comp->so_text = mlx_load_png(comp->so_path);
 	if (!comp->so_text)
 		return (error(), false);
-	comp->so = mlx_texture_to_image(comp->mlx, comp->so_text);
-	if (!comp->so)
-		return (error(), false);
 	return (true);
 }
 
@@ -81,9 +87,6 @@ bool	fill_west(char *buff, int *i, t_compass *comp)
 	comp->we_text = mlx_load_png(comp->we_path);
 	if (!comp->we_text)
 		return (error(), false);
-	comp->we = mlx_texture_to_image(comp->mlx, comp->we_text);
-	if (!comp->we)
-		return (error(), false);
 	return (true);
 }
 
@@ -109,9 +112,6 @@ bool	fill_east(char *buff, int *i, t_compass *comp)
 	comp->ea_path[n] = 0;
 	comp->ea_text = mlx_load_png(comp->ea_path);
 	if (!comp->ea_text)
-		return (error(), false);
-	comp->ea = mlx_texture_to_image(comp->mlx, comp->ea_text);
-	if (!comp->ea)
 		return (error(), false);
 	return (true);
 }

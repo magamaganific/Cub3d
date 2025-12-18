@@ -22,13 +22,14 @@ void	find_player(t_compass *comp)
 	y = 0;
 	while (y < comp->map_height)
 	{
-		while (x < comp->map_width)
+		while (x < comp->map_width && comp->map_arr[y][x])
 		{
 			if (comp->map_arr[y][x] == 'N' || comp->map_arr[y][x] == 'S'
 				|| comp->map_arr[y][x] == 'W' || comp->map_arr[y][x] == 'E')
 			{
 				comp->player_x = x;
 				comp->player_y = y;
+				break ;
 			}
 			x++;
 		}
@@ -49,7 +50,7 @@ bool	setup_map(char *buff, int *i, t_compass *comp)
 	if (player_may_fall(comp->map_arr, comp->player_x, comp->player_y, comp))
 	{
 		printf("Player fell into the void\n");
-		return (free_split(comp), false);
+		return (false);
 	}
 	return (true);
 }
@@ -62,7 +63,6 @@ bool	parse_input(int fd, t_compass *comp)
 
 	i = 0;
 	buff = ft_calloc(sizeof(char), BUFFER);
-	comp->bg = mlx_new_image(comp->mlx, WIDTH, HEIGHT);
 	if (!buff)
 		return (false);
 	red = read(fd, buff, BUFFER);
@@ -73,14 +73,31 @@ bool	parse_input(int fd, t_compass *comp)
 	if (!setup_map(buff, &i, comp))
 		return (free(buff), false);
 	print_map(comp->map_arr);
-	mlx_loop_hook(comp->mlx, set_bg, comp);
 	free(buff);
+	return (true);
+}
+
+void	startup_map(t_compass *comp)
+{
+	comp->bg = mlx_new_image(comp->mlx, WIDTH, HEIGHT);
+	comp->no = mlx_texture_to_image(comp->mlx, comp->no_text);
+	if (!comp->no)
+		error();
+	comp->so = mlx_texture_to_image(comp->mlx, comp->so_text);
+	if (!comp->so)
+		error();
+	comp->we = mlx_texture_to_image(comp->mlx, comp->we_text);
+	if (!comp->we)
+		error();
+	comp->ea = mlx_texture_to_image(comp->mlx, comp->ea_text);
+	if (!comp->ea)
+		error();
+	mlx_loop_hook(comp->mlx, set_bg, comp);
 	mlx_image_to_window(comp->mlx, comp->bg, 0, 0);
 	mlx_image_to_window(comp->mlx, comp->no, 0, 0);
 	mlx_image_to_window(comp->mlx, comp->so, 100, 0);
 	mlx_image_to_window(comp->mlx, comp->we, 0, 100);
 	mlx_image_to_window(comp->mlx, comp->ea, 100, 100);
-	return (true);
 }
 
 int	main(int ac, char **av)
@@ -89,9 +106,6 @@ int	main(int ac, char **av)
 	t_compass	comp;
 
 	init_compass(&comp);
-	comp.mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", true);
-	if (!comp.mlx)
-		return (0);
 	fd = open(av[1], O_RDONLY);
 	if (ac != 2 || !valid_file(av[1]) || fd == -1)
 	{
@@ -103,8 +117,13 @@ int	main(int ac, char **av)
 	if (!parse_input(fd, &comp))
 		return (free_comp(&comp), wrong_format(), close(fd), EXIT_FAILURE);
 	close(fd);
+	comp.mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", true);
+	if (!comp.mlx)
+		return (0);
+	startup_map(&comp);
 	mlx_loop(comp.mlx);
 	free_comp(&comp);
+	delete_compass(&comp);
 	mlx_terminate(comp.mlx);
 	return (EXIT_SUCCESS);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   errors.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mfornovi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/18 12:44:13 by mfornovi          #+#    #+#             */
+/*   Updated: 2025/12/18 12:44:15 by mfornovi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cube3d.h"
 
 void	print_accepted_input(void)
@@ -32,7 +44,7 @@ bool	check_map(char *buff, int n)
 			|| buff[n] == 'E')
 		{
 			if (player == 1)
-				return (printf("More than one player\n"),false);
+				return (printf("More than one player\n"), false);
 			player = 1;
 		}
 		n++;
