@@ -26,7 +26,9 @@
 # define WIDTH 900
 # define HEIGHT 900
 # define BUFFER 100000
-# define MINI 30
+# define SQUARE_SIZE 30
+# define PLAYER_SIZE 10
+
 
 typedef struct s_compass
 {
@@ -41,6 +43,7 @@ typedef struct s_compass
 	mlx_image_t		*ea;
 	mlx_image_t		*bg;
 	mlx_image_t		*map;
+	mlx_image_t		*player;
 	char			*no_path;
 	char			*so_path;
 	char			*we_path;
