@@ -92,6 +92,30 @@ void	ft_draw_square(int x, int y, int color, mlx_image_t *map)
 	}
 }
 
+void	init_player(t_compass *comp)
+{
+	int x;
+	int y;
+
+	x = 0;
+	y = 0;
+	comp->player = mlx_new_image(comp->mlx, PLAYER_SIZE + 1, PLAYER_SIZE + 1);
+	if (!comp->player)
+		error();
+	while (x <= PLAYER_SIZE)
+	{
+		mlx_put_pixel(comp->player, x, 0, 0xFF0000FF);
+		mlx_put_pixel(comp->player, x, PLAYER_SIZE, 0xFF0000FF);
+		x++;
+	}
+	while (y <= PLAYER_SIZE)
+	{
+		mlx_put_pixel(comp->player, 0, y, 0xFF0000FF);
+		mlx_put_pixel(comp->player, PLAYER_SIZE, y, 0xFF0000FF);
+		y++;
+	}
+}
+
 void	draw_minimap(t_compass *comp)
 {
 	int	x;
@@ -115,30 +139,7 @@ void	draw_minimap(t_compass *comp)
 		}
 		y++;
 	}
-}
-
-void	init_player(t_compass *comp)
-{
-	int x;
-	int y;
-
-	x = 0;
-	y = 0;
-	comp->player = mlx_new_image(comp->mlx, PLAYER_SIZE + 1, PLAYER_SIZE + 1);
-	if (!comp->player)
-		error();
-	while (x <= PLAYER_SIZE)
-	{
-		mlx_put_pixel(comp->player, x, 0, 0xFF0000FF);
-		mlx_put_pixel(comp->player, x, PLAYER_SIZE, 0xFF0000FF);
-		x++;
-	}
-	while (y <= PLAYER_SIZE)
-	{
-		mlx_put_pixel(comp->player, 0, y, 0xFF0000FF);
-		mlx_put_pixel(comp->player, PLAYER_SIZE, y, 0xFF0000FF);
-		y++;
-	}
+	init_player(comp);
 }
 
 void	player_hook(mlx_key_data_t keydata, void *param)
@@ -174,13 +175,12 @@ void	startup_map(t_compass *comp)
 	if (!comp->ea)
 		error();
 	draw_minimap(comp);
-	init_player(comp);
 	mlx_loop_hook(comp->mlx, set_bg, comp);
 	mlx_image_to_window(comp->mlx, comp->bg, 0, 0);
-	mlx_image_to_window(comp->mlx, comp->no, 0, 0);
-	mlx_image_to_window(comp->mlx, comp->so, 100, 0);
-	mlx_image_to_window(comp->mlx, comp->we, 0, 100);
-	mlx_image_to_window(comp->mlx, comp->ea, 100, 100);
+	// mlx_image_to_window(comp->mlx, comp->no, 0, 0);
+	// mlx_image_to_window(comp->mlx, comp->so, 100, 0);
+	// mlx_image_to_window(comp->mlx, comp->we, 0, 100);
+	// mlx_image_to_window(comp->mlx, comp->ea, 100, 100);
 	mlx_image_to_window(comp->mlx, comp->map, 0, 0);
 	mlx_image_to_window(comp->mlx, comp->player, comp->player_x, comp->player_y);
 	mlx_key_hook(comp->mlx, &player_hook, comp);
