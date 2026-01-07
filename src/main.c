@@ -135,9 +135,9 @@ void	startup_map(t_compass *comp)
 	if (!comp->ea)
 		error();
 	draw_minimap(comp);
-	// mlx_loop_hook(comp->mlx, set_bg, comp);
-	mlx_image_to_window(comp->mlx, comp->map, 0, 200);
+	mlx_loop_hook(comp->mlx, set_bg, comp);
 	mlx_image_to_window(comp->mlx, comp->bg, 0, 0);
+	mlx_image_to_window(comp->mlx, comp->map, 0, 200);
 	mlx_image_to_window(comp->mlx, comp->no, 0, 0);
 	mlx_image_to_window(comp->mlx, comp->so, 100, 0);
 	mlx_image_to_window(comp->mlx, comp->we, 0, 100);
