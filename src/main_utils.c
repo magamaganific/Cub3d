@@ -52,8 +52,6 @@ void	delete_compass(t_compass *comp)
 		mlx_delete_image(comp->mlx, comp->bg);
 	if (comp->map)
 		mlx_delete_image(comp->mlx, comp->map);
-	if (comp->player)
-		mlx_delete_image(comp->mlx, comp->player);
 }
 
 void	init_compass(t_compass *comp)
