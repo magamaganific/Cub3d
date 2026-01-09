@@ -77,6 +77,72 @@ bool	parse_input(int fd, t_compass *comp)
 	return (true);
 }
 
+void	draw_minimap(t_compass *comp)
+{
+	int	x;
+	int	y;
+
+	x = 0;
+	y = 0;
+	comp->map = mlx_new_image(comp->mlx, (comp->map_width + 1) * SQUARE_SIZE,
+			(comp->map_height + 1) * SQUARE_SIZE);
+	if (!comp->map)
+		error();
+	while (y < comp->map_height)
+	{
+		x = 0;
+		while (comp->map_arr[y][x])
+		{
+			if (comp->map_arr[y][x] == '1')
+				ft_draw_square(x * SQUARE_SIZE, y * SQUARE_SIZE, 0xFF0000FF,
+					comp->map);
+			x++;
+		}
+		y++;
+	}
+	init_player(comp);
+}
+
+// void	ft_sight(void *param)
+// {
+// 	t_compass *comp;
+
+// 	comp = (t_compass *)param;
+
+
+// }
+
+void	startup_map(t_compass *comp)
+{
+	comp->bg = mlx_new_image(comp->mlx, WIDTH, HEIGHT);
+	if (!comp->bg)
+		error();
+	comp->no = mlx_texture_to_image(comp->mlx, comp->no_text);
+	if (!comp->no)
+		error();
+	comp->so = mlx_texture_to_image(comp->mlx, comp->so_text);
+	if (!comp->so)
+		error();
+	comp->we = mlx_texture_to_image(comp->mlx, comp->we_text);
+	if (!comp->we)
+		error();
+	comp->ea = mlx_texture_to_image(comp->mlx, comp->ea_text);
+	if (!comp->ea)
+		error();
+	draw_minimap(comp);
+	mlx_loop_hook(comp->mlx, set_bg, comp);
+	mlx_image_to_window(comp->mlx, comp->bg, 0, 0);
+	/* mlx_image_to_window(comp->mlx, comp->no, 0, 0);
+	 mlx_image_to_window(comp->mlx, comp->so, 100, 0);
+	 mlx_image_to_window(comp->mlx, comp->we, 0, 100);
+	 mlx_image_to_window(comp->mlx, comp->ea, 100, 100);*/
+	mlx_image_to_window(comp->mlx, comp->map, 0, 0);
+	mlx_image_to_window(comp->mlx, comp->player,
+		comp->player_x, comp->player_y);
+	mlx_key_hook(comp->mlx, &player_hook, comp);
+	// mlx_key_hook(comp->mlx, &ft_sight, comp);
+}
+
 int	main(int ac, char **av)
 {
 	int			fd;
