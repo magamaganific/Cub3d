@@ -28,6 +28,7 @@
 # define BUFFER 100000
 # define SQUARE_SIZE 30
 # define PLAYER_SIZE 10
+# define SPEED 5
 
 typedef struct s_compass
 {

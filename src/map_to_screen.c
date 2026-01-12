@@ -84,16 +84,16 @@ void	player_hook(mlx_key_data_t keydata, void *param)
 	comp = (t_compass *)param;
 	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_REPEAT
 			|| keydata.action == MLX_PRESS))
-		comp->player->instances[0].y += PLAYER_SIZE / 2;
+		comp->player->instances[0].y += SPEED;
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_REPEAT
 			|| keydata.action == MLX_PRESS))
-		comp->player->instances[0].y -= PLAYER_SIZE / 2;
+		comp->player->instances[0].y -= SPEED;
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_REPEAT
 			|| keydata.action == MLX_PRESS))
-		comp->player->instances[0].x += PLAYER_SIZE / 2;
+		comp->player->instances[0].x += SPEED;
 	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_REPEAT
 			|| keydata.action == MLX_PRESS))
-		comp->player->instances[0].x -= PLAYER_SIZE / 2;
+		comp->player->instances[0].x -= SPEED;
 }
 
 void	startup_map(t_compass *comp)
