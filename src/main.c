@@ -77,29 +77,6 @@ bool	parse_input(int fd, t_compass *comp)
 	return (true);
 }
 
-void	startup_map(t_compass *comp)
-{
-	comp->bg = mlx_new_image(comp->mlx, WIDTH, HEIGHT);
-	comp->no = mlx_texture_to_image(comp->mlx, comp->no_text);
-	if (!comp->no)
-		error();
-	comp->so = mlx_texture_to_image(comp->mlx, comp->so_text);
-	if (!comp->so)
-		error();
-	comp->we = mlx_texture_to_image(comp->mlx, comp->we_text);
-	if (!comp->we)
-		error();
-	comp->ea = mlx_texture_to_image(comp->mlx, comp->ea_text);
-	if (!comp->ea)
-		error();
-	mlx_loop_hook(comp->mlx, set_bg, comp);
-	mlx_image_to_window(comp->mlx, comp->bg, 0, 0);
-	mlx_image_to_window(comp->mlx, comp->no, 0, 0);
-	mlx_image_to_window(comp->mlx, comp->so, 100, 0);
-	mlx_image_to_window(comp->mlx, comp->we, 0, 100);
-	mlx_image_to_window(comp->mlx, comp->ea, 100, 100);
-}
-
 int	main(int ac, char **av)
 {
 	int			fd;
