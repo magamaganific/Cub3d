@@ -27,9 +27,9 @@ void	find_player(t_compass *comp)
 			if (comp->map_arr[y][x] == 'N' || comp->map_arr[y][x] == 'S'
 				|| comp->map_arr[y][x] == 'W' || comp->map_arr[y][x] == 'E')
 			{
-				comp->player_x = x * SQUARE_SIZE;
-				comp->player_y = y * SQUARE_SIZE;
-				break ;
+				comp->player_x = x;
+				comp->player_y = y;
+				return ;
 			}
 			x++;
 		}
@@ -52,6 +52,8 @@ bool	setup_map(char *buff, int *i, t_compass *comp)
 		printf("Player fell into the void\n");
 		return (false);
 	}
+	comp->player_x *= SQUARE_SIZE;
+	comp->player_y *= SQUARE_SIZE;
 	return (true);
 }
 
