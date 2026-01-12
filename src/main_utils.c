@@ -57,10 +57,14 @@ void	init_compass(t_compass *comp)
 	comp->f = 0;
 	comp->c = 0;
 	comp->map_size = 0;
-	comp->map_height = 0;
 	comp->map_width = 0;
+	comp->map_height = 0;
 	comp->player_x = 0;
 	comp->player_y = 0;
+	comp->sight_x = 0;
+	comp->sight_y = 0;
+	comp->sight.cos = 0;
+	comp->sight.sin = 0;
 	comp->no_path = NULL;
 	comp->so_path = NULL;
 	comp->we_path = NULL;

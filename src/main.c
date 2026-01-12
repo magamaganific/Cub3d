@@ -13,6 +13,18 @@
 #include "../lib/MLX42/include/MLX42/MLX42.h"
 #include "../include/cube3d.h"
 
+void	save_sight_start(int c, t_compass *comp)
+{
+	if (c == 'N')
+		comp->sight.angle = 270;
+	if (c == 'S')
+		comp->sight.angle = 90;
+	if (c == 'W')
+		comp->sight.angle = 180;
+	if (c == 'E')
+		comp->sight.angle = 0;
+}
+
 void	find_player(t_compass *comp)
 {
 	int	x;
@@ -29,6 +41,7 @@ void	find_player(t_compass *comp)
 			{
 				comp->player_x = x;
 				comp->player_y = y;
+				save_sight_start(comp->map_arr[y][x], comp);
 				return ;
 			}
 			x++;

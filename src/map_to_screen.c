@@ -95,6 +95,35 @@ void	player_hook(mlx_key_data_t keydata, void *param)
 			|| keydata.action == MLX_PRESS))
 		comp->player->instances[0].x -= SPEED;
 }
+float	degree_to_radians(float	degree)
+{
+	return(degree * M_PI / 180);
+}
+
+void	draw_raycaster(t_compass *comp)
+{
+	int	i;
+	int	d;
+
+	comp->sight_x = comp->player_x + (PLAYER_SIZE / 2);
+	comp->sight_y = comp->player_y + (PLAYER_SIZE / 2);
+	comp->sight.cos = cos(degree_to_radians(comp->sight.angle));
+	comp->sight.sin = sin(degree_to_radians(comp->sight.angle));
+	d = 0;
+	i = 0;
+	while (i < R_ITER)
+	{
+		d = 0;
+		while (d < 5)
+		{
+			mlx_put_pixel(comp->map, comp->sight_x, comp->sight_y, 0xFF0000FF);
+			comp->sight_x += comp->sight.cos;
+			comp->sight_y += comp->sight.sin;
+			d++;
+		}
+		i++;
+	}
+}
 
 void	startup_map(t_compass *comp)
 {
@@ -116,12 +145,9 @@ void	startup_map(t_compass *comp)
 	draw_minimap(comp);
 	mlx_loop_hook(comp->mlx, set_bg, comp);
 	mlx_image_to_window(comp->mlx, comp->bg, 0, 0);
-	/* mlx_image_to_window(comp->mlx, comp->no, 0, 0);
-	 mlx_image_to_window(comp->mlx, comp->so, 100, 0);
-	 mlx_image_to_window(comp->mlx, comp->we, 0, 100);
-	 mlx_image_to_window(comp->mlx, comp->ea, 100, 100);*/
 	mlx_image_to_window(comp->mlx, comp->map, 0, 0);
 	mlx_image_to_window(comp->mlx, comp->player,
 		comp->player_x, comp->player_y);
+	draw_raycaster(comp);
 	mlx_key_hook(comp->mlx, &player_hook, comp);
 }

@@ -29,6 +29,15 @@
 # define SQUARE_SIZE 30
 # define PLAYER_SIZE 10
 # define SPEED 5
+# define M_PI 3.14159265358979323846
+# define R_ITER 5
+
+typedef struct s_raycaster
+{
+	float	cos;
+	float	sin;
+	float	angle;
+}	t_raycaster;
 
 typedef struct s_compass
 {
@@ -56,6 +65,9 @@ typedef struct s_compass
 	int				map_height;
 	int				player_x;
 	int				player_y;
+	t_raycaster		sight;
+	float			sight_x;
+	float			sight_y;
 }	t_compass;
 
 //	LIBFT
@@ -95,7 +107,6 @@ void	init_player(t_compass *comp);
 void	draw_minimap(t_compass *comp);
 void	player_hook(mlx_key_data_t keydata, void *param);
 void	startup_map(t_compass *comp);
-
 
 //	FILL COMPASS
 bool	invalid_content(char *buff, int i);
