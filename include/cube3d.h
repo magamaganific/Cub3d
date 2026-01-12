@@ -70,6 +70,10 @@ typedef struct s_compass
 	float			sight_y;
 }	t_compass;
 
+
+//	TO BE CHANGED
+float	degree_to_radians(float	degree);
+void	draw_raycaster(t_compass *comp);
 //	LIBFT
 size_t	ft_strlen(const char *c);
 void	ft_bzero(void *s, size_t n);

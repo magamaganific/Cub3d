@@ -84,16 +84,44 @@ void	player_hook(mlx_key_data_t keydata, void *param)
 	comp = (t_compass *)param;
 	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_REPEAT
 			|| keydata.action == MLX_PRESS))
+	{
 		comp->player->instances[0].y += SPEED;
+		comp->player_y += SPEED;
+		draw_raycaster(comp);
+	}
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_REPEAT
 			|| keydata.action == MLX_PRESS))
+	{
 		comp->player->instances[0].y -= SPEED;
+		comp->player_y -= SPEED;
+		draw_raycaster(comp);
+	}
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_REPEAT
 			|| keydata.action == MLX_PRESS))
+	{
 		comp->player->instances[0].x += SPEED;
+		comp->player_x += SPEED;
+		draw_raycaster(comp);
+	}
 	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_REPEAT
 			|| keydata.action == MLX_PRESS))
+	{
 		comp->player->instances[0].x -= SPEED;
+		comp->player_x -= SPEED;
+		draw_raycaster(comp);
+	}
+	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_REPEAT
+			|| keydata.action == MLX_PRESS))
+	{
+		comp->sight.angle += 5;
+		draw_raycaster(comp);
+	}
+	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_REPEAT
+			|| keydata.action == MLX_PRESS))
+	{
+		comp->sight.angle -= 5;
+		draw_raycaster(comp);
+	}
 }
 float	degree_to_radians(float	degree)
 {
