@@ -77,47 +77,71 @@ void	draw_minimap(t_compass *comp)
 	init_player(comp);
 }
 
-void	player_hook(mlx_key_data_t keydata, void *param)
+bool	coordenate_collides(t_compass *comp, float fx, float fy)
+{
+	int x;
+	int y;
+
+	x = (int) fx / 30;
+	y = (int) fy / 30;
+
+	if (x >  comp->map_width || y > comp->map_height || x <= 0 || y <= 0)
+		return (true);
+	if (comp->map_arr[y][x] == '1' || comp->map_arr[y][x] == ' ' || comp->map_arr[y][x] == '\n' || !comp->map_arr[y][x])
+		return (true);
+	return (false);
+}
+
+
+void	player_hook(void *param)
 {
 	t_compass	*comp;
 
 	comp = (t_compass *)param;
-	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_REPEAT
-			|| keydata.action == MLX_PRESS))
+	if (mlx_is_key_down(comp->mlx, MLX_KEY_S))
 	{
-		comp->player->instances[0].y += SPEED;
-		comp->player_y += SPEED;
-		draw_raycaster(comp);
+		if(!coordenate_collides(comp, comp->player_x ,
+			comp->player_y + SPEED + PLAYER_SIZE))
+		{
+			comp->player->instances[0].y += SPEED;
+			comp->player_y += SPEED;
+			draw_raycaster(comp);
+		}
 	}
-	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_REPEAT
-			|| keydata.action == MLX_PRESS))
+	if (mlx_is_key_down(comp->mlx, MLX_KEY_W))
 	{
-		comp->player->instances[0].y -= SPEED;
-		comp->player_y -= SPEED;
-		draw_raycaster(comp);
+		if(!coordenate_collides(comp, comp->player_x, comp->player_y - SPEED))
+		{
+			comp->player->instances[0].y -= SPEED;
+			comp->player_y -= SPEED;
+			draw_raycaster(comp);
+		}
 	}
-	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_REPEAT
-			|| keydata.action == MLX_PRESS))
+	if (mlx_is_key_down(comp->mlx, MLX_KEY_D))
 	{
-		comp->player->instances[0].x += SPEED;
-		comp->player_x += SPEED;
-		draw_raycaster(comp);
+		if(!coordenate_collides(comp, comp->player_x + SPEED + PLAYER_SIZE,
+			comp->player_y))
+		{
+			comp->player->instances[0].x += SPEED;
+			comp->player_x += SPEED;
+			draw_raycaster(comp);
+		}
 	}
-	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_REPEAT
-			|| keydata.action == MLX_PRESS))
+	if (mlx_is_key_down(comp->mlx, MLX_KEY_A))
 	{
-		comp->player->instances[0].x -= SPEED;
-		comp->player_x -= SPEED;
-		draw_raycaster(comp);
+		if(!coordenate_collides(comp, comp->player_x - SPEED, comp->player_y))
+		{
+			comp->player->instances[0].x -= SPEED;
+			comp->player_x -= SPEED;
+			draw_raycaster(comp);
+		}
 	}
-	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_REPEAT
-			|| keydata.action == MLX_PRESS))
+	if (mlx_is_key_down(comp->mlx, MLX_KEY_LEFT))
 	{
 		comp->sight.angle += 5;
 		draw_raycaster(comp);
 	}
-	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_REPEAT
-			|| keydata.action == MLX_PRESS))
+	if (mlx_is_key_down(comp->mlx, MLX_KEY_RIGHT))
 	{
 		comp->sight.angle -= 5;
 		draw_raycaster(comp);
@@ -125,12 +149,11 @@ void	player_hook(mlx_key_data_t keydata, void *param)
 }
 float	degree_to_radians(float	degree)
 {
-	return(degree * M_PI / 180);
+	return (degree * M_PI / 180);
 }
 
 void	draw_raycaster(t_compass *comp)
 {
-	int	i;
 	int	d;
 
 	comp->sight_x = comp->player_x + (PLAYER_SIZE / 2);
@@ -138,18 +161,24 @@ void	draw_raycaster(t_compass *comp)
 	comp->sight.cos = cos(degree_to_radians(comp->sight.angle));
 	comp->sight.sin = sin(degree_to_radians(comp->sight.angle));
 	d = 0;
-	i = 0;
-	while (i < R_ITER)
+	while (1)
 	{
 		d = 0;
-		while (d < 5)
+		while ((int)comp->sight_x % SQUARE_SIZE != 0  && (int)comp->sight_y % SQUARE_SIZE )
 		{
 			mlx_put_pixel(comp->map, comp->sight_x, comp->sight_y, 0xFF0000FF);
 			comp->sight_x += comp->sight.cos;
 			comp->sight_y += comp->sight.sin;
 			d++;
 		}
-		i++;
+		if(!coordenate_collides(comp, comp->sight_x + comp->sight.cos, comp->sight_y + comp->sight.sin))
+		{
+			mlx_put_pixel(comp->map, comp->sight_x, comp->sight_y, 0xFF0000FF);
+			comp->sight_x += comp->sight.cos;
+			comp->sight_y += comp->sight.sin;
+		}
+		else
+			break;
 	}
 }
 
@@ -177,5 +206,5 @@ void	startup_map(t_compass *comp)
 	mlx_image_to_window(comp->mlx, comp->player,
 		comp->player_x, comp->player_y);
 	draw_raycaster(comp);
-	mlx_key_hook(comp->mlx, &player_hook, comp);
+	mlx_loop_hook(comp->mlx, player_hook, comp);
 }

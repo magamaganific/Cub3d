@@ -28,7 +28,8 @@
 # define BUFFER 100000
 # define SQUARE_SIZE 30
 # define PLAYER_SIZE 10
-# define SPEED 5
+# define HALF PLAYER_SIZE / 2
+# define SPEED 2
 # define M_PI 3.14159265358979323846
 # define R_ITER 5
 
@@ -74,6 +75,8 @@ typedef struct s_compass
 //	TO BE CHANGED
 float	degree_to_radians(float	degree);
 void	draw_raycaster(t_compass *comp);
+bool	coordenate_collides(t_compass *comp, float fx, float fy);
+
 //	LIBFT
 size_t	ft_strlen(const char *c);
 void	ft_bzero(void *s, size_t n);
@@ -109,7 +112,7 @@ char	**split_by_nl(char *buff, int *i, t_compass *comp);
 void	ft_draw_square(int x, int y, int color, mlx_image_t *map);
 void	init_player(t_compass *comp);
 void	draw_minimap(t_compass *comp);
-void	player_hook(mlx_key_data_t keydata, void *param);
+void	player_hook(void *param);
 void	startup_map(t_compass *comp);
 
 //	FILL COMPASS
