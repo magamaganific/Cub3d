@@ -211,22 +211,19 @@ float	degree_to_radians(float	degree)
 
 void	draw_raycaster(t_compass *comp)
 {
-	int	d;
+	
 
 	comp->sight_x = comp->player_x;
 	comp->sight_y = comp->player_y;
 	comp->sight->cos = cos(degree_to_radians(comp->sight->angle));
 	comp->sight->sin = sin(degree_to_radians(comp->sight->angle));
-	d = 0;
 	while (1)
 	{
-		d = 0;
 		while ((int)comp->sight_x % SQUARE_SIZE != 0  && (int)comp->sight_y % SQUARE_SIZE )
 		{
 			mlx_put_pixel(comp->map, comp->sight_x, comp->sight_y, 0x0000FFFF);
 			comp->sight_x += comp->sight->cos;
 			comp->sight_y += comp->sight->sin;
-			d++;
 		}
 		if(!coordenate_collides(comp, comp->sight_x + comp->sight->cos, comp->sight_y + comp->sight->sin))
 		{
