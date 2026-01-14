@@ -29,7 +29,7 @@
 # define SQUARE_SIZE 30
 # define PLAYER_SIZE 10
 # define HALF PLAYER_SIZE / 2
-# define SPEED 2
+# define SPEED 1
 # define M_PI 3.14159265358979323846
 # define R_ITER 5
 
@@ -64,9 +64,9 @@ typedef struct s_compass
 	int				c;
 	int				map_width;
 	int				map_height;
-	int				player_x;
-	int				player_y;
-	t_raycaster		sight;
+	float			player_x;
+	float			player_y;
+	t_raycaster		*sight;
 	float			sight_x;
 	float			sight_y;
 }	t_compass;

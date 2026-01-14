@@ -54,6 +54,9 @@ void	delete_compass(t_compass *comp)
 
 void	init_compass(t_compass *comp)
 {
+	comp->sight = (t_raycaster *) malloc(sizeof(t_raycaster));
+	if (!comp->sight)
+		exit(EXIT_FAILURE);
 	comp->f = 0;
 	comp->c = 0;
 	comp->map_size = 0;
@@ -63,8 +66,9 @@ void	init_compass(t_compass *comp)
 	comp->player_y = 0;
 	comp->sight_x = 0;
 	comp->sight_y = 0;
-	comp->sight.cos = 0;
-	comp->sight.sin = 0;
+	comp->sight->cos = 0;
+	comp->sight->sin = 0;
+	comp->sight->angle = 0;
 	comp->no_path = NULL;
 	comp->so_path = NULL;
 	comp->we_path = NULL;

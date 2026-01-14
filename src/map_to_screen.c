@@ -92,58 +92,115 @@ bool	coordenate_collides(t_compass *comp, float fx, float fy)
 	return (false);
 }
 
+bool	corner_collide(t_compass *comp, float x, float y)
+{
+	if(coordenate_collides(comp, x, y) || coordenate_collides(comp, x + HALF, y)
+		|| coordenate_collides(comp, x, y + HALF)
+		|| coordenate_collides(comp, x + HALF, y + HALF)
+		|| coordenate_collides(comp, x, y) || coordenate_collides(comp, x - HALF, y)
+		|| coordenate_collides(comp, x, y - HALF)
+		|| coordenate_collides(comp, x - HALF, y - HALF))
+		return (true);
+	return (false);
+}
+
+void	move_forward(t_compass *comp)
+{
+	float	angle;
+	float	m_cos;
+	float	m_sin;
+
+	angle = comp->sight->angle;
+	m_cos = cos(degree_to_radians(angle)) * SPEED;
+	m_sin = sin(degree_to_radians(angle)) * SPEED;
+	if (!corner_collide(comp, comp->player_x + m_cos, comp->player_y + m_sin))
+	{
+		comp->player_x += m_cos;
+		comp->player_y += m_sin;
+		draw_raycaster(comp);
+		comp->player->instances[0].x = comp->player_x - HALF;
+		comp->player->instances[0].y = comp->player_y - HALF;
+	}
+}
+
+void	move_backwards(t_compass *comp)
+{
+	float	angle;
+	float	m_cos;
+	float	m_sin;
+
+	angle = comp->sight->angle;
+	m_cos = cos(degree_to_radians(angle - 180)) * SPEED;
+	m_sin = sin(degree_to_radians(angle - 180)) * SPEED;
+	if (!corner_collide(comp, comp->player_x + m_cos, comp->player_y + m_sin))
+	{
+		comp->player_x += m_cos;
+		comp->player_y += m_sin;
+		draw_raycaster(comp);
+		comp->player->instances[0].x = comp->player_x - HALF;
+		comp->player->instances[0].y = comp->player_y - HALF;
+	}
+}
+
+void	move_right(t_compass *comp)
+{
+	float	angle;
+	float	m_cos;
+	float	m_sin;
+
+	angle = comp->sight->angle;
+	m_cos = cos(degree_to_radians(angle + 90)) * SPEED;
+	m_sin = sin(degree_to_radians(angle + 90)) * SPEED;
+	if (!corner_collide(comp, comp->player_x + m_cos, comp->player_y + m_sin))
+	{
+		comp->player_x += m_cos;
+		comp->player_y += m_sin;
+		draw_raycaster(comp);
+		comp->player->instances[0].x = comp->player_x - HALF;
+		comp->player->instances[0].y = comp->player_y - HALF;
+	}
+}
+
+void	move_left(t_compass *comp)
+{
+	float	angle;
+	float	m_cos;
+	float	m_sin;
+
+	angle = comp->sight->angle;
+	m_cos = cos(degree_to_radians(angle - 90)) * SPEED;
+	m_sin = sin(degree_to_radians(angle - 90)) * SPEED;
+	if (!corner_collide(comp, comp->player_x + m_cos, comp->player_y + m_sin))
+	{
+		comp->player_x += m_cos;
+		comp->player_y += m_sin;
+		draw_raycaster(comp);
+		comp->player->instances[0].x = comp->player_x - HALF;
+		comp->player->instances[0].y = comp->player_y - HALF;
+	}
+}
 
 void	player_hook(void *param)
 {
 	t_compass	*comp;
-
+	
 	comp = (t_compass *)param;
-	if (mlx_is_key_down(comp->mlx, MLX_KEY_S))
-	{
-		if(!coordenate_collides(comp, comp->player_x ,
-			comp->player_y + SPEED + PLAYER_SIZE))
-		{
-			comp->player->instances[0].y += SPEED;
-			comp->player_y += SPEED;
-			draw_raycaster(comp);
-		}
-	}
 	if (mlx_is_key_down(comp->mlx, MLX_KEY_W))
-	{
-		if(!coordenate_collides(comp, comp->player_x, comp->player_y - SPEED))
-		{
-			comp->player->instances[0].y -= SPEED;
-			comp->player_y -= SPEED;
-			draw_raycaster(comp);
-		}
-	}
+		move_forward(comp);
+	if (mlx_is_key_down(comp->mlx, MLX_KEY_S))
+		move_backwards(comp);
 	if (mlx_is_key_down(comp->mlx, MLX_KEY_D))
-	{
-		if(!coordenate_collides(comp, comp->player_x + SPEED + PLAYER_SIZE,
-			comp->player_y))
-		{
-			comp->player->instances[0].x += SPEED;
-			comp->player_x += SPEED;
-			draw_raycaster(comp);
-		}
-	}
+		move_right(comp);
 	if (mlx_is_key_down(comp->mlx, MLX_KEY_A))
-	{
-		if(!coordenate_collides(comp, comp->player_x - SPEED, comp->player_y))
-		{
-			comp->player->instances[0].x -= SPEED;
-			comp->player_x -= SPEED;
-			draw_raycaster(comp);
-		}
-	}
+		move_left(comp);
 	if (mlx_is_key_down(comp->mlx, MLX_KEY_LEFT))
 	{
-		comp->sight.angle += 5;
+		comp->sight->angle -= 2;
 		draw_raycaster(comp);
 	}
 	if (mlx_is_key_down(comp->mlx, MLX_KEY_RIGHT))
 	{
-		comp->sight.angle -= 5;
+		comp->sight->angle += 2;
 		draw_raycaster(comp);
 	}
 }
@@ -156,26 +213,26 @@ void	draw_raycaster(t_compass *comp)
 {
 	int	d;
 
-	comp->sight_x = comp->player_x + (PLAYER_SIZE / 2);
-	comp->sight_y = comp->player_y + (PLAYER_SIZE / 2);
-	comp->sight.cos = cos(degree_to_radians(comp->sight.angle));
-	comp->sight.sin = sin(degree_to_radians(comp->sight.angle));
+	comp->sight_x = comp->player_x;
+	comp->sight_y = comp->player_y;
+	comp->sight->cos = cos(degree_to_radians(comp->sight->angle));
+	comp->sight->sin = sin(degree_to_radians(comp->sight->angle));
 	d = 0;
 	while (1)
 	{
 		d = 0;
 		while ((int)comp->sight_x % SQUARE_SIZE != 0  && (int)comp->sight_y % SQUARE_SIZE )
 		{
-			mlx_put_pixel(comp->map, comp->sight_x, comp->sight_y, 0xFF0000FF);
-			comp->sight_x += comp->sight.cos;
-			comp->sight_y += comp->sight.sin;
+			mlx_put_pixel(comp->map, comp->sight_x, comp->sight_y, 0x0000FFFF);
+			comp->sight_x += comp->sight->cos;
+			comp->sight_y += comp->sight->sin;
 			d++;
 		}
-		if(!coordenate_collides(comp, comp->sight_x + comp->sight.cos, comp->sight_y + comp->sight.sin))
+		if(!coordenate_collides(comp, comp->sight_x + comp->sight->cos, comp->sight_y + comp->sight->sin))
 		{
-			mlx_put_pixel(comp->map, comp->sight_x, comp->sight_y, 0xFF0000FF);
-			comp->sight_x += comp->sight.cos;
-			comp->sight_y += comp->sight.sin;
+			mlx_put_pixel(comp->map, comp->sight_x, comp->sight_y, 0x0000FFFF);
+			comp->sight_x += comp->sight->cos;
+			comp->sight_y += comp->sight->sin;
 		}
 		else
 			break;
@@ -205,6 +262,8 @@ void	startup_map(t_compass *comp)
 	mlx_image_to_window(comp->mlx, comp->map, 0, 0);
 	mlx_image_to_window(comp->mlx, comp->player,
 		comp->player_x, comp->player_y);
+	comp->player_x += HALF;
+	comp->player_y += HALF;
 	draw_raycaster(comp);
 	mlx_loop_hook(comp->mlx, player_hook, comp);
 }

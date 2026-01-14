@@ -16,13 +16,13 @@
 void	save_sight_start(int c, t_compass *comp)
 {
 	if (c == 'N')
-		comp->sight.angle = 270;
+		comp->sight->angle = 270;
 	if (c == 'S')
-		comp->sight.angle = 90;
+		comp->sight->angle = 90;
 	if (c == 'W')
-		comp->sight.angle = 180;
+		comp->sight->angle = 180;
 	if (c == 'E')
-		comp->sight.angle = 0;
+		comp->sight->angle = 0;
 }
 
 void	find_player(t_compass *comp)
