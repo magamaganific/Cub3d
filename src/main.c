@@ -98,7 +98,7 @@ void	key_close(void *param)
 	t_compass *comp;
 
 	comp = (t_compass *)param;
-	if (mlx_is_key_down(comp->mlx, MLX_KEY_ESCAPE) || mlx_is_key_down(comp->mlx, MLX_KEY_X))
+	if (mlx_is_key_down(comp->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(comp->mlx);
 }
 
