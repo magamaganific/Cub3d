@@ -83,6 +83,7 @@ typedef struct s_compass
 float	degree_to_radians(float	degree);
 void	draw_raycaster(t_compass *comp);
 bool	coordenate_collides(t_compass *comp, float fx, float fy);
+bool	corner_collide(t_compass *comp, float x, float y);
 
 //	LIBFT
 size_t	ft_strlen(const char *c);
@@ -108,6 +109,7 @@ int		save_color(char *buff, int *i);
 bool	fill_f(char *buff, int *i, t_compass *comp);
 bool	fill_c(char *buff, int *i, t_compass *comp);
 void	set_bg(void *param);
+void	key_close(void *param);
 
 // 	GET MAP LINES
 bool	only_spaces_in_line(char *buff, int *i);
@@ -127,6 +129,9 @@ bool	invalid_content(char *buff, int i);
 bool	fill_selected(char *buff, int *i, t_compass *comp);
 bool	compass_full(t_compass *comp);
 bool	fill_compass(char *buff, int *i, t_compass *comp);
+
+//	PLAYER HOOK
+void	player_hook(void *param);
 
 //	ERRORS
 void	print_accepted_input(void);
