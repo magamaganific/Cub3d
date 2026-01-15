@@ -50,6 +50,10 @@ void	delete_compass(t_compass *comp)
 		mlx_delete_image(comp->mlx, comp->ea);
 	if (comp->bg)
 		mlx_delete_image(comp->mlx, comp->bg);
+	if (comp->map)
+		mlx_delete_image(comp->mlx, comp->map);
+	if (comp->raymap)
+		mlx_delete_image(comp->mlx, comp->raymap);
 }
 
 void	init_compass(t_compass *comp)
@@ -66,6 +70,8 @@ void	init_compass(t_compass *comp)
 	comp->player_y = 0;
 	comp->sight_x = 0;
 	comp->sight_y = 0;
+	comp->prev_sight_x = 0;
+	comp->prev_sight_y = 0;
 	comp->sight->cos = 0;
 	comp->sight->sin = 0;
 	comp->sight->angle = 0;

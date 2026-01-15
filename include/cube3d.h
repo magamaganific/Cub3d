@@ -32,6 +32,10 @@
 # define SPEED 1
 # define M_PI 3.14159265358979323846
 # define R_ITER 5
+# define FORWARD 'W'
+# define BACKWARDS 'S'
+# define LEFT 'A'
+# define RIGHT 'D'
 
 typedef struct s_raycaster
 {
@@ -54,6 +58,7 @@ typedef struct s_compass
 	mlx_image_t		*bg;
 	mlx_image_t		*map;
 	mlx_image_t		*player;
+	mlx_image_t		*raymap;
 	char			*no_path;
 	char			*so_path;
 	char			*we_path;
@@ -69,6 +74,8 @@ typedef struct s_compass
 	t_raycaster		*sight;
 	float			sight_x;
 	float			sight_y;
+	float			prev_sight_x;
+	float			prev_sight_y;
 }	t_compass;
 
 

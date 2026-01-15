@@ -62,6 +62,7 @@ bool	setup_map(char *buff, int *i, t_compass *comp)
 	find_player(comp);
 	if (player_may_fall(comp->map_arr, comp->player_x, comp->player_y, comp))
 	{
+		print_map(comp->map_arr);
 		printf("Player fell into the void\n");
 		return (false);
 	}
@@ -92,6 +93,15 @@ bool	parse_input(int fd, t_compass *comp)
 	return (true);
 }
 
+void	key_close(void *param)
+{
+	t_compass *comp;
+
+	comp = (t_compass *)param;
+	if (mlx_is_key_down(comp->mlx, MLX_KEY_ESCAPE) || mlx_is_key_down(comp->mlx, MLX_KEY_X))
+		mlx_close_window(comp->mlx);
+}
+
 int	main(int ac, char **av)
 {
 	int			fd;
@@ -112,6 +122,7 @@ int	main(int ac, char **av)
 	comp.mlx = mlx_init(WIDTH, HEIGHT, "Cub3D", true);
 	if (!comp.mlx)
 		return (0);
+	mlx_loop_hook(comp.mlx, key_close, &comp);
 	startup_map(&comp);
 	mlx_loop(comp.mlx);
 	free_comp(&comp);
