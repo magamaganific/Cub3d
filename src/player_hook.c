@@ -103,12 +103,12 @@ void	player_hook(void *param)
 		move_left(comp);
 	if (mlx_is_key_down(comp->mlx, MLX_KEY_LEFT))
 	{
-		comp->sight->angle -= 3;
+		comp->sight->angle -= 1;
 		draw_raycaster(comp);
 	}
 	if (mlx_is_key_down(comp->mlx, MLX_KEY_RIGHT))
 	{
-		comp->sight->angle += 3;
+		comp->sight->angle += 1;
 		draw_raycaster(comp);
 	}
 }
