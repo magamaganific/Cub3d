@@ -43,26 +43,46 @@ bool	corner_collide(t_compass *comp, float x, float y)
 	return (false);
 }
 
-void	erase_previous_ray(t_compass *comp)
+void	erase_previous_raycast(t_compass *comp)
 {
 	float	x;
 	float	y;
+	float	cs;
+	float	sn;
 
 	x = comp->prev_sight_x;
 	y = comp->prev_sight_y;
+	cs = cos(degree_to_radians(comp->sight->angle - 31));
+	sn = sin(degree_to_radians(comp->sight->angle - 31));
 	while (!coordenate_collides(comp, x + comp->sight->cos,
 			y + comp->sight->sin))
 	{
 		while ((int)x % SQUARE_SIZE != 0 && (int)y % SQUARE_SIZE)
 		{
-			mlx_put_pixel(comp->raymap, x,
-				y, 0);
-			x += comp->sight->cos;
-			y += comp->sight->sin;
+			mlx_put_pixel(comp->raymap, x, y, 0);
+			x += cs;
+			y += sn;
 		}
 		mlx_put_pixel(comp->raymap, x, y, 0);
-		x += comp->sight->cos;
-		y += comp->sight->sin;
+		x += cs;
+		y += sn;
+	}
+	x = comp->prev_sight_x;
+	y = comp->prev_sight_y;
+	cs = cos(degree_to_radians(comp->sight->angle + 31));
+	sn = sin(degree_to_radians(comp->sight->angle + 31));
+	while (!coordenate_collides(comp, x + comp->sight->cos,
+			y + comp->sight->sin))
+	{
+		while ((int)x % SQUARE_SIZE != 0 && (int)y % SQUARE_SIZE)
+		{
+			mlx_put_pixel(comp->raymap, x, y, 0);
+			x += cs;
+			y += sn;
+		}
+		mlx_put_pixel(comp->raymap, x, y, 0);
+		x += cs;
+		y += sn;
 	}
 }
 
@@ -71,28 +91,46 @@ float	degree_to_radians(float degree)
 	return (degree * M_PI / 180);
 }
 
-void	draw_raycaster(t_compass *comp)
+void	save_angle_data(t_compass *comp, float *angle)
 {
-	erase_previous_ray(comp);
 	comp->sight_x = comp->player_x;
 	comp->sight_y = comp->player_y;
 	comp->prev_sight_x = comp->player_x;
 	comp->prev_sight_y = comp->player_y;
-	comp->sight->cos = cos(degree_to_radians(comp->sight->angle));
-	comp->sight->sin = sin(degree_to_radians(comp->sight->angle));
-	while (!coordenate_collides(comp, comp->sight_x + comp->sight->cos,
-			comp->sight_y + comp->sight->sin))
+	if (comp->sight->angle > 360)
+		comp->sight->angle -= 360;
+	if (comp->sight->angle < 0)
+		comp->sight->angle += 360;
+	*angle = comp->sight->angle - 30;
+}
+
+void	draw_raycaster(t_compass *comp)
+{
+	float	angle;
+
+	erase_previous_raycast(comp);
+	save_angle_data(comp, &angle);
+	while(angle < comp->sight->angle + 30)
 	{
-		while ((int)comp->sight_x % SQUARE_SIZE != 0
-			&& (int)comp->sight_y % SQUARE_SIZE)
+		comp->sight->cos = cos(degree_to_radians(angle));
+		comp->sight->sin = sin(degree_to_radians(angle));
+		comp->sight_x = comp->player_x;
+		comp->sight_y = comp->player_y;
+		while (!coordenate_collides(comp, comp->sight_x + comp->sight->cos,
+				comp->sight_y + comp->sight->sin))
 		{
-			mlx_put_pixel(comp->raymap, comp->sight_x,
-				comp->sight_y, 0x0000FFFF);
+			while ((int)comp->sight_x % SQUARE_SIZE != 0
+				&& (int)comp->sight_y % SQUARE_SIZE)
+			{
+				mlx_put_pixel(comp->raymap, comp->sight_x,
+					comp->sight_y, 0x0000FFFF);
+				comp->sight_x += comp->sight->cos;
+				comp->sight_y += comp->sight->sin;
+			}
+			mlx_put_pixel(comp->raymap, comp->sight_x, comp->sight_y, 0x0000FFFF);
 			comp->sight_x += comp->sight->cos;
 			comp->sight_y += comp->sight->sin;
 		}
-		mlx_put_pixel(comp->raymap, comp->sight_x, comp->sight_y, 0x0000FFFF);
-		comp->sight_x += comp->sight->cos;
-		comp->sight_y += comp->sight->sin;
+		angle++;
 	}
 }
