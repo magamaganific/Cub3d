@@ -45,20 +45,24 @@ bool	corner_collide(t_compass *comp, float x, float y)
 
 void	erase_previous_ray(t_compass *comp)
 {
-	while (!coordenate_collides(comp, comp->prev_sight_x + comp->sight->cos,
-			comp->prev_sight_y + comp->sight->sin))
+	float	x;
+	float	y;
+
+	x = comp->prev_sight_x;
+	y = comp->prev_sight_y;
+	while (!coordenate_collides(comp, x + comp->sight->cos,
+			y + comp->sight->sin))
 	{
-		while ((int)comp->prev_sight_x % SQUARE_SIZE != 0
-			&& (int)comp->prev_sight_y % SQUARE_SIZE)
+		while ((int)x % SQUARE_SIZE != 0 && (int)y % SQUARE_SIZE)
 		{
-			mlx_put_pixel(comp->raymap, comp->prev_sight_x,
-				comp->prev_sight_y, 0);
-			comp->prev_sight_x += comp->sight->cos;
-			comp->prev_sight_y += comp->sight->sin;
+			mlx_put_pixel(comp->raymap, x,
+				y, 0);
+			x += comp->sight->cos;
+			y += comp->sight->sin;
 		}
-		mlx_put_pixel(comp->raymap, comp->prev_sight_x, comp->prev_sight_y, 0);
-		comp->prev_sight_x += comp->sight->cos;
-		comp->prev_sight_y += comp->sight->sin;
+		mlx_put_pixel(comp->raymap, x, y, 0);
+		x += comp->sight->cos;
+		y += comp->sight->sin;
 	}
 }
 

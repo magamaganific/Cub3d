@@ -12,7 +12,7 @@
 
 #ifndef CUBE3D_H
 # define CUBE3D_H
-# include "../lib/MLX42/include/MLX42/MLX42.h"
+# include "lib/MLX42/include/MLX42/MLX42.h"
 # include <unistd.h>
 # include <stdio.h>
 # include <sys/time.h>

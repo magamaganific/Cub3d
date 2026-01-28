@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lib/MLX42/include/MLX42/MLX42.h"
+#include "../include/lib/MLX42/include/MLX42/MLX42.h"
 #include "../include/cube3d.h"
 
 void	save_sight_start(int c, t_compass *comp)
