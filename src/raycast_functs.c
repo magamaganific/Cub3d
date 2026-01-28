@@ -47,42 +47,18 @@ void	erase_previous_raycast(t_compass *comp)
 {
 	float	x;
 	float	y;
-	float	cs;
-	float	sn;
-
-	x = comp->prev_sight_x;
-	y = comp->prev_sight_y;
-	cs = cos(degree_to_radians(comp->sight->angle - 31));
-	sn = sin(degree_to_radians(comp->sight->angle - 31));
-	while (!coordenate_collides(comp, x + comp->sight->cos,
-			y + comp->sight->sin))
+	
+	x = 0;
+	y = 0;
+	while (y < comp->raymap->height - 30)
 	{
-		while ((int)x % SQUARE_SIZE != 0 && (int)y % SQUARE_SIZE)
+		while (x < comp->raymap->width - 30)
 		{
 			mlx_put_pixel(comp->raymap, x, y, 0);
-			x += cs;
-			y += sn;
+			x++;
 		}
-		mlx_put_pixel(comp->raymap, x, y, 0);
-		x += cs;
-		y += sn;
-	}
-	x = comp->prev_sight_x;
-	y = comp->prev_sight_y;
-	cs = cos(degree_to_radians(comp->sight->angle + 31));
-	sn = sin(degree_to_radians(comp->sight->angle + 31));
-	while (!coordenate_collides(comp, x + comp->sight->cos,
-			y + comp->sight->sin))
-	{
-		while ((int)x % SQUARE_SIZE != 0 && (int)y % SQUARE_SIZE)
-		{
-			mlx_put_pixel(comp->raymap, x, y, 0);
-			x += cs;
-			y += sn;
-		}
-		mlx_put_pixel(comp->raymap, x, y, 0);
-		x += cs;
-		y += sn;
+		x = 0;
+		y++;
 	}
 }
 
