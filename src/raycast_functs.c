@@ -104,6 +104,14 @@ void	save_angle_data(t_compass *comp, float *angle)
 	*angle = comp->sight->angle - 30;
 }
 
+void	reset_line_to_player(t_compass *comp, float angle)
+{
+	comp->sight->cos = cos(degree_to_radians(angle));
+	comp->sight->sin = sin(degree_to_radians(angle));
+	comp->sight_x = comp->player_x;
+	comp->sight_y = comp->player_y;
+}
+
 void	draw_raycaster(t_compass *comp)
 {
 	float	angle;
@@ -112,10 +120,7 @@ void	draw_raycaster(t_compass *comp)
 	save_angle_data(comp, &angle);
 	while(angle < comp->sight->angle + 30)
 	{
-		comp->sight->cos = cos(degree_to_radians(angle));
-		comp->sight->sin = sin(degree_to_radians(angle));
-		comp->sight_x = comp->player_x;
-		comp->sight_y = comp->player_y;
+		reset_line_to_player(comp, angle);
 		while (!coordenate_collides(comp, comp->sight_x + comp->sight->cos,
 				comp->sight_y + comp->sight->sin))
 		{
