@@ -88,6 +88,7 @@ void	game_to_window(t_compass *comp)
 	mlx_image_to_window(comp->mlx, comp->raymap, 0, 0);
 	mlx_image_to_window(comp->mlx, comp->player,
 		comp->player_x, comp->player_y);
+	mlx_image_to_window(comp->mlx, comp->walls, 0, 0);
 }
 
 void	startup_map(t_compass *comp)
@@ -106,6 +107,9 @@ void	startup_map(t_compass *comp)
 		error();
 	comp->ea = mlx_texture_to_image(comp->mlx, comp->ea_text);
 	if (!comp->ea)
+		error();
+	comp->walls = mlx_new_image(comp->mlx, WIDTH, HEIGHT);
+	if (!comp->walls)
 		error();
 	draw_minimap(comp);
 	mlx_loop_hook(comp->mlx, set_bg, comp);

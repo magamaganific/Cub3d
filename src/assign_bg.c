@@ -91,6 +91,7 @@ void	set_bg(void *param)
 
 	comp = (t_compass *)param;
 	mlx_resize_image(comp->bg, comp->mlx->width, comp->mlx->height);
+	mlx_resize_image(comp->walls, comp->mlx->width, comp->mlx->height);
 	x = 0;
 	while (x < comp->mlx->width)
 	{

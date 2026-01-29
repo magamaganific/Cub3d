@@ -25,23 +25,30 @@
 # include <limits.h>
 # define WIDTH 900
 # define HEIGHT 900
+# define P_HEIGHT 450
 # define BUFFER 100000
 # define SQUARE_SIZE 20
 # define PLAYER_SIZE 10
 # define HALF PLAYER_SIZE / 2
-# define SPEED 1
+# define SPEED 2
 # define M_PI 3.14159265358979323846
 # define R_ITER 2
 # define FORWARD 'W'
 # define BACKWARDS 'S'
 # define LEFT 'A'
 # define RIGHT 'D'
+# define FOV 0x0000FFFF
+# define WLL 0xFF0000FF
 
 typedef struct s_raycaster
 {
 	float	cos;
 	float	sin;
 	float	angle;
+	float	x;
+	float	y;
+	float	prev_x;
+	float	prev_y;
 }	t_raycaster;
 
 typedef struct s_compass
@@ -59,6 +66,7 @@ typedef struct s_compass
 	mlx_image_t		*map;
 	mlx_image_t		*player;
 	mlx_image_t		*raymap;
+	mlx_image_t		*walls;
 	char			*no_path;
 	char			*so_path;
 	char			*we_path;
@@ -72,18 +80,10 @@ typedef struct s_compass
 	float			player_x;
 	float			player_y;
 	t_raycaster		*sight;
-	float			sight_x;
-	float			sight_y;
-	float			prev_sight_x;
-	float			prev_sight_y;
 }	t_compass;
 
 
 //	TO BE CHANGED
-float	degree_to_radians(float	degree);
-void	draw_raycaster(t_compass *comp);
-bool	coordenate_collides(t_compass *comp, float fx, float fy);
-bool	corner_collide(t_compass *comp, float x, float y);
 
 //	LIBFT
 size_t	ft_strlen(const char *c);
@@ -132,6 +132,18 @@ bool	fill_compass(char *buff, int *i, t_compass *comp);
 
 //	PLAYER HOOK
 void	player_hook(void *param);
+
+//	RAYCAST FUNCTS
+void	clear_image(mlx_image_t *image);
+float	degree_to_radians(float	degree);
+void	draw_raycaster(t_compass *comp);
+
+//	RAYCAST ASSISTANTS
+bool	coordenate_collides(t_compass *comp, float fx, float fy);
+bool	corner_collide(t_compass *comp, float x, float y);
+float	degree_to_radians(float degree);
+void	save_angle_data(t_compass *comp, float *angle);
+void	reset_line_to_player(t_compass *comp, float angle);
 
 //	ERRORS
 void	print_accepted_input(void);

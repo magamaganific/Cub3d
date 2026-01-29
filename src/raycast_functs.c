@@ -12,49 +12,18 @@
 
 #include "../include/cube3d.h"
 
-bool	coordenate_collides(t_compass *comp, float fx, float fy)
-{
-	int	x;
-	int	y;
-
-	x = (int) fx / SQUARE_SIZE;
-	y = (int) fy / SQUARE_SIZE;
-	if (x > comp->map_width || y > comp->map_height || x <= 0 || y <= 0)
-		return (true);
-	if (comp->map_arr[y][x] == '1' || comp->map_arr[y][x] == ' '
-		|| comp->map_arr[y][x] == '\n' || !comp->map_arr[y][x])
-		return (true);
-	return (false);
-}
-
-bool	corner_collide(t_compass *comp, float x, float y)
-{
-	if (coordenate_collides(comp, x, y)
-		|| coordenate_collides(comp, x + HALF, y)
-		|| coordenate_collides(comp, x + HALF, y - HALF)
-		|| coordenate_collides(comp, x, y + HALF)
-		|| coordenate_collides(comp, x + HALF, y + HALF)
-		|| coordenate_collides(comp, x, y)
-		|| coordenate_collides(comp, x - HALF, y)
-		|| coordenate_collides(comp, x - HALF, y + HALF)
-		|| coordenate_collides(comp, x, y - HALF)
-		|| coordenate_collides(comp, x - HALF, y - HALF))
-		return (true);
-	return (false);
-}
-
-void	erase_previous_raycast(t_compass *comp)
+void	clear_image(mlx_image_t *image)
 {
 	float	x;
 	float	y;
-	
+
 	x = 0;
 	y = 0;
-	while (y < comp->raymap->height - 30)
+	while (y < image->height - 30)
 	{
-		while (x < comp->raymap->width - 30)
+		while (x < image->width - 30)
 		{
-			mlx_put_pixel(comp->raymap, x, y, 0);
+			mlx_put_pixel(image, x, y, 0);
 			x++;
 		}
 		x = 0;
@@ -62,55 +31,59 @@ void	erase_previous_raycast(t_compass *comp)
 	}
 }
 
-float	degree_to_radians(float degree)
+void	draw_pixel_pillar(t_compass *comp, float x, float y, float angle)
 {
-	return (degree * M_PI / 180);
+	float	width;
+	float	distance;
+	float	start_x;
+
+	width = comp->bg->width / 60;
+	distance = sqrt(pow(comp->sight->x - comp->player_x, 2) + pow(comp->sight->y
+				- comp->player_y, 2));
+	distance = distance * (cos(degree_to_radians(angle - comp->sight->angle)));
+	start_x = x * width;
+	while (y < distance)
+	{
+		while (x < width)
+		{
+			mlx_put_pixel(comp->walls, start_x + x, P_HEIGHT + y, WLL);
+			x++;
+		}
+		x = 0;
+		y++;
+	}
 }
 
-void	save_angle_data(t_compass *comp, float *angle)
+void	clear_raycast(t_compass *comp)
 {
-	comp->sight_x = comp->player_x;
-	comp->sight_y = comp->player_y;
-	comp->prev_sight_x = comp->player_x;
-	comp->prev_sight_y = comp->player_y;
-	if (comp->sight->angle > 360)
-		comp->sight->angle -= 360;
-	if (comp->sight->angle < 0)
-		comp->sight->angle += 360;
-	*angle = comp->sight->angle - 30;
-}
-
-void	reset_line_to_player(t_compass *comp, float angle)
-{
-	comp->sight->cos = cos(degree_to_radians(angle));
-	comp->sight->sin = sin(degree_to_radians(angle));
-	comp->sight_x = comp->player_x;
-	comp->sight_y = comp->player_y;
+	clear_image(comp->raymap);
+	clear_image(comp->walls);
 }
 
 void	draw_raycaster(t_compass *comp)
 {
 	float	angle;
 
-	erase_previous_raycast(comp);
+	clear_raycast(comp);
 	save_angle_data(comp, &angle);
-	while(angle < comp->sight->angle + 30)
+	while (angle < comp->sight->angle + 30)
 	{
 		reset_line_to_player(comp, angle);
-		while (!coordenate_collides(comp, comp->sight_x + comp->sight->cos,
-				comp->sight_y + comp->sight->sin))
+		while (!coordenate_collides(comp, comp->sight->x + comp->sight->cos,
+				comp->sight->y + comp->sight->sin))
 		{
-			while ((int)comp->sight_x % SQUARE_SIZE != 0
-				&& (int)comp->sight_y % SQUARE_SIZE)
+			while ((int)comp->sight->x % SQUARE_SIZE != 0
+				&& (int)comp->sight->y % SQUARE_SIZE)
 			{
-				mlx_put_pixel(comp->raymap, comp->sight_x,
-					comp->sight_y, 0x0000FFFF);
-				comp->sight_x += comp->sight->cos;
-				comp->sight_y += comp->sight->sin;
+				mlx_put_pixel(comp->raymap, comp->sight->x, comp->sight->y, FOV);
+				draw_pixel_pillar(comp, comp->sight->angle + 30 - angle, 0, angle);
+				comp->sight->x += comp->sight->cos;
+				comp->sight->y += comp->sight->sin;
 			}
-			mlx_put_pixel(comp->raymap, comp->sight_x, comp->sight_y, 0x0000FFFF);
-			comp->sight_x += comp->sight->cos;
-			comp->sight_y += comp->sight->sin;
+			draw_pixel_pillar(comp, comp->sight->angle + 30 - angle, 0, angle);
+			mlx_put_pixel(comp->raymap, comp->sight->x, comp->sight->y, FOV);
+			comp->sight->x += comp->sight->cos;
+			comp->sight->y += comp->sight->sin;
 		}
 		angle++;
 	}
