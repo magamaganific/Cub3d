@@ -19,9 +19,9 @@ void	clear_image(mlx_image_t *image)
 
 	x = 0;
 	y = 0;
-	while (y < image->height - 30)
+	while (y < image->height)
 	{
-		while (x < image->width - 30)
+		while (x < image->width)
 		{
 			mlx_put_pixel(image, x, y, 0);
 			x++;
@@ -39,16 +39,16 @@ void	draw_pixel_pillar(t_compass *comp, float x, float y, float angle)
 	float	start_x;
 
 	width = comp->bg->width / 60;
-	distance = sqrt(pow(comp->sight->x - comp->player_x, 2) + pow(comp->sight->y
+	distance = sqrt(powf(comp->sight->x - comp->player_x, 2) + powf(comp->sight->y
 				- comp->player_y, 2));
 	distance = distance * (cos(degree_to_radians(angle - comp->sight->angle)));
 	height = comp->walls->height / (1.5 * distance);
 	start_x = x * width;
-	while (y < height)
+	while (y < distance)
 	{
 		while (x < width)
 		{
-			mlx_put_pixel(comp->walls, start_x + x, P_HEIGHT + y, WLL);
+			mlx_put_pixel(comp->walls, start_x + x, y, 0xFFFF00FF);
 			x++;
 		}
 		x = 0;

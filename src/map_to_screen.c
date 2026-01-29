@@ -84,11 +84,11 @@ void	draw_minimap(t_compass *comp)
 void	game_to_window(t_compass *comp)
 {
 	mlx_image_to_window(comp->mlx, comp->bg, 0, 0);
+	mlx_image_to_window(comp->mlx, comp->walls, 0, 0);
 	mlx_image_to_window(comp->mlx, comp->map, 0, 0);
 	mlx_image_to_window(comp->mlx, comp->raymap, 0, 0);
 	mlx_image_to_window(comp->mlx, comp->player,
 		comp->player_x, comp->player_y);
-	mlx_image_to_window(comp->mlx, comp->walls, 0, 0);
 }
 
 void	startup_map(t_compass *comp)
