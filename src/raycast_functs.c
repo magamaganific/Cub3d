@@ -44,7 +44,7 @@ void	draw_pixel_pillar(t_compass *comp, float x, float y, float angle)
 	distance = distance * (cos(degree_to_radians(angle - comp->sight->angle)));
 	height = comp->walls->height / (1.5 * distance);
 	start_x = x * width;
-	while (y < distance)
+	while (y < distance + height)
 	{
 		while (x < width)
 		{
