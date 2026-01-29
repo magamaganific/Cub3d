@@ -17,8 +17,8 @@ bool	coordenate_collides(t_compass *comp, float fx, float fy)
 	int	x;
 	int	y;
 
-	x = (int) fx / 30;
-	y = (int) fy / 30;
+	x = (int) fx / SQUARE_SIZE;
+	y = (int) fy / SQUARE_SIZE;
 	if (x > comp->map_width || y > comp->map_height || x <= 0 || y <= 0)
 		return (true);
 	if (comp->map_arr[y][x] == '1' || comp->map_arr[y][x] == ' '

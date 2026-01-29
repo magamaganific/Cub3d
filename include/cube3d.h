@@ -26,12 +26,12 @@
 # define WIDTH 900
 # define HEIGHT 900
 # define BUFFER 100000
-# define SQUARE_SIZE 30
+# define SQUARE_SIZE 20
 # define PLAYER_SIZE 10
 # define HALF PLAYER_SIZE / 2
 # define SPEED 1
 # define M_PI 3.14159265358979323846
-# define R_ITER 5
+# define R_ITER 2
 # define FORWARD 'W'
 # define BACKWARDS 'S'
 # define LEFT 'A'
