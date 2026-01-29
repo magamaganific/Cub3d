@@ -60,6 +60,10 @@ void	save_angle_data(t_compass *comp, float *angle)
 	if (comp->sight->angle < 0)
 		comp->sight->angle += 360;
 	*angle = comp->sight->angle - 30;
+	if (*angle > 360)
+		*angle -= 360;
+	if (*angle < 0)
+		*angle += 360;
 }
 
 void	reset_line_to_player(t_compass *comp, float angle)
