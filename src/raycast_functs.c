@@ -31,30 +31,9 @@ void	clear_image(mlx_image_t *image)
 	}
 }
 
-void	draw_pixel_pillar(t_compass *comp, float x, float y, float angle)
-{
-	float	width;
-	float	height;
-	float	distance;
-	float	start_x;
-
-	width = comp->bg->width / 60;
-	distance = sqrt(powf(comp->sight->x - comp->player_x, 2) + powf(comp->sight->y
-				- comp->player_y, 2));
-	distance = distance * (cos(degree_to_radians(angle - comp->sight->angle)));
-	height = comp->walls->height / (1.5 * distance);
-	start_x = x * width;
-	while (y < distance + height)
-	{
-		while (x < width)
-		{
-			mlx_put_pixel(comp->walls, start_x + x, y, 0xFFFF00FF);
-			x++;
-		}
-		x = 0;
-		y++;
-	}
-}
+// void	draw_pixel_pillar(t_compass *comp, float x, float y, float angle)
+// {
+// }
 
 void	clear_raycast(t_compass *comp)
 {
@@ -70,7 +49,7 @@ void	draw_raycaster(t_compass *comp)
 	save_angle_data(comp, &angle);
 	while (angle < comp->sight->angle + 30)
 	{
-		reset_line_to_player(comp, angle);
+		reset_line_to_player(comp, angle + 30);
 		while (!coordenate_collides(comp, comp->sight->x + comp->sight->cos,
 				comp->sight->y + comp->sight->sin))
 		{
@@ -78,11 +57,11 @@ void	draw_raycaster(t_compass *comp)
 				&& (int)comp->sight->y % SQUARE_SIZE)
 			{
 				mlx_put_pixel(comp->raymap, comp->sight->x, comp->sight->y, FOV);
-				draw_pixel_pillar(comp, comp->sight->angle + 30 - angle, 0, angle);
+				// draw_pixel_pillar(comp, comp->sight->angle + 30 - angle, 0, angle);
 				comp->sight->x += comp->sight->cos;
 				comp->sight->y += comp->sight->sin;
 			}
-			draw_pixel_pillar(comp, comp->sight->angle + 30 - angle, 0, angle);
+			// draw_pixel_pillar(comp, comp->sight->angle + 30 - angle, 0, angle);
 			mlx_put_pixel(comp->raymap, comp->sight->x, comp->sight->y, FOV);
 			comp->sight->x += comp->sight->cos;
 			comp->sight->y += comp->sight->sin;
