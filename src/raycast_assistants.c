@@ -20,10 +20,12 @@ bool	coordenate_collides(t_compass *comp, float fx, float fy)
 
 	x = (int) fx / SQUARE_SIZE;
 	y = (int) fy / SQUARE_SIZE;
+	// printf("fx: %f, fy: %f\n", fx, fy);
+	// printf("x: %d, y: %d\n", x * SQUARE_SIZE, y * SQUARE_SIZE);
 	if (x > comp->map_width || y > comp->map_height || x <= 0 || y <= 0)
 		return (true);
-	if (comp->map_arr[y][x] == '1' || comp->map_arr[y][x] == ' '
-		|| comp->map_arr[y][x] == '\n' || !comp->map_arr[y][x])
+	if ((comp->map_arr[y][x] == '1' || comp->map_arr[y][x] == ' '
+		|| comp->map_arr[y][x] == '\n' || !comp->map_arr[y][x]))
 		return (true);
 	return (false);
 }
@@ -60,10 +62,6 @@ void	save_angle_data(t_compass *comp, float *angle)
 	if (comp->sight->angle < 0)
 		comp->sight->angle += 360;
 	*angle = comp->sight->angle - 30;
-	if (*angle > 360)
-		*angle -= 360;
-	if (*angle < 0)
-		*angle += 360;
 }
 
 void	reset_line_to_player(t_compass *comp, float angle)

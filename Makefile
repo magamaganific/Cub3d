@@ -4,8 +4,8 @@ SOURCE = $(shell find ./src -iname "*.c")
 LIBMLX	= ./include/lib/MLX42
 OBJS = $(SOURCE:.c=.o)
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g3
-LIBS	= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
+FLAGS = -Wall -Wextra -Werror -g3 -O3
+LIBS	= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm -fsanitize=address
 INCLUDE = -I ./include -I $(LIBMLX)/include
 
 
