@@ -40,6 +40,14 @@
 # define FOV 0x0000FFFF
 # define WLL 0xFF0000FF
 
+typedef struct s_co_pixels
+{
+	int		*no_pix;
+	int		*so_pix;
+	int		*we_pix;
+	int		*ea_pix;
+}	t_co_pixels;
+
 typedef struct s_raycaster
 {
 	float	cos;
@@ -49,6 +57,7 @@ typedef struct s_raycaster
 	float	y;
 	float	prev_x;
 	float	prev_y;
+	t_co_pixels *pixels;
 }	t_raycaster;
 
 typedef struct s_compass
@@ -154,7 +163,7 @@ void	error(void);
 //	MAIN UTILS
 void	delete_compass(t_compass *comp);
 bool	valid_file(char *file_name);
-void	free_split(t_compass *comp);
+void	free_split(char **arr, int size);
 void	init_compass(t_compass *comp);
 void	print_map(char **map);
 

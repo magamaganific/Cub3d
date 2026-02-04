@@ -89,6 +89,120 @@ void	game_to_window(t_compass *comp)
 	mlx_image_to_window(comp->mlx, comp->raymap, 0, 0);
 	mlx_image_to_window(comp->mlx, comp->player,
 		comp->player_x, comp->player_y);
+	comp->player_x += HALF;
+	comp->player_y += HALF;
+}
+
+void	save_north_colors(t_compass *comp, int i, int size)
+{
+	int	r;
+	int	g;
+	int	b;
+	int	a;
+
+	size = i * 4;
+	comp->sight->pixels->no_pix = (int *)ft_calloc(sizeof(int)
+			, i);
+	while (size > 0)
+	{
+		a = comp->no->pixels[--size] & 0xff;
+		b = comp->no->pixels[--size] & 0xff;
+		g = comp->no->pixels[--size] & 0xff;
+		r = comp->no->pixels[--size] & 0xff;
+		comp->sight->pixels->no_pix[i] = (r << 24) | (g << 16) | (b << 8) | a;
+	}
+	printf("a-> %d\n", a);
+	printf("b-> %d\n", b);
+	printf("g-> %d\n", g);
+	printf("r-> %d\n", r);
+	ft_draw_square(200, 200, comp->sight->pixels->no_pix[i], comp->walls);
+	printf("nocolor-> %x\n", comp->sight->pixels->no_pix[i]);
+}
+
+void	save_south_colors(t_compass *comp, int i, int size)
+{
+	int	r;
+	int	g;
+	int	b;
+	int	a;
+
+	size = i * 4;
+	comp->sight->pixels->so_pix = (int *)ft_calloc(sizeof(int)
+			, i);
+	while (size > 0)
+	{
+		a = comp->so->pixels[--size] & 0xff;
+		b = comp->so->pixels[--size] & 0xff;
+		g = comp->so->pixels[--size] & 0xff;
+		r = comp->so->pixels[--size] & 0xff;
+		comp->sight->pixels->so_pix[i] = (r << 24) | (g << 16) | (b << 8) | a;
+	}
+	printf("a-> %d\n", a);
+	printf("b-> %d\n", b);
+	printf("g-> %d\n", g);
+	printf("r-> %d\n", r);
+	ft_draw_square(220, 200, comp->sight->pixels->so_pix[i], comp->walls);
+	printf("socolor-> %x\n", comp->sight->pixels->so_pix[i]);
+}
+
+void	save_west_colors(t_compass *comp, int i, int size)
+{
+	int	r;
+	int	g;
+	int	b;
+	int	a;
+
+	size = i * 4;
+	comp->sight->pixels->we_pix = (int *)ft_calloc(sizeof(int)
+			, i);
+	while (size > 0)
+	{
+		a = comp->we->pixels[--size] & 0xff;
+		b = comp->we->pixels[--size] & 0xff;
+		g = comp->we->pixels[--size] & 0xff;
+		r = comp->we->pixels[--size] & 0xff;
+		comp->sight->pixels->we_pix[i] = (r << 24) | (g << 16) | (b << 8) | a;
+	}
+	printf("a-> %d\n", a);
+	printf("b-> %d\n", b);
+	printf("g-> %d\n", g);
+	printf("r-> %d\n", r);
+	ft_draw_square(240, 200, comp->sight->pixels->we_pix[i], comp->walls);
+	printf("wecolor-> %x\n", comp->sight->pixels->we_pix[i]);
+}
+
+void	save_east_colors(t_compass *comp, int i, int size)
+{
+	int	r;
+	int	g;
+	int	b;
+	int	a;
+
+	size = i * 4;
+	comp->sight->pixels->ea_pix = (int *)ft_calloc(sizeof(int)
+			, i);
+	while (size > 0)
+	{
+		a = comp->ea->pixels[--size] & 0xff;
+		b = comp->ea->pixels[--size] & 0xff;
+		g = comp->ea->pixels[--size] & 0xff;
+		r = comp->ea->pixels[--size] & 0xff;
+		comp->sight->pixels->ea_pix[i] = (r << 24) | (g << 16) | (b << 8) | a;
+	}
+	printf("a-> %d\n", a);
+	printf("b-> %d\n", b);
+	printf("g-> %d\n", g);
+	printf("r-> %d\n", r);
+	ft_draw_square(260, 200, comp->sight->pixels->ea_pix[i], comp->walls);
+	printf("eacolor-> %x\n", comp->sight->pixels->ea_pix[i]);
+}
+
+void	save_compass_colors(t_compass *comp)
+{
+	save_north_colors(comp, comp->no->height * comp->no->width, 0);
+	save_south_colors(comp, comp->so->height * comp->so->width, 0);
+	save_west_colors(comp, comp->we->height * comp->we->width, 0);
+	save_east_colors(comp, comp->ea->height * comp->ea->width, 0);
 }
 
 void	startup_map(t_compass *comp)
@@ -113,9 +227,8 @@ void	startup_map(t_compass *comp)
 		error();
 	draw_minimap(comp);
 	mlx_loop_hook(comp->mlx, set_bg, comp);
+	save_compass_colors(comp);
 	game_to_window(comp);
-	comp->player_x += HALF;
-	comp->player_y += HALF;
 	draw_raycaster(comp);
 	mlx_loop_hook(comp->mlx, player_hook, comp);
 }

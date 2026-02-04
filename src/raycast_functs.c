@@ -31,32 +31,57 @@ void	clear_image(mlx_image_t *image)
 	}
 }
 
-void	get_image_pixel(float y, float height, t_compass *comp)
+void init_pixels_rgba(int **pixels, mlx_image_t *image)
 {
-	// float	x;
-	// x = get_wall_position(comp, y)
+	unsigned int	i;
+	unsigned int	j;
+	unsigned int n;
 
-	(void)y;
-	(void) height;
-	unsigned int i = 0;
-	int x = 0;
-	int j = 0;
-
-	while (i != comp->no->height * comp->no->width * 4)
+	i = 0;
+	j = 0;
+	n = 0;
+	while (i < image->height * image->width)
 	{
-		while (j < 60)
+		pixels[i] = (int *)ft_calloc(sizeof(int), 4);
+		while(j < 4)
 		{
-			while (x < 24)
-			{
-				mlx_put_pixel(comp->walls, x, j, comp->no->pixels[i]);
-				printf("%d", comp->no->pixels[i]);
-				i++;
-				x++;
-			}
-			x = 0;
+			pixels[i][j] = image->pixels[n];
 			j++;
+			n++;
 		}
+		j = 0;
+		i++;
 	}
+}
+
+void	free_pixels_rgba(int **pixels, mlx_image_t *image)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (i < image->height * image->width)
+	{
+		free(pixels[i]);
+		i++;
+	}
+	free(pixels);
+}
+
+void	get_image_pixel(float x, float y, float height, mlx_image_t *image)
+{
+	// int	**pixels;
+	float	pix;
+	float	piy;
+
+	// pixels = (int **)ft_calloc(sizeof(int *), image->height * image->width);
+	// init_pixels_rgba(pixels, image);
+	x = (int)x % SQUARE_SIZE;
+	pix = (x / SQUARE_SIZE) * image->width;
+	piy = (y / height) * image->height;
+
+	// printf("image->width: %d, x: %f, pix-> %f\n", image->width, x, pix);
+	// printf("image->height: %d, y: %f, piy-> %f\n", image->height, y, piy);
+	// free_pixels_rgba(pixels, image);
 }
 
 // void	draw_from_centre(float y, float start_x, float height, t_compass *comp)
@@ -104,9 +129,9 @@ void	draw_pixel_pillar(t_compass *comp, float x, float y, float angle)
 	// printf("main angle: %f\n", comp->sight->angle);
 	// printf("start_x: %f\n", start_x);
 	(void)x;
+	get_image_pixel(comp->sight->x, y, height, comp->no);
 	y = comp->walls->height / 2;
 	// draw_from_centre(y, start_x, height, comp);
-	get_image_pixel(y, height, comp);
 }
 
 void	clear_raycast(t_compass *comp)
@@ -119,11 +144,11 @@ void	draw_raycaster(t_compass *comp)
 {
 	float	angle;
 
-	clear_raycast(comp);
+	// clear_raycast(comp);
 	save_angle_data(comp, &angle);
 	// while (angle < comp->sight->angle + 30)
 	// {
-		reset_line_to_player(comp, angle);
+		reset_line_to_player(comp, angle + 30);
 		while (!coordenate_collides(comp, comp->sight->x, comp->sight->y))
 		{
 			mlx_put_pixel(comp->raymap, comp->sight->x, comp->sight->y, FOV);

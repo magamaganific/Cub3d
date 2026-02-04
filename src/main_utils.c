@@ -25,17 +25,17 @@ bool	valid_file(char *file_name)
 	return (true);
 }
 
-void	free_split(t_compass *comp)
+void	free_split(char **arr, int size)
 {
 	int	i;
 
 	i = 0;
-	while (i < comp->map_size)
+	while (i < size)
 	{
-		free(comp->map_arr[i]);
+		free(arr[i]);
 		i++;
 	}
-	free(comp->map_arr);
+	free(arr);
 }
 
 void	delete_compass(t_compass *comp)
@@ -58,9 +58,25 @@ void	delete_compass(t_compass *comp)
 		mlx_delete_image(comp->mlx, comp->raymap);
 }
 
+void	init_comp_arrays(t_compass *comp)
+{
+	comp->no_path = NULL;
+	comp->so_path = NULL;
+	comp->we_path = NULL;
+	comp->ea_path = NULL;
+	comp->map_arr = NULL;
+	comp->sight->pixels->no_pix = NULL;
+	comp->sight->pixels->so_pix = NULL;
+	comp->sight->pixels->we_pix = NULL;
+	comp->sight->pixels->ea_pix = NULL;
+}
+
 void	init_compass(t_compass *comp)
 {
 	comp->sight = (t_raycaster *) malloc(sizeof(t_raycaster));
+	if (!comp->sight)
+		exit(EXIT_FAILURE);
+	comp->sight->pixels = (t_co_pixels *) malloc(sizeof(t_co_pixels));
 	if (!comp->sight)
 		exit(EXIT_FAILURE);
 	comp->f = 0;
@@ -77,11 +93,7 @@ void	init_compass(t_compass *comp)
 	comp->sight->cos = 0;
 	comp->sight->sin = 0;
 	comp->sight->angle = 0;
-	comp->no_path = NULL;
-	comp->so_path = NULL;
-	comp->we_path = NULL;
-	comp->ea_path = NULL;
-	comp->map_arr = NULL;
+	init_comp_arrays(comp);
 }
 
 void	print_map(char **map)

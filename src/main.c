@@ -104,8 +104,8 @@ int	main(int ac, char **av)
 	{
 		print_accepted_input();
 		if (fd == -1)
-			return (-1);
-		return (close(fd), -1);
+			return (free_comp(&comp), -1);
+		return (free_comp(&comp), close(fd), -1);
 	}
 	if (!parse_input(fd, &comp))
 		return (free_comp(&comp), wrong_format(), close(fd), EXIT_FAILURE);
