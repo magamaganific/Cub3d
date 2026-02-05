@@ -100,6 +100,10 @@ void	save_north_colors(t_compass *comp, int i, int size)
 	int	b;
 	int	a;
 
+	r = 0;
+	g = 0;
+	b = 0;
+	a = 0;
 	size = i * 4;
 	comp->sight->pixels->no_pix = (int *)ft_calloc(sizeof(int)
 			, i);
@@ -126,6 +130,10 @@ void	save_south_colors(t_compass *comp, int i, int size)
 	int	b;
 	int	a;
 
+	r = 0;
+	g = 0;
+	b = 0;
+	a = 0;
 	size = i * 4;
 	comp->sight->pixels->so_pix = (int *)ft_calloc(sizeof(int)
 			, i);
@@ -152,6 +160,10 @@ void	save_west_colors(t_compass *comp, int i, int size)
 	int	b;
 	int	a;
 
+	r = 0;
+	g = 0;
+	b = 0;
+	a = 0;
 	size = i * 4;
 	comp->sight->pixels->we_pix = (int *)ft_calloc(sizeof(int)
 			, i);
@@ -178,6 +190,10 @@ void	save_east_colors(t_compass *comp, int i, int size)
 	int	b;
 	int	a;
 
+	r = 0;
+	g = 0;
+	b = 0;
+	a = 0;
 	size = i * 4;
 	comp->sight->pixels->ea_pix = (int *)ft_calloc(sizeof(int)
 			, i);
