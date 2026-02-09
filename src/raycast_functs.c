@@ -135,7 +135,7 @@ void	draw_pixel_pillar(t_compass *comp, float x, float y, float angle)
 	// raylength = raylength * cos(degree_to_radians(angle - comp->sight->angle));
 	height = comp->walls->height / raylength * 9;
 	start_x =((comp->sight->angle + 30) - angle);
-	// start_x = comp->walls->width - start_x;
+	start_x = comp->walls->width - start_x;
 	printf("raylength-> %f, ", raylength);
 	printf("height: %f, ", height);
 	printf("angle: %f\n", angle);
