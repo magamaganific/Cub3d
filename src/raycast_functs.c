@@ -67,45 +67,57 @@ void	free_pixels_rgba(int **pixels, mlx_image_t *image)
 	free(pixels);
 }
 
-// void	get_image_pixel(float x, float y, float height, mlx_image_t *image)
-// {
-// 	// int	**pixels;
-// 	float	pix;
-// 	float	piy;
+int	get_image_pixel(float x, float y, float height, t_compass *comp)
+{
+	// int	**pixels;
+	int		pix;
+	int		piy;
+	int		res;
+	mlx_image_t	*image;
 
-// 	// pixels = (int **)ft_calloc(sizeof(int *), image->height * image->width);
-// 	// init_pixels_rgba(pixels, image);
-// 	x = (int)x % SQUARE_SIZE;
-// 	pix = (x / SQUARE_SIZE) * image->width;
-// 	piy = (y / height) * image->height;
+	// pixels = (int **)ft_calloc(sizeof(int *), image->height * image->width);
+	// init_pixels_rgba(pixels, image);
+	image = comp->no;
+	x = (int)x % SQUARE_SIZE;
+	pix = (x / SQUARE_SIZE) * image->width;
+	piy = (y / height) * image->height;
+	res = 0;
 
-// 	// printf("image->width: %d, x: %f, pix-> %f\n", image->width, x, pix);
-// 	// printf("image->height: %d, y: %f, piy-> %f\n", image->height, y, piy);
-// 	// free_pixels_rgba(pixels, image);
-// }
+	// printf("image->width: %d, x: %f, pix-> %d\n", image->width, x, pix);
+	// printf("height: %f, y: %f, piy-> %d\n", height, y, piy);
+	// printf("comp->walls->height: %d, comp->so->width: %d, y: %f, piy-> %d, pix-> %d\n", comp->walls->height, comp->so->width, y, piy, pix);
+	// printf("(piy - 1) * comp->so->width + pix = %d\n", ((piy - 1) * comp->so->width )+ pix);
+	// printf("image->height: %d, y: %f, piy-> %d\n\n", image->height, y, piy);
+	// printf("comp->walls->height: %d, height: %f, y-> %f\n", comp->walls->height, height, y);
+	res = (piy * comp->no->width ) - pix;
+	// printf("res: %d\n", res);
+	// free_pixels_rgba(pixels, image);
+	return(comp->sight->pixels->no_pix[res]);
+}
 
 void	draw_from_centre(float y, float start_x, float height, t_compass *comp)
 {
-	// float width;
+	float width;
 	float invert;
 	float	save;
 	int	color = 0xFFFF00FF;
 
-	// width = comp->bg->width / 60;
+	width = comp->bg->width / 60;
 	invert = y - height;
 	save = y;
 	if (start_x < 0)
 		return ;
 	while (y > invert && y > 0)
 	{
+		color = get_image_pixel(comp->sight->x, y - save + height, height * 2, comp);
 		mlx_put_pixel(comp->walls, start_x, y, color);
 		y--;
 	}
 	y = save;
 	while (y < comp->walls->height / 2 + height && y < comp->walls->height)
 	{
-		//	color = get_image_pixel(y, height, comp);
-		mlx_put_pixel(comp->walls, start_x, y, 0xFFFF00FF);
+		color = get_image_pixel(comp->sight->x, y - save + height, height * 2, comp);
+		mlx_put_pixel(comp->walls, start_x, y, color);
 		y++;
 	}
 }
@@ -117,19 +129,19 @@ void	draw_pixel_pillar(t_compass *comp, float x, float y, float angle)
 	float	raylength;
 	float	start_x;
 
-	width = comp->bg->width / 60.0;
+	width = comp->bg->width / 60;
 	raylength = sqrt(powf(comp->sight->x - comp->player_x, 2) + powf(comp->sight->y
 				- comp->player_y, 2));
 	height = comp->walls->height / raylength * 9;
-	start_x =((comp->sight->angle + 30) - angle + 1) * width;
+	start_x =((comp->sight->angle + 30) - angle) * width;
 	start_x = comp->walls->width - start_x;
 	// printf("raylength-> %f\n", raylength);
 	// printf("height: %f\n", height);
 	// printf("angle: %f\n", angle);
 	// printf("main angle: %f\n", comp->sight->angle);
-	printf("start_x: %f\n", start_x);
+	// printf("start_x: %f\n", start_x);
 	(void)x;
-	// get_image_pixel(comp->sight->x, y, height, comp->no);
+	// get_image_pixel(comp->sight->x, y, height, comp);
 	y = comp->walls->height / 2;
 	draw_from_centre(y, start_x, height, comp);
 }
@@ -148,7 +160,7 @@ void	draw_raycaster(t_compass *comp)
 	save_angle_data(comp, &angle);
 	while (angle < comp->sight->angle + 30)
 	{
-		reset_line_to_player(comp, angle);
+		reset_line_to_player(comp, angle + 30);
 		while (!coordenate_collides(comp, comp->sight->x, comp->sight->y))
 		{
 			mlx_put_pixel(comp->raymap, comp->sight->x, comp->sight->y, FOV);
