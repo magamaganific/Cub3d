@@ -129,12 +129,12 @@ void	draw_pixel_pillar(t_compass *comp, float x, float y, float angle)
 	float	raylength;
 	float	start_x;
 
-	width = comp->bg->width / 60;
+	width = (float)comp->walls->width / 60;
 	raylength = sqrt(powf(comp->sight->x - comp->player_x, 2) + powf(comp->sight->y
 				- comp->player_y, 2));
-	// raylength = raylength * cos(degree_to_radians(angle - comp->sight->angle));
+	raylength = raylength * cos(degree_to_radians(angle - comp->sight->angle));
 	height = comp->walls->height / raylength * 9;
-	start_x =((comp->sight->angle + 30) - angle);
+	start_x =((comp->sight->angle + 30) - angle) * width;
 	start_x = comp->walls->width - start_x;
 	printf("raylength-> %f, ", raylength);
 	printf("height: %f, ", height);
@@ -169,6 +169,6 @@ void	draw_raycaster(t_compass *comp)
 			comp->sight->y += comp->sight->sin;
 		}
 		draw_pixel_pillar(comp, 0, 0, angle);
-		angle += 30.0 / comp->walls->width ;
+		angle += 50.0 / comp->walls->width ;
 	}
 }
