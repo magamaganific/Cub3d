@@ -14,13 +14,13 @@
 
 void	print_accepted_input(void)
 {
-	printf("Accepted input: \n	./Game [MAP PATH]\n");
+	printf("Error\nAccepted input: \n	./Game [MAP PATH]\n");
 	printf("		(maps available in the \"maps\" directory)\n");
 }
 
 void	wrong_format(void)
 {
-	printf("Make sure your .cub has valid contents\n");
+	printf("Error\n	Make sure your .cub has valid contents\n");
 }
 
 void	error(void)

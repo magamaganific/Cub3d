@@ -115,12 +115,12 @@ void	save_north_colors(t_compass *comp, int i, int size)
 		r = comp->no->pixels[--size] & 0xff;
 		comp->sight->pixels->no_pix[--i] = (r << 24) | (g << 16) | (b << 8) | a;
 	}
-	printf("a-> %d\n", a);
-	printf("b-> %d\n", b);
-	printf("g-> %d\n", g);
-	printf("r-> %d\n", r);
+	// printf("a-> %d\n", a);
+	// printf("b-> %d\n", b);
+	// printf("g-> %d\n", g);
+	// printf("r-> %d\n", r);
 	ft_draw_square(200, 200, comp->sight->pixels->no_pix[1], comp->walls);
-	printf("nocolor-> %x\n", comp->sight->pixels->no_pix[1]);
+	// printf("nocolor-> %x\n", comp->sight->pixels->no_pix[1]);
 }
 
 void	save_south_colors(t_compass *comp, int i, int size)
@@ -145,12 +145,12 @@ void	save_south_colors(t_compass *comp, int i, int size)
 		r = comp->so->pixels[--size] & 0xff;
 		comp->sight->pixels->so_pix[--i] = (r << 24) | (g << 16) | (b << 8) | a;
 	}
-	printf("a-> %d\n", a);
-	printf("b-> %d\n", b);
-	printf("g-> %d\n", g);
-	printf("r-> %d\n", r);
+	// printf("a-> %d\n", a);
+	// printf("b-> %d\n", b);
+	// printf("g-> %d\n", g);
+	// printf("r-> %d\n", r);
 	ft_draw_square(220, 200, comp->sight->pixels->so_pix[1], comp->walls);
-	printf("socolor-> %x\n", comp->sight->pixels->so_pix[1]);
+	// printf("socolor-> %x\n", comp->sight->pixels->so_pix[1]);
 }
 
 void	save_west_colors(t_compass *comp, int i, int size)
@@ -175,12 +175,12 @@ void	save_west_colors(t_compass *comp, int i, int size)
 		r = comp->we->pixels[--size] & 0xff;
 		comp->sight->pixels->we_pix[--i] = (r << 24) | (g << 16) | (b << 8) | a;
 	}
-	printf("a-> %d\n", a);
-	printf("b-> %d\n", b);
-	printf("g-> %d\n", g);
-	printf("r-> %d\n", r);
+	// printf("a-> %d\n", a);
+	// printf("b-> %d\n", b);
+	// printf("g-> %d\n", g);
+	// printf("r-> %d\n", r);
 	ft_draw_square(240, 200, comp->sight->pixels->we_pix[1], comp->walls);
-	printf("wecolor-> %x\n", comp->sight->pixels->we_pix[1]);
+	// printf("wecolor-> %x\n", comp->sight->pixels->we_pix[1]);
 }
 
 void	save_east_colors(t_compass *comp, int i, int size)
@@ -205,12 +205,12 @@ void	save_east_colors(t_compass *comp, int i, int size)
 		r = comp->ea->pixels[--size] & 0xff;
 		comp->sight->pixels->ea_pix[--i] = (r << 24) | (g << 16) | (b << 8) | a;
 	}
-	printf("a-> %d\n", a);
-	printf("b-> %d\n", b);
-	printf("g-> %d\n", g);
-	printf("r-> %d\n", r);
+	// printf("a-> %d\n", a);
+	// printf("b-> %d\n", b);
+	// printf("g-> %d\n", g);
+	// printf("r-> %d\n", r);
 	ft_draw_square(260, 200, comp->sight->pixels->ea_pix[1], comp->walls);
-	printf("eacolor-> %x\n", comp->sight->pixels->ea_pix[1]);
+	// printf("eacolor-> %x\n", comp->sight->pixels->ea_pix[1]);
 }
 
 void	save_compass_colors(t_compass *comp)

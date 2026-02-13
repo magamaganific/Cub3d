@@ -42,6 +42,7 @@
 
 typedef struct s_co_pixels
 {
+	double	angle;
 	int		*no_pix;
 	int		*so_pix;
 	int		*we_pix;
@@ -50,13 +51,13 @@ typedef struct s_co_pixels
 
 typedef struct s_raycaster
 {
-	float	cos;
-	float	sin;
-	float	angle;
-	float	x;
-	float	y;
-	float	prev_x;
-	float	prev_y;
+	double	cos;
+	double	sin;
+	double	angle;
+	double	x;
+	double	y;
+	double	prev_x;
+	double	prev_y;
 	t_co_pixels *pixels;
 }	t_raycaster;
 
@@ -86,8 +87,8 @@ typedef struct s_compass
 	int				c;
 	int				map_width;
 	int				map_height;
-	float			player_x;
-	float			player_y;
+	double			player_x;
+	double			player_y;
 	t_raycaster		*sight;
 }	t_compass;
 
@@ -144,15 +145,15 @@ void	player_hook(void *param);
 
 //	RAYCAST FUNCTS
 void	clear_image(mlx_image_t *image);
-float	degree_to_radians(float	degree);
+double	degree_to_radians(double	degree);
 void	draw_raycaster(t_compass *comp);
 
 //	RAYCAST ASSISTANTS
-bool	coordenate_collides(t_compass *comp, float fx, float fy);
-bool	corner_collide(t_compass *comp, float x, float y);
-float	degree_to_radians(float degree);
-void	save_angle_data(t_compass *comp, float *angle);
-void	reset_line_to_player(t_compass *comp, float angle);
+bool	coordenate_collides(t_compass *comp, double fx, double fy);
+bool	corner_collide(t_compass *comp, double x, double y);
+double	degree_to_radians(double degree);
+void	save_angle_data(t_compass *comp, double *angle);
+void	reset_line_to_player(t_compass *comp, double angle);
 
 //	ERRORS
 void	print_accepted_input(void);

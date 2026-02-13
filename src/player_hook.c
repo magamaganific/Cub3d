@@ -14,9 +14,9 @@
 
 static void	move_forward(t_compass *comp)
 {
-	float	angle;
-	float	m_cos;
-	float	m_sin;
+	double	angle;
+	double	m_cos;
+	double	m_sin;
 
 	angle = comp->sight->angle;
 	m_cos = cos(degree_to_radians(angle)) * SPEED;
@@ -33,9 +33,9 @@ static void	move_forward(t_compass *comp)
 
 static void	move_backwards(t_compass *comp)
 {
-	float	angle;
-	float	m_cos;
-	float	m_sin;
+	double	angle;
+	double	m_cos;
+	double	m_sin;
 
 	angle = comp->sight->angle;
 	m_cos = cos(degree_to_radians(angle - 180)) * SPEED;
@@ -52,9 +52,9 @@ static void	move_backwards(t_compass *comp)
 
 static void	move_right(t_compass *comp)
 {
-	float	angle;
-	float	m_cos;
-	float	m_sin;
+	double	angle;
+	double	m_cos;
+	double	m_sin;
 
 	angle = comp->sight->angle;
 	m_cos = cos(degree_to_radians(angle + 90)) * SPEED;
@@ -71,9 +71,9 @@ static void	move_right(t_compass *comp)
 
 static void	move_left(t_compass *comp)
 {
-	float	angle;
-	float	m_cos;
-	float	m_sin;
+	double	angle;
+	double	m_cos;
+	double	m_sin;
 
 	angle = comp->sight->angle;
 	m_cos = cos(degree_to_radians(angle - 90)) * SPEED;

@@ -13,7 +13,7 @@
 #include "../include/cube3d.h"
 
 
-bool	coordenate_collides(t_compass *comp, float fx, float fy)
+bool	coordenate_collides(t_compass *comp, double fx, double fy)
 {
 	int	x;
 	int	y;
@@ -22,7 +22,7 @@ bool	coordenate_collides(t_compass *comp, float fx, float fy)
 	y = (int) fy / SQUARE_SIZE;
 	// printf("fx: %f, fy: %f\n", fx, fy);
 	// printf("x: %d, y: %d\n", x * SQUARE_SIZE, y * SQUARE_SIZE);
-	if (x > comp->map_width || y > comp->map_height || x <= 0 || y <= 0)
+	if (x >= comp->map_width || y >= comp->map_height || x <= 0 || y <= 0)
 		return (true);
 	if ((comp->map_arr[y][x] == '1' || comp->map_arr[y][x] == ' '
 		|| comp->map_arr[y][x] == '\n' || !comp->map_arr[y][x]))
@@ -30,7 +30,7 @@ bool	coordenate_collides(t_compass *comp, float fx, float fy)
 	return (false);
 }
 
-bool	corner_collide(t_compass *comp, float x, float y)
+bool	corner_collide(t_compass *comp, double x, double y)
 {
 	if (coordenate_collides(comp, x, y)
 		|| coordenate_collides(comp, x + HALF, y)
@@ -46,12 +46,12 @@ bool	corner_collide(t_compass *comp, float x, float y)
 	return (false);
 }
 
-float	degree_to_radians(float degree)
+double	degree_to_radians(double degree)
 {
 	return (degree * M_PI / 180);
 }
 
-void	save_angle_data(t_compass *comp, float *angle)
+void	save_angle_data(t_compass *comp, double *angle)
 {
 	comp->sight->x = comp->player_x;
 	comp->sight->y = comp->player_y;
@@ -64,7 +64,7 @@ void	save_angle_data(t_compass *comp, float *angle)
 	*angle = comp->sight->angle - 30;
 }
 
-void	reset_line_to_player(t_compass *comp, float angle)
+void	reset_line_to_player(t_compass *comp, double angle)
 {
 	comp->sight->cos = cos(degree_to_radians(angle));
 	comp->sight->sin = sin(degree_to_radians(angle));
