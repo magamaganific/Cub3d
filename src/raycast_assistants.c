@@ -25,7 +25,8 @@ bool	coordenate_collides(t_compass *comp, double fx, double fy)
 	s = comp->sight->sin;
 	if (x >= comp->map_width || y >= comp->map_height || x <= 0 || y <= 0)
 		return (true);
-	if (comp->map_arr[y][x] == '1')
+	if ((comp->map_arr[y][x] == '1' || comp->map_arr[y][x] == ' '
+		|| comp->map_arr[y][x] == '\n'|| !comp->map_arr[y][x]))
 		return (true);
 	if(comp->map_arr[y + 1][x] == '1' && (int)(fy + s) / SQUARE_SIZE == y + 1)
 		return (true);

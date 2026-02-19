@@ -30,9 +30,9 @@
 # define SQUARE_SIZE 40
 # define PLAYER_SIZE 10
 # define HALF PLAYER_SIZE / 2
-# define SPEED 1
+# define SPEED 2
 # define M_PI 3.14159265358979323846
-# define R_ITER 1
+# define R_ITER 2
 # define FORWARD 'W'
 # define BACKWARDS 'S'
 # define LEFT 'A'
