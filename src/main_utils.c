@@ -95,15 +95,3 @@ void	init_compass(t_compass *comp)
 	comp->sight->angle = 0;
 	init_comp_arrays(comp);
 }
-
-void	print_map(char **map)
-{
-	int	i;
-
-	i = 0;
-	while (map[i])
-	{
-		printf("%s\n", map[i]);
-		i++;
-	}
-}

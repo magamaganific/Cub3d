@@ -23,11 +23,11 @@
 # include <math.h>
 # include <stdlib.h>
 # include <limits.h>
-# define WIDTH 900
-# define HEIGHT 900
+# define WIDTH 1000
+# define HEIGHT 1000
 # define P_HEIGHT 450
 # define BUFFER 100000
-# define SQUARE_SIZE 20
+# define SQUARE_SIZE 40
 # define PLAYER_SIZE 10
 # define HALF PLAYER_SIZE / 2
 # define SPEED 1
@@ -128,11 +128,13 @@ int		count_nls(char *buff, int n);
 char	**split_by_nl(char *buff, int *i, t_compass *comp);
 
 //	MAP TO SCREEN
-void	ft_draw_square(int x, int y, int color, mlx_image_t *map);
 void	init_player(t_compass *comp);
 void	draw_minimap(t_compass *comp);
 void	player_hook(void *param);
 void	startup_map(t_compass *comp);
+
+//	MAP SCREEN ASSIST
+void	save_compass_colors(t_compass *comp);
 
 //	FILL COMPASS
 bool	invalid_content(char *buff, int i);
@@ -150,6 +152,7 @@ void	draw_raycaster(t_compass *comp);
 
 //	RAYCAST ASSISTANTS
 bool	coordenate_collides(t_compass *comp, double fx, double fy);
+bool	ray_collides(t_compass *comp, double x, double y);
 bool	corner_collide(t_compass *comp, double x, double y);
 double	degree_to_radians(double degree);
 void	save_angle_data(t_compass *comp, double *angle);

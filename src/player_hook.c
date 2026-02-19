@@ -26,8 +26,8 @@ static void	move_forward(t_compass *comp)
 		comp->player_x += m_cos;
 		comp->player_y += m_sin;
 		draw_raycaster(comp);
-		comp->player->instances[0].x = comp->player_x - HALF;
-		comp->player->instances[0].y = comp->player_y - HALF;
+		// comp->player->instances[0].x = comp->player_x - HALF;
+		// comp->player->instances[0].y = comp->player_y - HALF;
 	}
 }
 
@@ -45,8 +45,8 @@ static void	move_backwards(t_compass *comp)
 		comp->player_x += m_cos;
 		comp->player_y += m_sin;
 		draw_raycaster(comp);
-		comp->player->instances[0].x = comp->player_x - HALF;
-		comp->player->instances[0].y = comp->player_y - HALF;
+		// comp->player->instances[0].x = comp->player_x - HALF;
+		// comp->player->instances[0].y = comp->player_y - HALF;
 	}
 }
 
@@ -64,8 +64,8 @@ static void	move_right(t_compass *comp)
 		comp->player_x += m_cos;
 		comp->player_y += m_sin;
 		draw_raycaster(comp);
-		comp->player->instances[0].x = comp->player_x - HALF;
-		comp->player->instances[0].y = comp->player_y - HALF;
+		// comp->player->instances[0].x = comp->player_x - HALF;
+		// comp->player->instances[0].y = comp->player_y - HALF;
 	}
 }
 
@@ -83,8 +83,8 @@ static void	move_left(t_compass *comp)
 		comp->player_x += m_cos;
 		comp->player_y += m_sin;
 		draw_raycaster(comp);
-		comp->player->instances[0].x = comp->player_x - HALF;
-		comp->player->instances[0].y = comp->player_y - HALF;
+		// comp->player->instances[0].x = comp->player_x - HALF;
+		// comp->player->instances[0].y = comp->player_y - HALF;
 	}
 }
 

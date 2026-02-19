@@ -12,6 +12,18 @@
 
 #include "cube3d.h"
 
+void	print_map(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map[i])
+	{
+		printf("%s\n", map[i]);
+		i++;
+	}
+}
+
 bool	invalid_content(char *buff, int i)
 {
 	if ((buff[i] == 'N' && buff[i + 1] == 'O')

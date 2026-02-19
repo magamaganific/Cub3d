@@ -12,20 +12,28 @@
 
 #include "../include/cube3d.h"
 
-
 bool	coordenate_collides(t_compass *comp, double fx, double fy)
 {
-	int	x;
-	int	y;
+	int		x;
+	int		y;
+	double	c;
+	double	s;
 
 	x = (int) fx / SQUARE_SIZE;
 	y = (int) fy / SQUARE_SIZE;
-	// printf("fx: %f, fy: %f\n", fx, fy);
-	// printf("x: %d, y: %d\n", x * SQUARE_SIZE, y * SQUARE_SIZE);
+	c = comp->sight->cos;
+	s = comp->sight->sin;
 	if (x >= comp->map_width || y >= comp->map_height || x <= 0 || y <= 0)
 		return (true);
-	if ((comp->map_arr[y][x] == '1' || comp->map_arr[y][x] == ' '
-		|| comp->map_arr[y][x] == '\n' || !comp->map_arr[y][x]))
+	if (comp->map_arr[y][x] == '1')
+		return (true);
+	if(comp->map_arr[y + 1][x] == '1' && (int)(fy + s) / SQUARE_SIZE == y + 1)
+		return (true);
+	if(comp->map_arr[y - 1][x] == '1' && (int)(fy - s) / SQUARE_SIZE == y - 1)
+		return (true);
+	if(comp->map_arr[y][x + 1] == '1' && (int)(fx + c) / SQUARE_SIZE == x + 1)
+		return (true);
+	if(comp->map_arr[y][x - 1] == '1' && (int)(fx - c) / SQUARE_SIZE == x - 1)
 		return (true);
 	return (false);
 }
