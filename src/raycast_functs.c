@@ -52,12 +52,6 @@ mlx_image_t *get_dir_wall(t_compass *comp)
 		comp->sight->pixels->wall_dir = N;
 		return (comp->no);
 	}
-	if (!coordenate_collides(comp, comp->sight->x - 2, comp->sight->y)
-		&& coordenate_collides(comp, comp->sight->x + 2, comp->sight->y))
-	{
-		comp->sight->pixels->wall_dir = E;
-		return (comp->ea);
-	}
 	if (!coordenate_collides(comp, comp->sight->x, comp->sight->y - 2)
 		&& coordenate_collides(comp, comp->sight->x, comp->sight->y + 2))
 	{
@@ -69,6 +63,12 @@ mlx_image_t *get_dir_wall(t_compass *comp)
 	{
 		comp->sight->pixels->wall_dir = W;
 		return (comp->we);
+	}
+	if (!coordenate_collides(comp, comp->sight->x - 2, comp->sight->y)
+		&& coordenate_collides(comp, comp->sight->x + 2, comp->sight->y))
+	{
+		comp->sight->pixels->wall_dir = E;
+		return (comp->ea);
 	}
 	return(comp->no);
 }
