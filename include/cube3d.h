@@ -39,10 +39,15 @@
 # define RIGHT 'D'
 # define FOV 0x0000FFFF
 # define WLL 0xFF0000FF
+# define N 0
+# define E 1
+# define S 2
+# define W 3
 
 typedef struct s_co_pixels
 {
 	double	angle;
+	int		wall_dir;
 	int		*no_pix;
 	int		*so_pix;
 	int		*we_pix;

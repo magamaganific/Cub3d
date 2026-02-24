@@ -46,6 +46,30 @@ void	free_pixels_rgba(int **pixels, mlx_image_t *image)
 
 mlx_image_t *get_dir_wall(t_compass *comp)
 {
+	if (!coordenate_collides(comp, comp->sight->x, comp->sight->y + 2)
+		&& coordenate_collides(comp, comp->sight->x, comp->sight->y - 2))
+	{
+		comp->sight->pixels->wall_dir = N;
+		return (comp->no);
+	}
+	if (!coordenate_collides(comp, comp->sight->x - 2, comp->sight->y)
+		&& coordenate_collides(comp, comp->sight->x + 2, comp->sight->y))
+	{
+		comp->sight->pixels->wall_dir = E;
+		return (comp->ea);
+	}
+	if (!coordenate_collides(comp, comp->sight->x, comp->sight->y - 2)
+		&& coordenate_collides(comp, comp->sight->x, comp->sight->y + 2))
+	{
+		comp->sight->pixels->wall_dir = S;
+		return (comp->so);
+	}
+	if (!coordenate_collides(comp, comp->sight->x + 2, comp->sight->y)
+		&& coordenate_collides(comp, comp->sight->x - 2, comp->sight->y))
+	{
+		comp->sight->pixels->wall_dir = W;
+		return (comp->we);
+	}
 	return(comp->no);
 }
 
@@ -57,31 +81,47 @@ int	get_image_pixel(double x, double y, double height, t_compass *comp)
 	mlx_image_t	*image;
 
 	image = get_dir_wall(comp);
-	x = ((int)(comp->sight->x) % SQUARE_SIZE) + 0.5;
-	pix = ((x) / (SQUARE_SIZE)) * (image->width);
-	piy = (y / height) * (image->height);
-	res = 0;
-
-	// printf("image->width: %d, x: %f, pix-> %d ", image->width, x, pix);
-	// printf("height: %f, y: %f, piy-> %d\n", height, y, piy);
-	// printf("comp->walls->height: %d, comp->so->width: %d, y: %f, piy-> %d, pix-> %d\n", comp->walls->height, comp->so->width, y, piy, pix);
-	// printf("(piy - 1) * comp->so->width + pix = %d\n", ((piy - 1) * comp->so->width )+ pix);
-	// printf("image->height: %d, y: %f, piy-> %d\n\n", image->height, y, piy);
-	// printf("comp->walls->height: %d, height: %f, y-> %f\n", comp->walls->height, height, y);
-	// res = (piy * image->width ) - pix; //south
-	res = ((piy - 1 ) * image->width ) + pix; //north
-	// printf("res: %d\n", res);
-	return(comp->sight->pixels->no_pix[res]);
+	if(comp->sight->pixels->wall_dir == N)
+	{
+		x = ((int)(comp->sight->x) % SQUARE_SIZE) + 0.5;
+		pix = ((x) / (SQUARE_SIZE)) * (image->width);
+		piy = (y / height) * (image->height);
+		res = ((piy - 1 ) * image->width) + pix;
+		return(comp->sight->pixels->no_pix[res]);
+	}
+	if(comp->sight->pixels->wall_dir == E)
+	{
+		x = ((int)(comp->sight->y) % SQUARE_SIZE) + 0.5;
+		pix = ((x) / (SQUARE_SIZE)) * (image->width);
+		piy = (y / height) * (image->height);
+		res = ((piy - 1 ) * image->width) + pix;
+		return(comp->sight->pixels->ea_pix[res]);
+	}
+	if(comp->sight->pixels->wall_dir == S)
+	{
+		x = ((int)(comp->sight->x) % SQUARE_SIZE) + 0.5;
+		pix = ((x) / (SQUARE_SIZE)) * (image->width);
+		piy = (y / height) * (image->height);
+		res = ((piy - 1 ) * image->width) - pix;
+		return(comp->sight->pixels->so_pix[res]);
+	}
+	if(comp->sight->pixels->wall_dir == W)
+	{
+		x = ((int)(comp->sight->y) % SQUARE_SIZE) + 0.5;
+		pix = ((x) / (SQUARE_SIZE)) * (image->width);
+		piy = (y / height) * (image->height);
+		res = ((piy - 1 ) * image->width) - pix;
+		return(comp->sight->pixels->we_pix[res]);
+	}
+	return (0);
 }
 
 void	draw_from_centre(int y, int start_x, int height, t_compass *comp)
 {
-	// double width;
 	int invert;
 	int	save;
 	int	color = 0xFFFF00FF;
 
-	// width = comp->walls->width / 60;
 	invert = y - height;
 	save = y;
 	if (start_x < 0)

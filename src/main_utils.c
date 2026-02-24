@@ -93,5 +93,6 @@ void	init_compass(t_compass *comp)
 	comp->sight->cos = 0;
 	comp->sight->sin = 0;
 	comp->sight->angle = 0;
+	comp->sight->pixels->wall_dir = 0;
 	init_comp_arrays(comp);
 }
