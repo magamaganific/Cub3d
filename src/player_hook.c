@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   player_hook.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfornovi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 12:05:51 by mfornovi          #+#    #+#             */
-/*   Updated: 2026/01/15 12:05:55 by mfornovi         ###   ########.fr       */
+/*   Updated: 2026/02/24 13:01:39 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cube3d.h"
+#include "cube3d.h"
 
 static void	move_forward(t_compass *comp)
 {
@@ -26,8 +26,6 @@ static void	move_forward(t_compass *comp)
 		comp->player_x += m_cos;
 		comp->player_y += m_sin;
 		draw_raycaster(comp);
-		// comp->player->instances[0].x = comp->player_x - HALF;
-		// comp->player->instances[0].y = comp->player_y - HALF;
 	}
 }
 
@@ -45,8 +43,6 @@ static void	move_backwards(t_compass *comp)
 		comp->player_x += m_cos;
 		comp->player_y += m_sin;
 		draw_raycaster(comp);
-		// comp->player->instances[0].x = comp->player_x - HALF;
-		// comp->player->instances[0].y = comp->player_y - HALF;
 	}
 }
 
@@ -64,8 +60,6 @@ static void	move_right(t_compass *comp)
 		comp->player_x += m_cos;
 		comp->player_y += m_sin;
 		draw_raycaster(comp);
-		// comp->player->instances[0].x = comp->player_x - HALF;
-		// comp->player->instances[0].y = comp->player_y - HALF;
 	}
 }
 
@@ -83,8 +77,6 @@ static void	move_left(t_compass *comp)
 		comp->player_x += m_cos;
 		comp->player_y += m_sin;
 		draw_raycaster(comp);
-		// comp->player->instances[0].x = comp->player_x - HALF;
-		// comp->player->instances[0].y = comp->player_y - HALF;
 	}
 }
 

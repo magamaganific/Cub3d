@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_assistants.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfornovi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 11:15:38 by mfornovi          #+#    #+#             */
-/*   Updated: 2026/01/29 11:15:41 by mfornovi         ###   ########.fr       */
+/*   Updated: 2026/02/24 13:01:47 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cube3d.h"
+#include "cube3d.h"
 
 bool	coordenate_collides(t_compass *comp, double fx, double fy)
 {
@@ -26,16 +26,16 @@ bool	coordenate_collides(t_compass *comp, double fx, double fy)
 	if (x >= comp->map_width || y >= comp->map_height || x <= 0 || y <= 0)
 		return (true);
 	if ((comp->map_arr[y][x] == '1' || comp->map_arr[y][x] == ' '
-		|| comp->map_arr[y][x] == '\n'|| comp->map_arr[y][x] == '0'
+		|| comp->map_arr[y][x] == '\n' || comp->map_arr[y][x] == '0'
 		|| !comp->map_arr[y][x]))
 		return (true);
-	if(comp->map_arr[y + 1][x] == '1' && (int)(fy + s) / SQUARE_SIZE == y + 1)
+	if (comp->map_arr[y + 1][x] == '1' && (int)(fy + s) / SQUARE_SIZE == y + 1)
 		return (true);
-	if(comp->map_arr[y - 1][x] == '1' && (int)(fy - s) / SQUARE_SIZE == y - 1)
+	if (comp->map_arr[y - 1][x] == '1' && (int)(fy - s) / SQUARE_SIZE == y - 1)
 		return (true);
-	if(comp->map_arr[y][x + 1] == '1' && (int)(fx + c) / SQUARE_SIZE == x + 1)
+	if (comp->map_arr[y][x + 1] == '1' && (int)(fx + c) / SQUARE_SIZE == x + 1)
 		return (true);
-	if(comp->map_arr[y][x - 1] == '1' && (int)(fx - c) / SQUARE_SIZE == x - 1)
+	if (comp->map_arr[y][x - 1] == '1' && (int)(fx - c) / SQUARE_SIZE == x - 1)
 		return (true);
 	return (false);
 }
@@ -43,15 +43,15 @@ bool	coordenate_collides(t_compass *comp, double fx, double fy)
 bool	corner_collide(t_compass *comp, double x, double y)
 {
 	if (coordenate_collides(comp, x, y)
-		|| coordenate_collides(comp, x + HALF, y)
-		|| coordenate_collides(comp, x + HALF, y - HALF)
-		|| coordenate_collides(comp, x, y + HALF)
-		|| coordenate_collides(comp, x + HALF, y + HALF)
+		|| coordenate_collides(comp, x + PLAYER_SIZE / 2, y)
+		|| coordenate_collides(comp, x + PLAYER_SIZE / 2, y - PLAYER_SIZE / 2)
+		|| coordenate_collides(comp, x, y + PLAYER_SIZE / 2)
+		|| coordenate_collides(comp, x + PLAYER_SIZE / 2, y + PLAYER_SIZE / 2)
 		|| coordenate_collides(comp, x, y)
-		|| coordenate_collides(comp, x - HALF, y)
-		|| coordenate_collides(comp, x - HALF, y + HALF)
-		|| coordenate_collides(comp, x, y - HALF)
-		|| coordenate_collides(comp, x - HALF, y - HALF))
+		|| coordenate_collides(comp, x - PLAYER_SIZE / 2, y)
+		|| coordenate_collides(comp, x - PLAYER_SIZE / 2, y + PLAYER_SIZE / 2)
+		|| coordenate_collides(comp, x, y - PLAYER_SIZE / 2)
+		|| coordenate_collides(comp, x - PLAYER_SIZE / 2, y - PLAYER_SIZE / 2))
 		return (true);
 	return (false);
 }

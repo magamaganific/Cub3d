@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfornovi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:41:57 by mfornovi          #+#    #+#             */
-/*   Updated: 2025/12/03 11:42:00 by mfornovi         ###   ########.fr       */
+/*   Updated: 2026/02/24 15:38:48 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/lib/MLX42/include/MLX42/MLX42.h"
-#include "../include/cube3d.h"
+#include "cube3d.h"
 
 void	save_sight_start(int c, t_compass *comp)
 {

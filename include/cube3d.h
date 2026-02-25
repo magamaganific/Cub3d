@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfornovi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 14:43:35 by mfornovi          #+#    #+#             */
-/*   Updated: 2025/12/03 14:43:40 by mfornovi         ###   ########.fr       */
+/*   Updated: 2026/02/24 16:09:50 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 # define BUFFER 100000
 # define SQUARE_SIZE 40
 # define PLAYER_SIZE 10
-# define HALF PLAYER_SIZE / 2
 # define SPEED 2
 # define M_PI 3.14159265358979323846
 # define R_ITER 2
@@ -56,14 +55,14 @@ typedef struct s_co_pixels
 
 typedef struct s_raycaster
 {
-	double	cos;
-	double	sin;
-	double	angle;
-	double	x;
-	double	y;
-	double	prev_x;
-	double	prev_y;
-	t_co_pixels *pixels;
+	double		cos;
+	double		sin;
+	double		angle;
+	double		x;
+	double		y;
+	double		prev_x;
+	double		prev_y;
+	t_co_pixels	*pixels;
 }	t_raycaster;
 
 typedef struct s_compass
@@ -96,7 +95,6 @@ typedef struct s_compass
 	double			player_y;
 	t_raycaster		*sight;
 }	t_compass;
-
 
 //	TO BE CHANGED
 
@@ -152,11 +150,13 @@ void	player_hook(void *param);
 
 //	RAYCAST FUNCTS
 void	clear_image(mlx_image_t *image);
-double	degree_to_radians(double	degree);
+double	degree_to_radians(double degree);
 void	draw_raycaster(t_compass *comp);
+void	clear_raycast(t_compass *comp);
 
 //	RAYCAST ASSISTANTS
 bool	coordenate_collides(t_compass *comp, double fx, double fy);
+int		get_image_pixel(double x, double y, double height, t_compass *comp);
 bool	ray_collides(t_compass *comp, double x, double y);
 bool	corner_collide(t_compass *comp, double x, double y);
 double	degree_to_radians(double degree);

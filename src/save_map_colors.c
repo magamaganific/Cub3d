@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   save_map_colors.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfornovi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 10:12:41 by mfornovi          #+#    #+#             */
-/*   Updated: 2026/02/17 10:19:03 by mfornovi         ###   ########.fr       */
+/*   Updated: 2026/02/24 13:01:58 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cube3d.h"
+#include "cube3d.h"
 
 static void	save_north_colors(t_compass *comp, int i, int size)
 {

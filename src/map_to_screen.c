@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   map_to_screen.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfornovi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 11:40:06 by mfornovi          #+#    #+#             */
-/*   Updated: 2026/01/09 11:40:08 by mfornovi         ###   ########.fr       */
+/*   Updated: 2026/02/24 13:01:32 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cube3d.h"
+#include "cube3d.h"
 
 void	ft_draw_square(int x, int y, int color, mlx_image_t *map)
 {
@@ -85,12 +85,8 @@ void	game_to_window(t_compass *comp)
 {
 	mlx_image_to_window(comp->mlx, comp->bg, 0, 0);
 	mlx_image_to_window(comp->mlx, comp->walls, 0, 0);
-	// mlx_image_to_window(comp->mlx, comp->map, 0, 0);
-	// mlx_image_to_window(comp->mlx, comp->raymap, 0, 0);
-	// mlx_image_to_window(comp->mlx, comp->player,
-	// 	comp->player_x, comp->player_y);
-	comp->player_x += HALF;
-	comp->player_y += HALF;
+	comp->player_x += PLAYER_SIZE / 2;
+	comp->player_y += PLAYER_SIZE / 2;
 }
 
 void	startup_map(t_compass *comp)
