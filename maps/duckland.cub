@@ -3,8 +3,8 @@ SO ./textures/Pasur.png
 WE ./textures/Paoeste.png
 EA ./textures/Paeste.png
 
-F 0,255,255
-C 0,255,0
+F 4,204,184
+C 29,150,85
 
  111111111        111111111111111111 
 1000000000111111110000000001000011001
