@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 12:17:01 by mfornovi          #+#    #+#             */
-/*   Updated: 2026/02/24 18:06:51 by frlorenz         ###   ########.fr       */
+/*   Updated: 2026/02/27 10:29:57 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ void	draw_from_centre(int y, int start_x, int height, t_compass *comp)
 		y--;
 	}
 	y = save;
-	while (y <= (int)comp->walls->height / 2 + height
-		&& y <= (int)comp->walls->height)
+	while (y < (int)comp->walls->height / 2 + height
+		&& y < (int)comp->walls->height)
 	{
 		color = get_image_pixel(0, y - save + height, height * 2, comp);
 		mlx_put_pixel(comp->walls, start_x, y, color);

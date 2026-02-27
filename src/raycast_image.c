@@ -6,7 +6,7 @@
 /*   By: frlorenz <frlorenz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 15:57:28 by frlorenz          #+#    #+#             */
-/*   Updated: 2026/02/25 10:48:59 by frlorenz         ###   ########.fr       */
+/*   Updated: 2026/02/27 10:34:51 by frlorenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,19 +64,19 @@ int	get_image_pixel(double x, double y, double height, t_compass *comp)
 	if (piy <= 0)
 		return (0);
 	if (comp->st->pix->wall_dir == N && (int)(((piy - 1) * img->width)
-			+ get_pix(x, img, comp)) <= comp->st->pix->no_size)
+		+ get_pix(x, img, comp)) <= comp->st->pix->no_size)
 		return (comp->st->pix->no[(int)(((piy - 1) * img->width)
 				+ get_pix(x, img, comp))]);
 	if (comp->st->pix->wall_dir == E && (int)(((piy - 1) * img->width)
-			+ get_pix(x, img, comp)) <= comp->st->pix->ea_size)
+		+ get_pix(x, img, comp)) <= comp->st->pix->ea_size)
 		return (comp->st->pix->ea[(int)(((piy - 1) * img->width)
 				+ get_pix(x, img, comp))]);
-	if (comp->st->pix->wall_dir == S &&(int)((piy * img->width)
-			- get_pix(x, img, comp)) <= comp->st->pix->so_size)
+	if (comp->st->pix->wall_dir == S && (int)((piy * img->width)
+		- get_pix(x, img, comp)) <= comp->st->pix->so_size)
 		return (comp->st->pix->so[(int)((piy * img->width)
 				- get_pix(x, img, comp))]);
 	if (comp->st->pix->wall_dir == W && (int)((piy * img->width)
-			- get_pix(x, img, comp)) <= comp->st->pix->we_size)
+		- get_pix(x, img, comp)) <= comp->st->pix->we_size)
 		return (comp->st->pix->we[(int)((piy * img->width)
 				- get_pix(x, img, comp))]);
 	return (0);
