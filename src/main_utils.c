@@ -65,19 +65,19 @@ void	init_comp_arrays(t_compass *comp)
 	comp->we_path = NULL;
 	comp->ea_path = NULL;
 	comp->map_arr = NULL;
-	comp->sight->pixels->no_pix = NULL;
-	comp->sight->pixels->so_pix = NULL;
-	comp->sight->pixels->we_pix = NULL;
-	comp->sight->pixels->ea_pix = NULL;
+	comp->st->pix->no = NULL;
+	comp->st->pix->so = NULL;
+	comp->st->pix->we = NULL;
+	comp->st->pix->ea = NULL;
 }
 
 void	init_compass(t_compass *comp)
 {
-	comp->sight = (t_raycaster *) malloc(sizeof(t_raycaster));
-	if (!comp->sight)
+	comp->st = (t_raycaster *) malloc(sizeof(t_raycaster));
+	if (!comp->st)
 		exit(EXIT_FAILURE);
-	comp->sight->pixels = (t_co_pixels *) malloc(sizeof(t_co_pixels));
-	if (!comp->sight)
+	comp->st->pix = (t_co_pixels *) malloc(sizeof(t_co_pixels));
+	if (!comp->st)
 		exit(EXIT_FAILURE);
 	comp->f = 0;
 	comp->c = 0;
@@ -86,13 +86,13 @@ void	init_compass(t_compass *comp)
 	comp->map_height = 0;
 	comp->player_x = 0;
 	comp->player_y = 0;
-	comp->sight->x = 0;
-	comp->sight->y = 0;
-	comp->sight->prev_x = 0;
-	comp->sight->prev_y = 0;
-	comp->sight->cos = 0;
-	comp->sight->sin = 0;
-	comp->sight->angle = 0;
-	comp->sight->pixels->wall_dir = 0;
+	comp->st->x = 0;
+	comp->st->y = 0;
+	comp->st->prev_x = 0;
+	comp->st->prev_y = 0;
+	comp->st->cos = 0;
+	comp->st->sin = 0;
+	comp->st->angle = 0;
+	comp->st->pix->wall_dir = 0;
 	init_comp_arrays(comp);
 }

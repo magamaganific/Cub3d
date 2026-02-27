@@ -25,13 +25,13 @@
 # include <limits.h>
 # define WIDTH 1000
 # define HEIGHT 1000
-# define P_HEIGHT 450
+# define P_HEIGHT 500
 # define BUFFER 100000
 # define SQUARE_SIZE 40
 # define PLAYER_SIZE 10
 # define SPEED 2
 # define M_PI 3.14159265358979323846
-# define R_ITER 2
+# define R_ITER 1
 # define FORWARD 'W'
 # define BACKWARDS 'S'
 # define LEFT 'A'
@@ -47,10 +47,14 @@ typedef struct s_co_pixels
 {
 	double	angle;
 	int		wall_dir;
-	int		*no_pix;
-	int		*so_pix;
-	int		*we_pix;
-	int		*ea_pix;
+	int		*no;
+	int		no_size;
+	int		*so;
+	int		so_size;
+	int		*we;
+	int		we_size;
+	int		*ea;
+	int		ea_size;
 }	t_co_pixels;
 
 typedef struct s_raycaster
@@ -62,7 +66,7 @@ typedef struct s_raycaster
 	double		y;
 	double		prev_x;
 	double		prev_y;
-	t_co_pixels	*pixels;
+	t_co_pixels	*pix;
 }	t_raycaster;
 
 typedef struct s_compass
@@ -93,7 +97,7 @@ typedef struct s_compass
 	int				map_height;
 	double			player_x;
 	double			player_y;
-	t_raycaster		*sight;
+	t_raycaster		*st;
 }	t_compass;
 
 //	TO BE CHANGED

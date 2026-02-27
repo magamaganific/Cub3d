@@ -50,17 +50,17 @@ void	free_comp(t_compass *comp)
 		free_west(comp);
 	if (comp->ea_path != NULL)
 		free_east(comp);
-	if (comp->sight->pixels->no_pix != NULL)
-		free(comp->sight->pixels->no_pix);
-	if (comp->sight->pixels->so_pix != NULL)
-		free(comp->sight->pixels->so_pix);
-	if (comp->sight->pixels->we_pix != NULL)
-		free(comp->sight->pixels->we_pix);
-	if (comp->sight->pixels->ea_pix != NULL)
-		free(comp->sight->pixels->ea_pix);
-	if (comp->sight->pixels != NULL)
-		free(comp->sight->pixels);
-	if (comp->sight != NULL)
-		free(comp->sight);
+	if (comp->st->pix->no != NULL)
+		free(comp->st->pix->no);
+	if (comp->st->pix->so != NULL)
+		free(comp->st->pix->so);
+	if (comp->st->pix->we != NULL)
+		free(comp->st->pix->we);
+	if (comp->st->pix->ea != NULL)
+		free(comp->st->pix->ea);
+	if (comp->st->pix != NULL)
+		free(comp->st->pix);
+	if (comp->st != NULL)
+		free(comp->st);
 	free_split(comp->map_arr, comp->map_size);
 }

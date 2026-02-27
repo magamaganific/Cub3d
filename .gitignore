@@ -2,3 +2,5 @@ minilib-linux/
 minilib-linux
 MLX42/
 MLX42
+*.o
+cub3d

@@ -14,28 +14,28 @@
 
 mlx_image_t	*get_dir_wall(t_compass *comp)
 {
-	if (!coordenate_collides(comp, comp->sight->x, comp->sight->y + 2)
-		&& coordenate_collides(comp, comp->sight->x, comp->sight->y - 2))
+	if (!coordenate_collides(comp, comp->st->x, comp->st->y + 2)
+		&& coordenate_collides(comp, comp->st->x, comp->st->y - 2))
 	{
-		comp->sight->pixels->wall_dir = N;
+		comp->st->pix->wall_dir = N;
 		return (comp->no);
 	}
-	if (!coordenate_collides(comp, comp->sight->x, comp->sight->y - 2)
-		&& coordenate_collides(comp, comp->sight->x, comp->sight->y + 2))
+	if (!coordenate_collides(comp, comp->st->x, comp->st->y - 2)
+		&& coordenate_collides(comp, comp->st->x, comp->st->y + 2))
 	{
-		comp->sight->pixels->wall_dir = S;
+		comp->st->pix->wall_dir = S;
 		return (comp->so);
 	}
-	if (!coordenate_collides(comp, comp->sight->x + 2, comp->sight->y)
-		&& coordenate_collides(comp, comp->sight->x - 2, comp->sight->y))
+	if (!coordenate_collides(comp, comp->st->x + 2, comp->st->y)
+		&& coordenate_collides(comp, comp->st->x - 2, comp->st->y))
 	{
-		comp->sight->pixels->wall_dir = W;
+		comp->st->pix->wall_dir = W;
 		return (comp->we);
 	}
-	if (!coordenate_collides(comp, comp->sight->x - 2, comp->sight->y)
-		&& coordenate_collides(comp, comp->sight->x + 2, comp->sight->y))
+	if (!coordenate_collides(comp, comp->st->x - 2, comp->st->y)
+		&& coordenate_collides(comp, comp->st->x + 2, comp->st->y))
 	{
-		comp->sight->pixels->wall_dir = E;
+		comp->st->pix->wall_dir = E;
 		return (comp->ea);
 	}
 	return (comp->no);
@@ -43,14 +43,14 @@ mlx_image_t	*get_dir_wall(t_compass *comp)
 
 int	get_pix(double x, mlx_image_t	*img, t_compass *comp)
 {
-	if (comp->sight->pixels->wall_dir == N)
-		x = ((int)(comp->sight->x) % SQUARE_SIZE) + 0.5;
-	if (comp->sight->pixels->wall_dir == E)
-		x = ((int)(comp->sight->y) % SQUARE_SIZE) + 0.5;
-	if (comp->sight->pixels->wall_dir == S)
-		x = ((int)(comp->sight->x) % SQUARE_SIZE) + 0.5;
-	if (comp->sight->pixels->wall_dir == W)
-		x = ((int)(comp->sight->y) % SQUARE_SIZE) + 0.5;
+	if (comp->st->pix->wall_dir == N)
+		x = ((int)(comp->st->x) % SQUARE_SIZE);
+	if (comp->st->pix->wall_dir == E)
+		x = ((int)(comp->st->y) % SQUARE_SIZE);
+	if (comp->st->pix->wall_dir == S)
+		x = ((int)(comp->st->x) % SQUARE_SIZE);
+	if (comp->st->pix->wall_dir == W)
+		x = ((int)(comp->st->y) % SQUARE_SIZE);
 	return ((int)(((x) / (SQUARE_SIZE)) * (img->width)));
 }
 
@@ -61,17 +61,23 @@ int	get_image_pixel(double x, double y, double height, t_compass *comp)
 
 	img = get_dir_wall(comp);
 	piy = (y / height) * (img->height);
-	if (comp->sight->pixels->wall_dir == N)
-		return (comp->sight->pixels->no_pix[(int)(((piy - 1) * img->width)
+	if (piy <= 0)
+		return (0);
+	if (comp->st->pix->wall_dir == N && (int)(((piy - 1) * img->width)
+			+ get_pix(x, img, comp)) <= comp->st->pix->no_size)
+		return (comp->st->pix->no[(int)(((piy - 1) * img->width)
 				+ get_pix(x, img, comp))]);
-	if (comp->sight->pixels->wall_dir == E)
-		return (comp->sight->pixels->ea_pix[(int)(((piy - 1) * img->width)
+	if (comp->st->pix->wall_dir == E && (int)(((piy - 1) * img->width)
+			+ get_pix(x, img, comp)) <= comp->st->pix->ea_size)
+		return (comp->st->pix->ea[(int)(((piy - 1) * img->width)
 				+ get_pix(x, img, comp))]);
-	if (comp->sight->pixels->wall_dir == S)
-		return (comp->sight->pixels->so_pix[(int)(((piy - 1) * img->width)
+	if (comp->st->pix->wall_dir == S &&(int)((piy * img->width)
+			- get_pix(x, img, comp)) <= comp->st->pix->so_size)
+		return (comp->st->pix->so[(int)((piy * img->width)
 				- get_pix(x, img, comp))]);
-	if (comp->sight->pixels->wall_dir == W)
-		return (comp->sight->pixels->we_pix[(int)(((piy - 1) * img->width)
+	if (comp->st->pix->wall_dir == W && (int)((piy * img->width)
+			- get_pix(x, img, comp)) <= comp->st->pix->we_size)
+		return (comp->st->pix->we[(int)((piy * img->width)
 				- get_pix(x, img, comp))]);
 	return (0);
 }

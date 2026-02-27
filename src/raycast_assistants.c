@@ -21,8 +21,8 @@ bool	coordenate_collides(t_compass *comp, double fx, double fy)
 
 	x = (int) fx / SQUARE_SIZE;
 	y = (int) fy / SQUARE_SIZE;
-	c = comp->sight->cos;
-	s = comp->sight->sin;
+	c = comp->st->cos;
+	s = comp->st->sin;
 	if (x >= comp->map_width || y >= comp->map_height || x <= 0 || y <= 0)
 		return (true);
 	if ((comp->map_arr[y][x] == '1' || comp->map_arr[y][x] == ' '
@@ -63,21 +63,21 @@ double	degree_to_radians(double degree)
 
 void	save_angle_data(t_compass *comp, double *angle)
 {
-	comp->sight->x = comp->player_x;
-	comp->sight->y = comp->player_y;
-	comp->sight->prev_x = comp->player_x;
-	comp->sight->prev_y = comp->player_y;
-	if (comp->sight->angle > 360)
-		comp->sight->angle -= 360;
-	if (comp->sight->angle < 0)
-		comp->sight->angle += 360;
-	*angle = comp->sight->angle - 30;
+	comp->st->x = comp->player_x;
+	comp->st->y = comp->player_y;
+	comp->st->prev_x = comp->player_x;
+	comp->st->prev_y = comp->player_y;
+	if (comp->st->angle > 360)
+		comp->st->angle -= 360;
+	if (comp->st->angle < 0)
+		comp->st->angle += 360;
+	*angle = comp->st->angle - 30;
 }
 
 void	reset_line_to_player(t_compass *comp, double angle)
 {
-	comp->sight->cos = cos(degree_to_radians(angle));
-	comp->sight->sin = sin(degree_to_radians(angle));
-	comp->sight->x = comp->player_x;
-	comp->sight->y = comp->player_y;
+	comp->st->cos = cos(degree_to_radians(angle));
+	comp->st->sin = sin(degree_to_radians(angle));
+	comp->st->x = comp->player_x;
+	comp->st->y = comp->player_y;
 }

@@ -52,37 +52,37 @@ void	free_pixels_rgba(int **pixels, mlx_image_t *image)
 // 	mlx_image_t	*image;
 
 // 	image = get_dir_wall(comp);
-// 	if (comp->sight->pixels->wall_dir == N)
+// 	if (comp->st->pix->wall_dir == N)
 // 	{
-// 		x = ((int)(comp->sight->x) % SQUARE_SIZE) + 0.5;
+// 		x = ((int)(comp->st->x) % SQUARE_SIZE) + 0.5;
 // 		pix = ((x) / (SQUARE_SIZE)) * (image->width);
 // 		piy = (y / height) * (image->height);
 // 		res = ((piy - 1) * image->width) + pix;
-// 		return (comp->sight->pixels->no_pix[res]);
+// 		return (comp->st->pix->no[res]);
 // 	}
-// 	if (comp->sight->pixels->wall_dir == E)
+// 	if (comp->st->pix->wall_dir == E)
 // 	{
-// 		x = ((int)(comp->sight->y) % SQUARE_SIZE) + 0.5;
+// 		x = ((int)(comp->st->y) % SQUARE_SIZE) + 0.5;
 // 		pix = ((x) / (SQUARE_SIZE)) * (image->width);
 // 		piy = (y / height) * (image->height);
 // 		res = ((piy - 1) * image->width) + pix;
-// 		return (comp->sight->pixels->ea_pix[res]);
+// 		return (comp->st->pix->ea[res]);
 // 	}
-// 	if (comp->sight->pixels->wall_dir == S)
+// 	if (comp->st->pix->wall_dir == S)
 // 	{
-// 		x = ((int)(comp->sight->x) % SQUARE_SIZE) + 0.5;
+// 		x = ((int)(comp->st->x) % SQUARE_SIZE) + 0.5;
 // 		pix = ((x) / (SQUARE_SIZE)) * (image->width);
 // 		piy = (y / height) * (image->height);
 // 		res = ((piy - 1) * image->width) - pix;
-// 		return (comp->sight->pixels->so_pix[res]);
+// 		return (comp->st->pix->so[res]);
 // 	}
-// 	if (comp->sight->pixels->wall_dir == W)
+// 	if (comp->st->pix->wall_dir == W)
 // 	{
-// 		x = ((int)(comp->sight->y) % SQUARE_SIZE) + 0.5;
+// 		x = ((int)(comp->st->y) % SQUARE_SIZE) + 0.5;
 // 		pix = ((x) / (SQUARE_SIZE)) * (image->width);
 // 		piy = (y / height) * (image->height);
 // 		res = ((piy - 1) * image->width) - pix;
-// 		return (comp->sight->pixels->we_pix[res]);
+// 		return (comp->st->pix->we[res]);
 // 	}
 // 	return (0);
 // }
@@ -122,12 +122,12 @@ void	draw_pixel_pillar(t_compass *comp, double x, int y, double angle)
 	int		start_x;
 
 	width = (double)comp->walls->width / 60;
-	raylength = sqrt(powf(comp->sight->x - comp->player_x, 2)
-			+ powf(comp->sight->y - comp->player_y, 2));
+	raylength = sqrt(powf(comp->st->x - comp->player_x, 2)
+			+ powf(comp->st->y - comp->player_y, 2));
 	raylength = (raylength * cos(degree_to_radians(angle
-					- comp->sight->angle)));
+					- comp->st->angle)));
 	height = (int)(comp->walls->height / raylength * 19);
-	start_x = ((comp->sight->angle + 30) - angle) * width;
+	start_x = ((comp->st->angle + 30) - angle) * width;
 	start_x = comp->walls->width - start_x;
 	(void)x;
 	y = comp->walls->height / 2;
@@ -140,23 +140,23 @@ void	draw_raycaster(t_compass *comp)
 
 	clear_raycast(comp);
 	save_angle_data(comp, &angle);
-	while (angle < comp->sight->angle + 30)
+	while (angle < comp->st->angle + 30)
 	{
 		reset_line_to_player(comp, angle);
-		while (!coordenate_collides(comp, comp->sight->x, comp->sight->y))
+		while (!coordenate_collides(comp, comp->st->x, comp->st->y))
 		{
-			while (((int)comp->sight->x % SQUARE_SIZE)
-				&& ((int)comp->sight->y % SQUARE_SIZE))
+			while (((int)comp->st->x % SQUARE_SIZE)
+				&& ((int)comp->st->y % SQUARE_SIZE))
 			{
-				comp->sight->x += comp->sight->cos;
-				comp->sight->y += comp->sight->sin;
+				comp->st->x += comp->st->cos;
+				comp->st->y += comp->st->sin;
 			}
-			if (coordenate_collides(comp, comp->sight->x, comp->sight->y))
+			if (coordenate_collides(comp, comp->st->x, comp->st->y))
 				break ;
-			comp->sight->x += comp->sight->cos;
-			comp->sight->y += comp->sight->sin;
+			comp->st->x += comp->st->cos;
+			comp->st->y += comp->st->sin;
 		}
-		comp->sight->pixels->angle = angle;
+		comp->st->pix->angle = angle;
 		draw_pixel_pillar(comp, 0, 0, angle);
 		angle += 50.0 / comp->walls->width ;
 	}

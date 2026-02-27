@@ -24,7 +24,8 @@ static void	save_north_colors(t_compass *comp, int i, int size)
 	b = 0;
 	a = 0;
 	size = i * 4;
-	comp->sight->pixels->no_pix = (int *)ft_calloc(sizeof(int),
+	comp->st->pix->no_size = i;
+	comp->st->pix->no = (int *)ft_calloc(sizeof(int),
 			i);
 	while (size > 0)
 	{
@@ -32,7 +33,7 @@ static void	save_north_colors(t_compass *comp, int i, int size)
 		b = comp->no->pixels[--size] & 0xff;
 		g = comp->no->pixels[--size] & 0xff;
 		r = comp->no->pixels[--size] & 0xff;
-		comp->sight->pixels->no_pix[--i] = (r << 24) | (g << 16) | (b << 8) | a;
+		comp->st->pix->no[--i] = (r << 24) | (g << 16) | (b << 8) | a;
 	}
 }
 
@@ -48,7 +49,8 @@ static void	save_south_colors(t_compass *comp, int i, int size)
 	b = 0;
 	a = 0;
 	size = i * 4;
-	comp->sight->pixels->so_pix = (int *)ft_calloc(sizeof(int),
+	comp->st->pix->so_size = i;
+	comp->st->pix->so = (int *)ft_calloc(sizeof(int),
 			i);
 	while (size > 0)
 	{
@@ -56,7 +58,7 @@ static void	save_south_colors(t_compass *comp, int i, int size)
 		b = comp->so->pixels[--size] & 0xff;
 		g = comp->so->pixels[--size] & 0xff;
 		r = comp->so->pixels[--size] & 0xff;
-		comp->sight->pixels->so_pix[--i] = (r << 24) | (g << 16) | (b << 8) | a;
+		comp->st->pix->so[--i] = (r << 24) | (g << 16) | (b << 8) | a;
 	}
 }
 
@@ -72,7 +74,8 @@ static void	save_west_colors(t_compass *comp, int i, int size)
 	b = 0;
 	a = 0;
 	size = i * 4;
-	comp->sight->pixels->we_pix = (int *)ft_calloc(sizeof(int),
+	comp->st->pix->we_size = i;
+	comp->st->pix->we = (int *)ft_calloc(sizeof(int),
 			i);
 	while (size > 0)
 	{
@@ -80,7 +83,7 @@ static void	save_west_colors(t_compass *comp, int i, int size)
 		b = comp->we->pixels[--size] & 0xff;
 		g = comp->we->pixels[--size] & 0xff;
 		r = comp->we->pixels[--size] & 0xff;
-		comp->sight->pixels->we_pix[--i] = (r << 24) | (g << 16) | (b << 8) | a;
+		comp->st->pix->we[--i] = (r << 24) | (g << 16) | (b << 8) | a;
 	}
 }
 
@@ -96,7 +99,8 @@ static void	save_east_colors(t_compass *comp, int i, int size)
 	b = 0;
 	a = 0;
 	size = i * 4;
-	comp->sight->pixels->ea_pix = (int *)ft_calloc(sizeof(int),
+	comp->st->pix->ea_size = i;
+	comp->st->pix->ea = (int *)ft_calloc(sizeof(int),
 			i);
 	while (size > 0)
 	{
@@ -104,7 +108,7 @@ static void	save_east_colors(t_compass *comp, int i, int size)
 		b = comp->ea->pixels[--size] & 0xff;
 		g = comp->ea->pixels[--size] & 0xff;
 		r = comp->ea->pixels[--size] & 0xff;
-		comp->sight->pixels->ea_pix[--i] = (r << 24) | (g << 16) | (b << 8) | a;
+		comp->st->pix->ea[--i] = (r << 24) | (g << 16) | (b << 8) | a;
 	}
 }
 
