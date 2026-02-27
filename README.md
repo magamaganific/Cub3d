@@ -24,21 +24,15 @@ To compile the mandatory part, `cd` into the cloned directory and:
 make
 ```
 
+Because a graphics library is required, and the MLX42 library from codam has been chosen before compilation, running `make` automatically clones the library from github https://github.com/codam-coding-college/MLX42 and compiles it before compiling the entire project.
+
+`An internet connection is required to download the MLX42 library.`
+
 To run the program:
 
 ```shell
 ./cub3d <path/to/map.cub>
 ```
-
-The program takes a map file as an argument. Maps are available in the `maps` directory.
-
-For example:
-
-- `./cub3d maps/map.cub`
-
-Because a graphics library is required, and the MLX42 library from codam has been chosen before compilation, running `make` automatically clones the library from github https://github.com/codam-coding-college/MLX42 and compiles it before compiling the entire project.
-
-`An internet connection is required to download the MLX42 library.`
 
 
 ## Controls
@@ -110,7 +104,7 @@ C 29,150,85
 
 # Resources
 
-We didn´t use the AI for this project, only peer to peer and patience.
+We didn´t use the AI for this project, only peer to peer, manuals and patience.
 
 ### websites of interest:
 https://lodev.org/cgtutor/raycasting.html
