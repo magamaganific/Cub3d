@@ -26,12 +26,10 @@ make
 
 Because a graphics library is required, and the MLX42 library from codam has been chosen before compilation, running `make` automatically clones the library from github https://github.com/codam-coding-college/MLX42 and compiles it before compiling the entire project.
 
-`An internet connection is required to download the MLX42 library.`
-
 To run the program:
 
 ```shell
-./cub3d <path/to/map.cub>
+./cub3d <path/map.cub>
 ```
 
 
