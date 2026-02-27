@@ -8,6 +8,14 @@ and use it to paint the illusion of a 3D maze on a window and walk around inside
 
 # Instructions
 
+## Clone
+
+Clone the repository:
+
+```shell
+git clone https://github.com/magamaganific/Cub3d.git
+```
+
 ## Compile and Run
 
 To compile the mandatory part, `cd` into the cloned directory and:
